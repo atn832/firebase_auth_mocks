@@ -27,8 +27,6 @@ void main() {
     expect(user.uid, isNotEmpty);
     expect(user.displayName, isNotEmpty);
   });
-
-  // TODO
 }
 
 class FakeAuthCredential extends Mock implements AuthCredential {
