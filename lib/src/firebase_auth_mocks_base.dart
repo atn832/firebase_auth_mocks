@@ -36,8 +36,18 @@ class MockFirebaseUser extends Mock implements FirebaseUser {
 
   @override
   String get uid => 'aabbcc';
+
+  @override
+  Future<IdTokenResult> getIdToken({bool refresh = false}) async {
+    return Future.value(MockIdTokenResult());
+  }
 }
 
 class MockAuthResult extends Mock implements AuthResult {
   FirebaseUser user = MockFirebaseUser();
+}
+
+class MockIdTokenResult extends Mock implements IdTokenResult {
+  @override
+  String get token => 'fake_token';
 }
