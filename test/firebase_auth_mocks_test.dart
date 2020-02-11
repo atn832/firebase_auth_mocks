@@ -3,7 +3,6 @@ import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
-
 void main() {
   test('Returns no user if not signed in', () async {
     final auth = MockFirebaseAuth();
@@ -27,7 +26,13 @@ void main() {
     expect(user.uid, isNotEmpty);
     expect(user.displayName, isNotEmpty);
   });
+
+  test('Returns a hardcoded user token', () async {
+    final auth = MockFirebaseAuth(signedIn: true);
+    final user = await auth.currentUser();
+    final idToken = await user.getIdToken();
+    expect(idToken.token, isNotEmpty);
+  });
 }
 
-class FakeAuthCredential extends Mock implements AuthCredential {
-}
+class FakeAuthCredential extends Mock implements AuthCredential {}
