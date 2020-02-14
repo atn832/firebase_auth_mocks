@@ -7,9 +7,13 @@ class MockFirebaseAuth extends Mock implements FirebaseAuth {
   final stateChangedStreamController = StreamController<FirebaseUser>();
   FirebaseUser _currentUser;
 
-  MockFirebaseAuth({signedIn = false}) {
+  MockFirebaseAuth({signedIn = false, MockFirebaseUser mockFirebaseUser}) {
     if (signedIn) {
       signInWithCredential(null);
+    }
+
+    if (mockFirebaseUser != null) {
+      _currentUser = mockFirebaseUser;
     }
   }
 
@@ -31,11 +35,21 @@ class MockFirebaseAuth extends Mock implements FirebaseAuth {
 }
 
 class MockFirebaseUser extends Mock implements FirebaseUser {
-  @override
-  String get displayName => 'Bob';
+  final MockPlatformUserInfo _userData;
+
+  MockFirebaseUser({userData})
+    : _userData = userData ?? MockPlatformUserInfo();
 
   @override
-  String get uid => 'aabbcc';
+  String get displayName => _userData.displayName;
+
+  @override
+  String get photoUrl => _userData.photoUrl;
+
+  @override get email => _userData.email;
+
+  @override
+  String get phoneNumber => _userData.phoneNumber;
 
   @override
   Future<IdTokenResult> getIdToken({bool refresh = false}) async {
@@ -50,4 +64,18 @@ class MockAuthResult extends Mock implements AuthResult {
 class MockIdTokenResult extends Mock implements IdTokenResult {
   @override
   String get token => 'fake_token';
+}
+
+class MockPlatformUserInfo {
+  const MockPlatformUserInfo({
+    this.displayName = 'Bob',
+    this.photoUrl = 'your/photo/url',
+    this.email = 'bob@mail.com',
+    this.phoneNumber = '+123456',
+  });
+
+  final String displayName;
+  final String photoUrl;
+  final String email;
+  final String phoneNumber;
 }
