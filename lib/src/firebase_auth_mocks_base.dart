@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:meta/meta.dart';
 import 'package:mockito/mockito.dart';
 
 class MockFirebaseAuth extends Mock implements FirebaseAuth {
@@ -19,6 +20,27 @@ class MockFirebaseAuth extends Mock implements FirebaseAuth {
 
   @override
   Future<AuthResult> signInWithCredential(AuthCredential credential) {
+    return _fakeSignIn();
+  }
+
+  @override
+  Future<AuthResult> signInWithEmailAndPassword({
+    @required String email,
+    @required String password,
+  }) {
+    return _fakeSignIn();
+  }
+
+  @override
+  Future<AuthResult> signInWithEmailAndLink({String email, String link}) {
+    return _fakeSignIn();
+  }
+
+  @override Future<AuthResult> signInWithCustomToken({@required String token}) {
+    return _fakeSignIn();
+  }
+
+  Future<AuthResult> _fakeSignIn() {
     final authResult = MockAuthResult();
     _currentUser = authResult.user;
     stateChangedStreamController.add(_currentUser);
