@@ -1,3 +1,8 @@
+## 0.1.3
+
+- Added support for `signInWithEmailAndPassword`, `signInWithEmailAndLink` and `signInWithCustomToken`.
+- Documented supported features
+
 ## 0.1.2
 
 - Implemented `MockFirebaseUser.getIdToken()`. Thanks [dfdgsdfg](https://github.com/atn832/firebase_auth_mocks/pull/2)!
