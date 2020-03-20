@@ -10,14 +10,42 @@ void main() {
     expect(user, isNull);
   });
 
-  test('Returns a hardcoded user after sign in', () async {
-    final auth = MockFirebaseAuth();
-    // Credentials would typically come from GoogleSignIn.
-    final credential = FakeAuthCredential();
-    final result = await auth.signInWithCredential(credential);
-    final user = await result.user;
-    expect(user.uid, isNotEmpty);
-    expect(user.displayName, isNotEmpty);
+  group('Returns a hardcoded user after sign in', () {
+    test('with Credential', () async {
+      final auth = MockFirebaseAuth();
+      // Credentials would typically come from GoogleSignIn.
+      final credential = FakeAuthCredential();
+      final result = await auth.signInWithCredential(credential);
+      final user = await result.user;
+      expect(user.uid, isNotEmpty);
+      expect(user.displayName, isNotEmpty);
+    });
+
+    test('with email and password', () async {
+      final auth = MockFirebaseAuth();
+      final result = await auth.signInWithEmailAndPassword(
+          email: 'some email', password: 'some password');
+      final user = await result.user;
+      expect(user.uid, isNotEmpty);
+      expect(user.displayName, isNotEmpty);
+    });
+
+    test('with email and link', () async {
+      final auth = MockFirebaseAuth();
+      final result = await auth.signInWithEmailAndLink(
+          email: 'some email', link: 'some link');
+      final user = await result.user;
+      expect(user.uid, isNotEmpty);
+      expect(user.displayName, isNotEmpty);
+    });
+
+    test('with token', () async {
+      final auth = MockFirebaseAuth();
+      final result = await auth.signInWithCustomToken(token: 'some token');
+      final user = await result.user;
+      expect(user.uid, isNotEmpty);
+      expect(user.displayName, isNotEmpty);
+    });
   });
 
   test('Returns a hardcoded user if already signed in', () async {
