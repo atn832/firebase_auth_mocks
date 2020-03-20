@@ -4,6 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:meta/meta.dart';
 import 'package:mockito/mockito.dart';
 
+import 'mock_auth_result.dart';
+
 class MockFirebaseAuth extends Mock implements FirebaseAuth {
   final stateChangedStreamController = StreamController<FirebaseUser>();
   FirebaseUser _currentUser;
@@ -50,26 +52,4 @@ class MockFirebaseAuth extends Mock implements FirebaseAuth {
   @override
   Stream<FirebaseUser> get onAuthStateChanged =>
       stateChangedStreamController.stream;
-}
-
-class MockFirebaseUser extends Mock implements FirebaseUser {
-  @override
-  String get displayName => 'Bob';
-
-  @override
-  String get uid => 'aabbcc';
-
-  @override
-  Future<IdTokenResult> getIdToken({bool refresh = false}) async {
-    return Future.value(MockIdTokenResult());
-  }
-}
-
-class MockAuthResult extends Mock implements AuthResult {
-  FirebaseUser user = MockFirebaseUser();
-}
-
-class MockIdTokenResult extends Mock implements IdTokenResult {
-  @override
-  String get token => 'fake_token';
 }
