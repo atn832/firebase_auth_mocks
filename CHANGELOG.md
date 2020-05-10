@@ -1,3 +1,7 @@
+## 0.2.0
+
+- Upgraded firebase_auth dependency to ^0.16.0.
+
 ## 0.1.3
 
 - Added support for `signInWithEmailAndPassword`, `signInWithEmailAndLink` and `signInWithCustomToken`.
