@@ -46,6 +46,13 @@ void main() {
       expect(user.uid, isNotEmpty);
       expect(user.displayName, isNotEmpty);
     });
+
+    test('anonymously', () async {
+      final auth = MockFirebaseAuth();
+      final result = await auth.signInAnonymously();
+      final user = await result.user;
+      expect(user.uid, isNotEmpty);
+    });
   });
 
   test('Returns a hardcoded user if already signed in', () async {
