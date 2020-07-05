@@ -32,6 +32,7 @@ main() {
   - firing events on sign-in to `onAuthStateChanged`.
   - `signInWithCredential`, `signInWithEmailAndPassword`, `signInWithEmailAndLink`, `signInWithCustomToken`
    or `signInAnonymously` signs in.
+  - `signOut` method.
   - `currentUser`
 - `AuthResult` contains a hard-coded `FirebaseUser`.
 - `FirebaseUser` supports `displayName`, `uid` and `getIdToken`.
