@@ -68,6 +68,13 @@ void main() {
     final idToken = await user.getIdToken();
     expect(idToken.token, isNotEmpty);
   });
+
+  test('Returns null after sign out', () async {
+    final auth = MockFirebaseAuth(signedIn: true);
+    await auth.signOut();
+    final user = await auth.currentUser();
+    expect(user, isNull);
+  });
 }
 
 class FakeAuthCredential extends Mock implements AuthCredential {}
