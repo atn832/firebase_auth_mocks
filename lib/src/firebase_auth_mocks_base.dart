@@ -16,6 +16,7 @@ class MockFirebaseAuth extends Mock implements FirebaseAuth {
     }
   }
 
+  @override
   Future<FirebaseUser> currentUser() {
     return Future.value(_currentUser);
   }
@@ -38,8 +39,19 @@ class MockFirebaseAuth extends Mock implements FirebaseAuth {
     return _fakeSignIn();
   }
 
-  @override Future<AuthResult> signInWithCustomToken({@required String token}) {
+  @override
+  Future<AuthResult> signInWithCustomToken({@required String token}) {
     return _fakeSignIn();
+  }
+
+  @override
+  Future<AuthResult> signInAnonymously() {
+    return _fakeSignIn();
+  }
+
+  @override
+  Future<void> signOut() async {
+    _currentUser = null;
   }
 
   Future<AuthResult> _fakeSignIn() {

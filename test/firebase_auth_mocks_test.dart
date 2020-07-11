@@ -46,6 +46,13 @@ void main() {
       expect(user.uid, isNotEmpty);
       expect(user.displayName, isNotEmpty);
     });
+
+    test('anonymously', () async {
+      final auth = MockFirebaseAuth();
+      final result = await auth.signInAnonymously();
+      final user = await result.user;
+      expect(user.uid, isNotEmpty);
+    });
   });
 
   test('Returns a hardcoded user if already signed in', () async {
@@ -60,6 +67,13 @@ void main() {
     final user = await auth.currentUser();
     final idToken = await user.getIdToken();
     expect(idToken.token, isNotEmpty);
+  });
+
+  test('Returns null after sign out', () async {
+    final auth = MockFirebaseAuth(signedIn: true);
+    await auth.signOut();
+    final user = await auth.currentUser();
+    expect(user, isNull);
   });
 }
 
