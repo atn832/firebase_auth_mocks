@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ffi';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:meta/meta.dart';
@@ -52,6 +53,7 @@ class MockFirebaseAuth extends Mock implements FirebaseAuth {
   @override
   Future<void> signOut() async {
     _currentUser = null;
+    stateChangedStreamController.add(null);
   }
 
   Future<AuthResult> _fakeSignIn() {
