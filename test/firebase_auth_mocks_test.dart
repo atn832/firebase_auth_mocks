@@ -19,6 +19,7 @@ void main() {
       final user = await result.user;
       expect(user.uid, isNotEmpty);
       expect(user.displayName, isNotEmpty);
+      expect(auth.onAuthStateChanged, emitsInOrder([user]));
     });
 
     test('with email and password', () async {
@@ -28,6 +29,7 @@ void main() {
       final user = await result.user;
       expect(user.uid, isNotEmpty);
       expect(user.displayName, isNotEmpty);
+      expect(auth.onAuthStateChanged, emitsInOrder([user]));
     });
 
     test('with email and link', () async {
@@ -37,6 +39,7 @@ void main() {
       final user = await result.user;
       expect(user.uid, isNotEmpty);
       expect(user.displayName, isNotEmpty);
+      expect(auth.onAuthStateChanged, emitsInOrder([user]));
     });
 
     test('with token', () async {
@@ -45,6 +48,7 @@ void main() {
       final user = await result.user;
       expect(user.uid, isNotEmpty);
       expect(user.displayName, isNotEmpty);
+      expect(auth.onAuthStateChanged, emitsInOrder([user]));
     });
 
     test('anonymously', () async {
@@ -52,6 +56,7 @@ void main() {
       final result = await auth.signInAnonymously();
       final user = await result.user;
       expect(user.uid, isNotEmpty);
+      expect(auth.onAuthStateChanged, emitsInOrder([user]));
     });
   });
 
@@ -71,9 +76,12 @@ void main() {
 
   test('Returns null after sign out', () async {
     final auth = MockFirebaseAuth(signedIn: true);
-    await auth.signOut();
     final user = await auth.currentUser();
-    expect(user, isNull);
+
+    await auth.signOut();
+
+    expect(auth.currentUser(), completion(isNull));
+    expect(auth.onAuthStateChanged, emitsInOrder([user, null]));
   });
 }
 

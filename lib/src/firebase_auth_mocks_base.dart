@@ -52,6 +52,7 @@ class MockFirebaseAuth extends Mock implements FirebaseAuth {
   @override
   Future<void> signOut() async {
     _currentUser = null;
+    stateChangedStreamController.add(null);
   }
 
   Future<AuthResult> _fakeSignIn() {
