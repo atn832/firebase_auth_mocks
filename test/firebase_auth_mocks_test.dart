@@ -32,16 +32,6 @@ void main() {
       expect(auth.onAuthStateChanged, emitsInOrder([user]));
     });
 
-    test('with email and link', () async {
-      final auth = MockFirebaseAuth();
-      final result = await auth.signInWithEmailAndLink(
-          email: 'some email', link: 'some link');
-      final user = await result.user;
-      expect(user.uid, isNotEmpty);
-      expect(user.displayName, isNotEmpty);
-      expect(auth.onAuthStateChanged, emitsInOrder([user]));
-    });
-
     test('with token', () async {
       final auth = MockFirebaseAuth();
       final result = await auth.signInWithCustomToken('some token');

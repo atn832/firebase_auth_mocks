@@ -35,11 +35,6 @@ class MockFirebaseAuth extends Mock implements FirebaseAuth {
   }
 
   @override
-  Future<UserCredential> signInWithEmailAndLink({String email, String link}) {
-    return _fakeSignIn();
-  }
-
-  @override
   Future<UserCredential> signInWithCustomToken(String token) async {
     return _fakeSignIn();
   }

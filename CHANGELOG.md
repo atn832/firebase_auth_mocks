@@ -1,3 +1,8 @@
+## 0.3.0
+
+- Support the breaking changes of firebase_auth 0.18.0+1.
+- Remove `signInWithEmailAndLink` since it's not part of the API anymore.
+
 ## 0.2.1
 
 - Added support for `signInAnonymously` and `signOut`. Thanks [shepeliev](https://github.com/shepeliev)!
