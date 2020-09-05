@@ -1,3 +1,8 @@
+## 0.3.1
+
+- Support `User.isAnonymous`.
+- Support `User.email`.
+
 ## 0.3.0
 
 - Support the breaking changes of firebase_auth 0.18.0+1.

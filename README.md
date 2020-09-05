@@ -30,13 +30,12 @@ main() {
 - `MockFirebaseAuth` supports:
   - instantiating in a signed-in state or not: `MockFirebaseAuth(signedIn: true/false)`.
   - firing events on sign-in to `onAuthStateChanged`.
-  - `signInWithCredential`, `signInWithEmailAndPassword`, `signInWithEmailAndLink`, `signInWithCustomToken`
+  - `signInWithCredential`, `signInWithEmailAndPassword`, `signInWithCustomToken`
    or `signInAnonymously` signs in.
   - `signOut` method.
   - `currentUser`
-- `AuthResult` contains a hard-coded `FirebaseUser`.
-- `FirebaseUser` supports `displayName`, `uid` and `getIdToken`.
-- `IdTokenResult` supports `token`.
+- `UserCredential` contains a hard-coded `User`.
+- `User` supports `displayName`, `uid` and `getIdToken`.
 
 ## Features and bugs
 
