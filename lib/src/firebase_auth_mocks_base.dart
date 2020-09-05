@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:meta/meta.dart';
 import 'package:mockito/mockito.dart';
 
-import 'mock_auth_result.dart';
+import 'mock_user_credential.dart';
 
 class MockFirebaseAuth extends Mock implements FirebaseAuth {
   final stateChangedStreamController = StreamController<User>();
