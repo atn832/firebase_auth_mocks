@@ -1,6 +1,6 @@
 name: firebase_auth_mocks
 description: Mocks for Firebase Auth. Use this package with `google_sign_in_mocks` to write unit tests involving Firebase Authentication.
-version: 0.3.0
+version: 0.3.0+1
 homepage: http://blog.wafrat.com
 repository: https://github.com/atn832/firebase_auth_mocks
 

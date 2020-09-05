@@ -41,7 +41,7 @@ class MockFirebaseAuth extends Mock implements FirebaseAuth {
 
   @override
   Future<UserCredential> signInAnonymously() {
-    return _fakeSignIn();
+    return _fakeSignIn(isAnonymous: true);
   }
 
   @override
@@ -50,11 +50,11 @@ class MockFirebaseAuth extends Mock implements FirebaseAuth {
     stateChangedStreamController.add(null);
   }
 
-  Future<UserCredential> _fakeSignIn() {
-    final UserCredential = MockUserCredential();
-    _currentUser = UserCredential.user;
+  Future<UserCredential> _fakeSignIn({ bool isAnonymous = false }) {
+    final userCredential = MockUserCredential(isAnonymous: isAnonymous);
+    _currentUser = userCredential.user;
     stateChangedStreamController.add(_currentUser);
-    return Future.value(UserCredential);
+    return Future.value(userCredential);
   }
 
   @override
