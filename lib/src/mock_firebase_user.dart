@@ -1,9 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mockito/mockito.dart';
 
-import 'mock_id_token_result.dart';
-
-class MockFirebaseUser extends Mock implements FirebaseUser {
+class MockUser extends Mock implements User {
   @override
   String get displayName => 'Bob';
 
@@ -11,7 +9,7 @@ class MockFirebaseUser extends Mock implements FirebaseUser {
   String get uid => 'aabbcc';
 
   @override
-  Future<IdTokenResult> getIdToken({bool refresh = false}) async {
-    return Future.value(MockIdTokenResult());
+  Future<String> getIdToken([bool forceRefresh = false]) async {
+    return Future.value('fake_token');
   }
 }

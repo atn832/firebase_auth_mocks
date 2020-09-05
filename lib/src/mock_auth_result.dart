@@ -3,7 +3,7 @@ import 'package:mockito/mockito.dart';
 
 import 'mock_firebase_user.dart';
 
-class MockAuthResult extends Mock implements AuthResult {
+class MockUserCredential extends Mock implements UserCredential {
   @override
-  FirebaseUser user = MockFirebaseUser();
+  User user = MockUser();
 }

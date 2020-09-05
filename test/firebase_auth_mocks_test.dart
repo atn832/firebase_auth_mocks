@@ -6,7 +6,7 @@ import 'package:test/test.dart';
 void main() {
   test('Returns no user if not signed in', () async {
     final auth = MockFirebaseAuth();
-    final user = await auth.currentUser();
+    final user = auth.currentUser;
     expect(user, isNull);
   });
 
@@ -44,7 +44,7 @@ void main() {
 
     test('with token', () async {
       final auth = MockFirebaseAuth();
-      final result = await auth.signInWithCustomToken(token: 'some token');
+      final result = await auth.signInWithCustomToken('some token');
       final user = await result.user;
       expect(user.uid, isNotEmpty);
       expect(user.displayName, isNotEmpty);
@@ -62,25 +62,25 @@ void main() {
 
   test('Returns a hardcoded user if already signed in', () async {
     final auth = MockFirebaseAuth(signedIn: true);
-    final user = await auth.currentUser();
+    final user = auth.currentUser;
     expect(user.uid, isNotEmpty);
     expect(user.displayName, isNotEmpty);
   });
 
   test('Returns a hardcoded user token', () async {
     final auth = MockFirebaseAuth(signedIn: true);
-    final user = await auth.currentUser();
+    final user = auth.currentUser;
     final idToken = await user.getIdToken();
-    expect(idToken.token, isNotEmpty);
+    expect(idToken, isNotEmpty);
   });
 
   test('Returns null after sign out', () async {
     final auth = MockFirebaseAuth(signedIn: true);
-    final user = await auth.currentUser();
+    final user = auth.currentUser;
 
     await auth.signOut();
 
-    expect(auth.currentUser(), completion(isNull));
+    expect(auth.currentUser, isNull);
     expect(auth.onAuthStateChanged, emitsInOrder([user, null]));
   });
 }

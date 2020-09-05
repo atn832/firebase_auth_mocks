@@ -7,8 +7,8 @@ import 'package:mockito/mockito.dart';
 import 'mock_auth_result.dart';
 
 class MockFirebaseAuth extends Mock implements FirebaseAuth {
-  final stateChangedStreamController = StreamController<FirebaseUser>();
-  FirebaseUser _currentUser;
+  final stateChangedStreamController = StreamController<User>();
+  User _currentUser;
 
   MockFirebaseAuth({signedIn = false}) {
     if (signedIn) {
@@ -17,17 +17,17 @@ class MockFirebaseAuth extends Mock implements FirebaseAuth {
   }
 
   @override
-  Future<FirebaseUser> currentUser() {
-    return Future.value(_currentUser);
+  User get currentUser {
+    return _currentUser;
   }
 
   @override
-  Future<AuthResult> signInWithCredential(AuthCredential credential) {
+  Future<UserCredential> signInWithCredential(AuthCredential credential) {
     return _fakeSignIn();
   }
 
   @override
-  Future<AuthResult> signInWithEmailAndPassword({
+  Future<UserCredential> signInWithEmailAndPassword({
     @required String email,
     @required String password,
   }) {
@@ -35,17 +35,17 @@ class MockFirebaseAuth extends Mock implements FirebaseAuth {
   }
 
   @override
-  Future<AuthResult> signInWithEmailAndLink({String email, String link}) {
+  Future<UserCredential> signInWithEmailAndLink({String email, String link}) {
     return _fakeSignIn();
   }
 
   @override
-  Future<AuthResult> signInWithCustomToken({@required String token}) {
+  Future<UserCredential> signInWithCustomToken(String token) async {
     return _fakeSignIn();
   }
 
   @override
-  Future<AuthResult> signInAnonymously() {
+  Future<UserCredential> signInAnonymously() {
     return _fakeSignIn();
   }
 
@@ -55,14 +55,14 @@ class MockFirebaseAuth extends Mock implements FirebaseAuth {
     stateChangedStreamController.add(null);
   }
 
-  Future<AuthResult> _fakeSignIn() {
-    final authResult = MockAuthResult();
-    _currentUser = authResult.user;
+  Future<UserCredential> _fakeSignIn() {
+    final UserCredential = MockUserCredential();
+    _currentUser = UserCredential.user;
     stateChangedStreamController.add(_currentUser);
-    return Future.value(authResult);
+    return Future.value(UserCredential);
   }
 
   @override
-  Stream<FirebaseUser> get onAuthStateChanged =>
+  Stream<User> get onAuthStateChanged =>
       stateChangedStreamController.stream;
 }
