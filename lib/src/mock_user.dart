@@ -9,6 +9,9 @@ class MockUser extends Mock implements User {
   String get uid => 'aabbcc';
 
   @override
+  String get email => 'bob@somedomain.com';
+
+  @override
   Future<String> getIdToken([bool forceRefresh = false]) async {
     return Future.value('fake_token');
   }
