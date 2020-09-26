@@ -19,10 +19,10 @@ void main() {
       final user = await result.user;
       expect(user.uid, isNotEmpty);
       expect(user.displayName, isNotEmpty);
-      expect(auth.onAuthStateChanged, emitsInOrder([isA<User>()]));
+      expect(auth.authStateChanges(), emitsInOrder([isA<User>()]));
       expect(user.isAnonymous, isFalse);
     });
-  return;
+
     test('with email and password', () async {
       final auth = MockFirebaseAuth();
       final result = await auth.signInWithEmailAndPassword(
@@ -30,7 +30,7 @@ void main() {
       final user = await result.user;
       expect(user.uid, isNotEmpty);
       expect(user.displayName, isNotEmpty);
-      expect(auth.onAuthStateChanged, emitsInOrder([isA<User>()]));
+      expect(auth.authStateChanges(), emitsInOrder([isA<User>()]));
     });
 
     test('with token', () async {
@@ -39,7 +39,7 @@ void main() {
       final user = await result.user;
       expect(user.uid, isNotEmpty);
       expect(user.displayName, isNotEmpty);
-      expect(auth.onAuthStateChanged, emitsInOrder([isA<User>()]));
+      expect(auth.authStateChanges(), emitsInOrder([isA<User>()]));
     });
 
     test('anonymously', () async {
@@ -47,7 +47,7 @@ void main() {
       final result = await auth.signInAnonymously();
       final user = await result.user;
       expect(user.uid, isNotEmpty);
-      expect(auth.onAuthStateChanged, emitsInOrder([isA<User>()]));
+      expect(auth.authStateChanges(), emitsInOrder([isA<User>()]));
       expect(user.isAnonymous, isTrue);
     });
   });
@@ -73,7 +73,7 @@ void main() {
     await auth.signOut();
 
     expect(auth.currentUser, isNull);
-    expect(auth.onAuthStateChanged, emitsInOrder([user, null]));
+    expect(auth.authStateChanges(), emitsInOrder([user, null]));
   });
 }
 
