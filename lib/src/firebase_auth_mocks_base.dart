@@ -58,6 +58,9 @@ class MockFirebaseAuth extends Mock implements FirebaseAuth {
   }
 
   @override
+  Stream<User> get onAuthStateChanged => authStateChanges();
+  
+  @override
   Stream<User> authStateChanges() =>
       stateChangedStreamController.stream;
 }
