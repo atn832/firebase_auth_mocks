@@ -1,3 +1,7 @@
+## 0.3.2
+
+- Support the newer `authStateChanges()` on top of the deprecated `get onAuthStateChanged`. Thanks [gallrein](https://github.com/gallrein)!
+
 ## 0.3.1
 
 - Support `User.isAnonymous`.
