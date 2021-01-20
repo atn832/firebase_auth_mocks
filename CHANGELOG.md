@@ -1,3 +1,7 @@
+## 0.4.0
+
+- Update dependency to firebase_auth ^0.20.0+1. Thanks [Aanu1995](https://github.com/Aanu1995)!
+
 ## 0.3.1
 
 - Support `User.isAnonymous`.
