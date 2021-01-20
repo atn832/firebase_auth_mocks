@@ -10,7 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  firebase_auth: ^0.18.0+1
+  firebase_auth: ^0.20.0+1
   meta: ^1.1.8
   mockito: ^4.1.0
 
