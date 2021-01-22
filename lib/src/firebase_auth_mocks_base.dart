@@ -4,13 +4,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:meta/meta.dart';
 import 'package:mockito/mockito.dart';
 
+import '../firebase_auth_mocks.dart';
 import 'mock_user_credential.dart';
 
 class MockFirebaseAuth extends Mock implements FirebaseAuth {
   final stateChangedStreamController = StreamController<User>();
+  final MockUser _mockUser;
   User _currentUser;
 
-  MockFirebaseAuth({signedIn = false}) {
+  MockFirebaseAuth({signedIn = false, MockUser mockUser})
+      : _mockUser = mockUser {
     if (signedIn) {
       signInWithCredential(null);
     }
@@ -50,14 +53,14 @@ class MockFirebaseAuth extends Mock implements FirebaseAuth {
     stateChangedStreamController.add(null);
   }
 
-  Future<UserCredential> _fakeSignIn({ bool isAnonymous = false }) {
-    final userCredential = MockUserCredential(isAnonymous: isAnonymous);
+  Future<UserCredential> _fakeSignIn({bool isAnonymous = false}) {
+    final userCredential =
+        MockUserCredential(isAnonymous: isAnonymous, mockUser: _mockUser);
     _currentUser = userCredential.user;
     stateChangedStreamController.add(_currentUser);
     return Future.value(userCredential);
   }
 
   @override
-  Stream<User> authStateChanges() =>
-      stateChangedStreamController.stream;
+  Stream<User> authStateChanges() => stateChangedStreamController.stream;
 }
