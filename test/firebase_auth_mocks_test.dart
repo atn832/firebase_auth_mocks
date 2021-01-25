@@ -3,6 +3,16 @@ import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
+final tUser = MockUser(
+  isAnonymous: false,
+  uid: 'T3STU1D',
+  email: 'bob@thebuilder.com',
+  displayName: 'Bob Builder',
+  phoneNumber: '0800 I CAN FIX IT',
+  photoURL: 'http://photos.url/bobbie.jpg',
+  refreshToken: 'some_long_token',
+);
+
 void main() {
   test('Returns no user if not signed in', () async {
     final auth = MockFirebaseAuth();
@@ -10,35 +20,32 @@ void main() {
     expect(user, isNull);
   });
 
-  group('Returns a hardcoded user after sign in', () {
+  group('Returns a mocked user user after sign in', () {
     test('with Credential', () async {
-      final auth = MockFirebaseAuth();
+      final auth = MockFirebaseAuth(mockUser: tUser);
       // Credentials would typically come from GoogleSignIn.
       final credential = FakeAuthCredential();
       final result = await auth.signInWithCredential(credential);
       final user = await result.user;
-      expect(user.uid, isNotEmpty);
-      expect(user.displayName, isNotEmpty);
+      expect(user, tUser);
       expect(auth.authStateChanges(), emitsInOrder([isA<User>()]));
       expect(user.isAnonymous, isFalse);
     });
 
     test('with email and password', () async {
-      final auth = MockFirebaseAuth();
+      final auth = MockFirebaseAuth(mockUser: tUser);
       final result = await auth.signInWithEmailAndPassword(
           email: 'some email', password: 'some password');
       final user = await result.user;
-      expect(user.uid, isNotEmpty);
-      expect(user.displayName, isNotEmpty);
+      expect(user, tUser);
       expect(auth.authStateChanges(), emitsInOrder([isA<User>()]));
     });
 
     test('with token', () async {
-      final auth = MockFirebaseAuth();
+      final auth = MockFirebaseAuth(mockUser: tUser);
       final result = await auth.signInWithCustomToken('some token');
       final user = await result.user;
-      expect(user.uid, isNotEmpty);
-      expect(user.displayName, isNotEmpty);
+      expect(user, tUser);
       expect(auth.authStateChanges(), emitsInOrder([isA<User>()]));
     });
 
@@ -52,22 +59,21 @@ void main() {
     });
   });
 
-  test('Returns a hardcoded user if already signed in', () async {
-    final auth = MockFirebaseAuth(signedIn: true);
+  test('Returns a mocked user if already signed in', () async {
+    final auth = MockFirebaseAuth(signedIn: true, mockUser: tUser);
     final user = auth.currentUser;
-    expect(user.uid, isNotEmpty);
-    expect(user.displayName, isNotEmpty);
+    expect(user, tUser);
   });
 
   test('Returns a hardcoded user token', () async {
-    final auth = MockFirebaseAuth(signedIn: true);
+    final auth = MockFirebaseAuth(signedIn: true, mockUser: tUser);
     final user = auth.currentUser;
     final idToken = await user.getIdToken();
     expect(idToken, isNotEmpty);
   });
 
   test('Returns null after sign out', () async {
-    final auth = MockFirebaseAuth(signedIn: true);
+    final auth = MockFirebaseAuth(signedIn: true, mockUser: tUser);
     final user = auth.currentUser;
 
     await auth.signOut();
