@@ -1,3 +1,11 @@
+## 0.5.0
+
+Breaking change:
+
+- Require supplying a `MockUser` instead of returning 'Bob'. Thanks [PieterHartzer](https://github.com/PieterHartzer)!
+
+Refer to README.md on how to use it.
+
 ## 0.4.0
 
 - Update dependency to firebase_auth ^0.20.0+1. Thanks [Aanu1995](https://github.com/Aanu1995)!
