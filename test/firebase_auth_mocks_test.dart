@@ -49,6 +49,15 @@ void main() {
       expect(auth.authStateChanges(), emitsInOrder([isA<User>()]));
     });
 
+    test('with phone number', () async {
+      final auth = MockFirebaseAuth(mockUser: tUser);
+      final confirmationResult = await auth.signInWithPhoneNumber('some token');
+      final credentials = await confirmationResult.confirm('12345');
+      final user = credentials.user;
+      expect(user, tUser);
+      expect(auth.authStateChanges(), emitsInOrder([isA<User>()]));
+    });
+
     test('anonymously', () async {
       final auth = MockFirebaseAuth();
       final result = await auth.signInAnonymously();

@@ -5,6 +5,7 @@ import 'package:meta/meta.dart';
 import 'package:mockito/mockito.dart';
 
 import '../firebase_auth_mocks.dart';
+import 'mock_confirmation_result.dart';
 import 'mock_user_credential.dart';
 
 class MockFirebaseAuth extends Mock implements FirebaseAuth {
@@ -40,6 +41,12 @@ class MockFirebaseAuth extends Mock implements FirebaseAuth {
   @override
   Future<UserCredential> signInWithCustomToken(String token) async {
     return _fakeSignIn();
+  }
+
+  @override
+  Future<ConfirmationResult> signInWithPhoneNumber(String phoneNumber,
+      [RecaptchaVerifier verifier]) async {
+    return MockConfirmationResult(onConfirm: () => _fakeSignIn());
   }
 
   @override

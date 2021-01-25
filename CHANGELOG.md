@@ -1,3 +1,7 @@
+## 0.5.1
+
+- Support for `signInWithPhoneNumber`.
+
 ## 0.5.0
 
 Breaking change:
