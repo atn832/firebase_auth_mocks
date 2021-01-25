@@ -51,7 +51,8 @@ void main() {
 
     test('with phone number', () async {
       final auth = MockFirebaseAuth(mockUser: tUser);
-      final confirmationResult = await auth.signInWithPhoneNumber('some token');
+      final confirmationResult =
+          await auth.signInWithPhoneNumber('832 234 5678');
       final credentials = await confirmationResult.confirm('12345');
       final user = credentials.user;
       expect(user, tUser);
