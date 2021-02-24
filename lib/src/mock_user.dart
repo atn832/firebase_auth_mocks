@@ -11,13 +11,13 @@ class MockUser extends Mock implements User {
   final String _refreshToken;
 
   MockUser({
-    isAnonymous = false,
-    uid = 'some_random_id',
-    email,
-    displayName,
-    phoneNumber,
-    photoURL,
-    refreshToken,
+    bool isAnonymous = false,
+    String uid = 'some_random_id',
+    String email,
+    String displayName,
+    String phoneNumber,
+    String photoURL,
+    String refreshToken,
   })  : _isAnonymous = isAnonymous,
         _uid = uid,
         _email = email,
