@@ -1,3 +1,7 @@
+## 0.5.2
+
+- Typed the arguments of `MockUser`'s constructor. Thanks [YusufAbdelaziz](https://github.com/YusufAbdelaziz)!
+
 ## 0.5.1
 
 - Support for `signInWithPhoneNumber`.
