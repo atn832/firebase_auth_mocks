@@ -26,7 +26,7 @@ void main() {
       // Credentials would typically come from GoogleSignIn.
       final credential = FakeAuthCredential();
       final result = await auth.signInWithCredential(credential);
-      final user = await result.user;
+      final user = await result.user!;
       expect(user, tUser);
       expect(auth.authStateChanges(), emitsInOrder([isA<User>()]));
       expect(user.isAnonymous, isFalse);
@@ -34,8 +34,8 @@ void main() {
 
     test('with email and password', () async {
       final auth = MockFirebaseAuth(mockUser: tUser);
-      final result = await auth.signInWithEmailAndPassword(
-          email: 'some email', password: 'some password');
+      final result =
+          await auth.signInWithEmailAndPassword(email: 'some email', password: 'some password');
       final user = await result.user;
       expect(user, tUser);
       expect(auth.authStateChanges(), emitsInOrder([isA<User>()]));
@@ -51,8 +51,7 @@ void main() {
 
     test('with phone number', () async {
       final auth = MockFirebaseAuth(mockUser: tUser);
-      final confirmationResult =
-          await auth.signInWithPhoneNumber('832 234 5678');
+      final confirmationResult = await auth.signInWithPhoneNumber('832 234 5678');
       final credentials = await confirmationResult.confirm('12345');
       final user = credentials.user;
       expect(user, tUser);
@@ -62,7 +61,7 @@ void main() {
     test('anonymously', () async {
       final auth = MockFirebaseAuth();
       final result = await auth.signInAnonymously();
-      final user = await result.user;
+      final user = await result.user!;
       expect(user.uid, isNotEmpty);
       expect(auth.authStateChanges(), emitsInOrder([isA<User>()]));
       expect(user.isAnonymous, isTrue);
@@ -77,7 +76,7 @@ void main() {
 
   test('Returns a hardcoded user token', () async {
     final auth = MockFirebaseAuth(signedIn: true, mockUser: tUser);
-    final user = auth.currentUser;
+    final user = auth.currentUser!;
     final idToken = await user.getIdToken();
     expect(idToken, isNotEmpty);
   });

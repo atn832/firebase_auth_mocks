@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:meta/meta.dart';
 import 'package:mockito/mockito.dart';
 
 import '../firebase_auth_mocks.dart';
@@ -9,11 +8,11 @@ import 'mock_confirmation_result.dart';
 import 'mock_user_credential.dart';
 
 class MockFirebaseAuth extends Mock implements FirebaseAuth {
-  final stateChangedStreamController = StreamController<User>();
-  final MockUser _mockUser;
-  User _currentUser;
+  final stateChangedStreamController = StreamController<User?>();
+  final MockUser? _mockUser;
+  User? _currentUser;
 
-  MockFirebaseAuth({signedIn = false, MockUser mockUser})
+  MockFirebaseAuth({signedIn = false, MockUser? mockUser})
       : _mockUser = mockUser {
     if (signedIn) {
       signInWithCredential(null);
@@ -21,19 +20,19 @@ class MockFirebaseAuth extends Mock implements FirebaseAuth {
   }
 
   @override
-  User get currentUser {
+  User? get currentUser {
     return _currentUser;
   }
 
   @override
-  Future<UserCredential> signInWithCredential(AuthCredential credential) {
+  Future<UserCredential> signInWithCredential(AuthCredential? credential) {
     return _fakeSignIn();
   }
 
   @override
   Future<UserCredential> signInWithEmailAndPassword({
-    @required String email,
-    @required String password,
+    required String email,
+    required String password,
   }) {
     return _fakeSignIn();
   }
@@ -45,7 +44,7 @@ class MockFirebaseAuth extends Mock implements FirebaseAuth {
 
   @override
   Future<ConfirmationResult> signInWithPhoneNumber(String phoneNumber,
-      [RecaptchaVerifier verifier]) async {
+      [RecaptchaVerifier? verifier]) async {
     return MockConfirmationResult(onConfirm: () => _fakeSignIn());
   }
 
@@ -69,5 +68,5 @@ class MockFirebaseAuth extends Mock implements FirebaseAuth {
   }
 
   @override
-  Stream<User> authStateChanges() => stateChangedStreamController.stream;
+  Stream<User?> authStateChanges() => stateChangedStreamController.stream;
 }
