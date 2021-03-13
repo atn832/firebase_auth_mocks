@@ -1,3 +1,7 @@
+## 0.5.3
+
+ - Update `firebase_auth` library to 1.0.0 version
+
 ## 0.5.2
 
 - Typed the arguments of `MockUser`'s constructor. Thanks [YusufAbdelaziz](https://github.com/YusufAbdelaziz)!
