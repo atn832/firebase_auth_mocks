@@ -1,6 +1,7 @@
-## 0.5.3
+## 0.6.0
 
- - Update `firebase_auth` library to 1.0.0 version
+- Migrate to null safety. Thanks [YusufAbdelaziz](https://github.com/YusufAbdelaziz)!
+- Update dependency to firebase_auth ^1.0.1. Thanks [zariweyo](https://github.com/zariweyo)!
 
 ## 0.5.2
 
