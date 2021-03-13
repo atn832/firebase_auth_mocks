@@ -12,3 +12,9 @@ doc/api/
 
 .flutter-plugins
 .flutter-plugins-dependencies
+
+# VSCode settings
+.vscode
+
+# FVM local path
+.fvm
