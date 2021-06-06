@@ -1,8 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:mockito/mockito.dart';
 
-class MockUser extends Mock with EquatableMixin implements User {
+class MockUser with EquatableMixin implements User {
   final bool? _isAnonymous;
   final String _uid;
   final String? _email;
@@ -63,4 +62,7 @@ class MockUser extends Mock with EquatableMixin implements User {
         _photoURL,
         _refreshToken,
       ];
+
+  @override
+  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }

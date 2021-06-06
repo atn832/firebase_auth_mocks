@@ -1,9 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:mockito/mockito.dart';
 
 import 'mock_user.dart';
 
-class MockUserCredential extends Mock implements UserCredential {
+class MockUserCredential implements UserCredential {
   final bool? _isAnonymous;
   final MockUser? _mockUser;
 
@@ -15,4 +14,12 @@ class MockUserCredential extends Mock implements UserCredential {
 
   @override
   User get user => _mockUser ?? MockUser(isAnonymous: _isAnonymous);
+
+  @override
+  // TODO: implement additionalUserInfo
+  AdditionalUserInfo? get additionalUserInfo => throw UnimplementedError();
+
+  @override
+  // TODO: implement credential
+  AuthCredential? get credential => throw UnimplementedError();
 }

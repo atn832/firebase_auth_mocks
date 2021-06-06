@@ -1,7 +1,12 @@
+## 0.6.1
+
+- Removed dependency to Mockito.
+- Updated dependency to firebase_auth ^1.3.0.
+
 ## 0.6.0
 
-- Migrate to null safety. Thanks [YusufAbdelaziz](https://github.com/YusufAbdelaziz)!
-- Update dependency to firebase_auth ^1.0.1. Thanks [zariweyo](https://github.com/zariweyo)!
+- Migrated to null safety. Thanks [YusufAbdelaziz](https://github.com/YusufAbdelaziz)!
+- Updated dependency to firebase_auth ^1.0.1. Thanks [zariweyo](https://github.com/zariweyo)!
 
 ## 0.5.2
 
@@ -21,7 +26,7 @@ Refer to README.md on how to use it.
 
 ## 0.4.0
 
-- Update dependency to firebase_auth ^0.20.0+1. Thanks [Aanu1995](https://github.com/Aanu1995)!
+- Updated dependency to firebase_auth ^0.20.0+1. Thanks [Aanu1995](https://github.com/Aanu1995)!
 
 ## 0.3.1
 
@@ -31,7 +36,7 @@ Refer to README.md on how to use it.
 ## 0.3.0
 
 - Support the breaking changes of firebase_auth 0.18.0+1.
-- Remove `signInWithEmailAndLink` since it's not part of the API anymore.
+- Removed `signInWithEmailAndLink` since it's not part of the API anymore.
 
 ## 0.2.1
 

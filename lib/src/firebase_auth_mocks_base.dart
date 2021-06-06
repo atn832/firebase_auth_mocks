@@ -1,13 +1,12 @@
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:mockito/mockito.dart';
 
 import '../firebase_auth_mocks.dart';
 import 'mock_confirmation_result.dart';
 import 'mock_user_credential.dart';
 
-class MockFirebaseAuth extends Mock implements FirebaseAuth {
+class MockFirebaseAuth implements FirebaseAuth {
   final stateChangedStreamController = StreamController<User?>();
   final MockUser? _mockUser;
   User? _currentUser;
@@ -69,4 +68,7 @@ class MockFirebaseAuth extends Mock implements FirebaseAuth {
 
   @override
   Stream<User?> authStateChanges() => stateChangedStreamController.stream;
+
+  @override
+  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
