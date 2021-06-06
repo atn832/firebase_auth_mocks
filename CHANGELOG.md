@@ -1,4 +1,4 @@
-## 0.6.1
+## 0.7.0
 
 - Removed dependency to Mockito.
 - Updated dependency to firebase_auth ^1.3.0.
