@@ -3,10 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'mock_user.dart';
 
 class MockUserCredential implements UserCredential {
-  final bool? _isAnonymous;
+  final bool _isAnonymous;
   final MockUser? _mockUser;
 
-  MockUserCredential({bool? isAnonymous, MockUser? mockUser})
+  MockUserCredential(bool isAnonymous, {MockUser? mockUser})
       // Ensure no mocked credentials or mocked for Anonymous
       : assert(mockUser == null || mockUser.isAnonymous == isAnonymous),
         _isAnonymous = isAnonymous,
