@@ -11,8 +11,7 @@ class MockFirebaseAuth implements FirebaseAuth {
   final MockUser? _mockUser;
   User? _currentUser;
 
-  MockFirebaseAuth({signedIn = false, MockUser? mockUser})
-      : _mockUser = mockUser {
+  MockFirebaseAuth({signedIn = false, MockUser? mockUser}) : _mockUser = mockUser {
     if (signedIn) {
       signInWithCredential(null);
     }
@@ -42,8 +41,7 @@ class MockFirebaseAuth implements FirebaseAuth {
   }
 
   @override
-  Future<ConfirmationResult> signInWithPhoneNumber(String phoneNumber,
-      [RecaptchaVerifier? verifier]) async {
+  Future<ConfirmationResult> signInWithPhoneNumber(String phoneNumber, [RecaptchaVerifier? verifier]) async {
     return MockConfirmationResult(onConfirm: () => _fakeSignIn());
   }
 
@@ -59,8 +57,7 @@ class MockFirebaseAuth implements FirebaseAuth {
   }
 
   Future<UserCredential> _fakeSignIn({bool isAnonymous = false}) {
-    final userCredential =
-        MockUserCredential(isAnonymous: isAnonymous, mockUser: _mockUser);
+    final userCredential = MockUserCredential(isAnonymous, mockUser: _mockUser);
     _currentUser = userCredential.user;
     stateChangedStreamController.add(_currentUser);
     return Future.value(userCredential);
