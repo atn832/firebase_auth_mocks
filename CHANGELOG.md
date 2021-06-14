@@ -1,3 +1,7 @@
+## 0.7.1
+
+- Implement User.metadata. Thanks [mazzonem](https://github.com/mazzonem)!
+
 ## 0.7.0
 
 - Removed dependency to Mockito.
