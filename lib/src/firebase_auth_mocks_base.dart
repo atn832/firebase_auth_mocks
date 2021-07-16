@@ -15,6 +15,8 @@ class MockFirebaseAuth implements FirebaseAuth {
       : _mockUser = mockUser {
     if (signedIn) {
       signInWithCredential(null);
+    } else {
+      stateChangedStreamController.add(null);
     }
   }
 
