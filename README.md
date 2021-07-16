@@ -18,7 +18,13 @@ main() {
       idToken: googleAuth.idToken,
     );
     // Sign in.
-    final auth = MockFirebaseAuth();
+    final user = MockUser(
+      isAnonymous: false,
+      uid: 'someuid',
+      email: 'bob@somedomain.com',
+      displayName: 'Bob',
+    );
+    final auth = MockFirebaseAuth(mockUser: user);
     final result = await auth.signInWithCredential(credential);
     final user = await result.user;
     print(user.displayName);
@@ -34,8 +40,7 @@ main() {
    or `signInAnonymously` signs in.
   - `signOut` method.
   - `currentUser`
-- `UserCredential` contains a hard-coded `User`.
-- `User` supports `displayName`, `uid` and `getIdToken`.
+- `UserCredential` contains the provided `User` with the information of your choice.
 
 ## Features and bugs
 

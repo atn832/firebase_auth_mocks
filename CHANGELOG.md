@@ -1,3 +1,37 @@
+## 0.7.1
+
+- Implement User.metadata. Thanks [mazzonem](https://github.com/mazzonem)!
+
+## 0.7.0
+
+- Removed dependency to Mockito.
+- Updated dependency to firebase_auth ^1.3.0.
+
+## 0.6.0
+
+- Migrated to null safety. Thanks [YusufAbdelaziz](https://github.com/YusufAbdelaziz)!
+- Updated dependency to firebase_auth ^1.0.1. Thanks [zariweyo](https://github.com/zariweyo)!
+
+## 0.5.2
+
+- Typed the arguments of `MockUser`'s constructor. Thanks [YusufAbdelaziz](https://github.com/YusufAbdelaziz)!
+
+## 0.5.1
+
+- Support for `signInWithPhoneNumber`.
+
+## 0.5.0
+
+Breaking change:
+
+- Require supplying a `MockUser` instead of returning 'Bob'. Thanks [PieterHartzer](https://github.com/PieterHartzer)!
+
+Refer to README.md on how to use it.
+
+## 0.4.0
+
+- Updated dependency to firebase_auth ^0.20.0+1. Thanks [Aanu1995](https://github.com/Aanu1995)!
+
 ## 0.3.2
 
 - Support the newer `authStateChanges()` on top of the deprecated `get onAuthStateChanged`. Thanks [gallrein](https://github.com/gallrein)!
@@ -10,7 +44,7 @@
 ## 0.3.0
 
 - Support the breaking changes of firebase_auth 0.18.0+1.
-- Remove `signInWithEmailAndLink` since it's not part of the API anymore.
+- Removed `signInWithEmailAndLink` since it's not part of the API anymore.
 
 ## 0.2.1
 
