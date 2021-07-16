@@ -1,3 +1,8 @@
+## 0.8.0
+
+- Updated dependency to firebase_auth ^3.0.0.
+- Implemented User.reload().
+
 ## 0.7.1
 
 - Implement User.metadata. Thanks [mazzonem](https://github.com/mazzonem)!
