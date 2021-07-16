@@ -98,6 +98,13 @@ void main() {
     // Does not throw an exception.
     await user!.reload();
   });
+
+  test('User.updateDisplayName changes displayName', () async {
+    final auth = MockFirebaseAuth(signedIn: true, mockUser: tUser);
+    final user = auth.currentUser;
+    await user!.updateDisplayName("New Bob");
+    expect(user.displayName, "New Bob");
+  });
 }
 
 class FakeAuthCredential implements AuthCredential {
