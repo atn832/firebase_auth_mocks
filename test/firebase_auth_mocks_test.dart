@@ -94,6 +94,14 @@ void main() {
     expect(auth.authStateChanges(), emitsInOrder([user, null]));
     expect(auth.userChanges(), emitsInOrder([user, null]));
   });
+
+  test('User.reload returns', () async {
+    final auth = MockFirebaseAuth(signedIn: true);
+    final user = auth.currentUser;
+    expect(user, isNotNull);
+    // Does not throw an exception.
+    await user!.reload();
+  });
 }
 
 class FakeAuthCredential implements AuthCredential {

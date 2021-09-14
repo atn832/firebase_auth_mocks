@@ -1,3 +1,12 @@
+## 0.8.0
+
+- Updated dependency to firebase_auth ^3.0.0.
+- Implemented User.reload().
+
+## 0.7.1
+
+- Implement User.metadata. Thanks [mazzonem](https://github.com/mazzonem)!
+
 ## 0.7.0
 
 - Removed dependency to Mockito.
@@ -27,6 +36,10 @@ Refer to README.md on how to use it.
 ## 0.4.0
 
 - Updated dependency to firebase_auth ^0.20.0+1. Thanks [Aanu1995](https://github.com/Aanu1995)!
+
+## 0.3.2
+
+- Support the newer `authStateChanges()` on top of the deprecated `get onAuthStateChanged`. Thanks [gallrein](https://github.com/gallrein)!
 
 ## 0.3.1
 
