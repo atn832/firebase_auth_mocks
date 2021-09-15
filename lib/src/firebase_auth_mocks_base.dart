@@ -58,6 +58,11 @@ class MockFirebaseAuth implements FirebaseAuth {
     userChangedStreamController.add(null);
   }
 
+  @override
+  Future<List<String>> fetchSignInMethodsForEmail(String email) {
+    return Future.value([]);
+  }
+
   Future<UserCredential> _fakeSignIn({bool isAnonymous = false}) {
     final userCredential = MockUserCredential(isAnonymous, mockUser: _mockUser);
     _currentUser = userCredential.user;
