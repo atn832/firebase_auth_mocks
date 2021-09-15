@@ -1,7 +1,13 @@
+## 0.8.1
+
+- Implemented `FirebaseAuth.userChanges`. Thanks [mazzonem](https://github.com/mazzonem)!
+- Implemented `User.updateDisplayName`. Thanks [oudehomar](https://github.com/oudehomar)!
+- Implemented `FirebaseAuth.fetchSignInMethodsForEmail`. Thanks [ketanchoyal](https://github.com/ketanchoyal)!
+
 ## 0.8.0
 
 - Updated dependency to firebase_auth ^3.0.0.
-- Implemented User.reload().
+- Implemented `User.reload()`.
 
 ## 0.7.1
 
