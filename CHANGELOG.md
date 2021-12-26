@@ -1,3 +1,9 @@
+## 0.8.1
+
+- Added `providerData` in MockUser. Thanks [kornperkus](https://github.com/kornperkus)!
+- Made `userChanges` and `authStateChanges` fire `null` on startup when signed out.
+- Turned `userChanges` and `authStateChanges` into broadcast streams so they can be listened to more than once.
+
 ## 0.8.0
 
 - Updated dependency to firebase_auth ^3.0.0.
