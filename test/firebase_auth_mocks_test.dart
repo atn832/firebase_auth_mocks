@@ -124,6 +124,12 @@ void main() {
     await user!.updateDisplayName("New Bob");
     expect(user.displayName, "New Bob");
   });
+
+  test('Listening twice works', () async {
+    final auth = MockFirebaseAuth();
+    expect(await auth.userChanges().first, isNull);
+    expect(await auth.userChanges().first, isNull);
+  });
 }
 
 class FakeAuthCredential implements AuthCredential {
