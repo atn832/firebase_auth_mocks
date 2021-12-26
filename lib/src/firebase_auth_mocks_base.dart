@@ -8,12 +8,17 @@ import 'mock_user_credential.dart';
 
 class MockFirebaseAuth implements FirebaseAuth {
   final stateChangedStreamController = StreamController<User?>();
+  late Stream<User?> stateChangedStream;
   final userChangedStreamController = StreamController<User?>();
+  late Stream<User?> userChangedStream;
   final MockUser? _mockUser;
   User? _currentUser;
 
   MockFirebaseAuth({signedIn = false, MockUser? mockUser})
       : _mockUser = mockUser {
+    stateChangedStream =
+        stateChangedStreamController.stream.asBroadcastStream();
+    userChangedStream = userChangedStreamController.stream.asBroadcastStream();
     if (signedIn) {
       signInWithCredential(null);
     } else {
@@ -80,10 +85,10 @@ class MockFirebaseAuth implements FirebaseAuth {
       authStateChanges().map((event) => event!);
 
   @override
-  Stream<User?> authStateChanges() => stateChangedStreamController.stream;
+  Stream<User?> authStateChanges() => stateChangedStream;
 
   @override
-  Stream<User?> userChanges() => userChangedStreamController.stream;
+  Stream<User?> userChanges() => userChangedStream;
 
   @override
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
