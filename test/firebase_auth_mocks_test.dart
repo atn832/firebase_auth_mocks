@@ -19,6 +19,19 @@ void main() {
     expect(user, isNull);
   });
 
+  group('Emits an initial User? on startup.', () {
+    test('null if signed out', () async {
+      final auth = MockFirebaseAuth();
+      expect(auth.authStateChanges(), emits(null));
+      // expect(auth.userChanges(), emitsInOrder([isA<User>()]));
+    });
+    test('a user if signed in', () async {
+      final auth = MockFirebaseAuth(signedIn: true);
+      expect(auth.authStateChanges(), emitsInOrder([isA<User>()]));
+      expect(auth.userChanges(), emitsInOrder([isA<User>()]));
+    });
+  });
+
   group('Returns a mocked user user after sign in', () {
     test('with Credential', () async {
       final auth = MockFirebaseAuth(mockUser: tUser);
@@ -27,7 +40,8 @@ void main() {
       final result = await auth.signInWithCredential(credential);
       final user = result.user!;
       expect(user, tUser);
-      expect(auth.authStateChanges(), emitsInOrder([isA<User>()]));
+      expect(auth.authStateChanges(), emitsInOrder([null, isA<User>()]));
+      expect(auth.userChanges(), emitsInOrder([null, isA<User>()]));
       expect(user.isAnonymous, isFalse);
     });
 
@@ -37,7 +51,8 @@ void main() {
           email: 'some email', password: 'some password');
       final user = result.user;
       expect(user, tUser);
-      expect(auth.authStateChanges(), emitsInOrder([isA<User>()]));
+      expect(auth.authStateChanges(), emitsInOrder([null, isA<User>()]));
+      expect(auth.userChanges(), emitsInOrder([null, isA<User>()]));
     });
 
     test('with token', () async {
@@ -45,7 +60,8 @@ void main() {
       final result = await auth.signInWithCustomToken('some token');
       final user = result.user;
       expect(user, tUser);
-      expect(auth.authStateChanges(), emitsInOrder([isA<User>()]));
+      expect(auth.authStateChanges(), emitsInOrder([null, isA<User>()]));
+      expect(auth.userChanges(), emitsInOrder([null, isA<User>()]));
     });
 
     test('with phone number', () async {
@@ -55,7 +71,8 @@ void main() {
       final credentials = await confirmationResult.confirm('12345');
       final user = credentials.user;
       expect(user, tUser);
-      expect(auth.authStateChanges(), emitsInOrder([isA<User>()]));
+      expect(auth.authStateChanges(), emitsInOrder([null, isA<User>()]));
+      expect(auth.userChanges(), emitsInOrder([null, isA<User>()]));
     });
 
     test('anonymously', () async {
@@ -63,7 +80,8 @@ void main() {
       final result = await auth.signInAnonymously();
       final user = result.user!;
       expect(user.uid, isNotEmpty);
-      expect(auth.authStateChanges(), emitsInOrder([isA<User>()]));
+      expect(auth.authStateChanges(), emitsInOrder([null, isA<User>()]));
+      expect(auth.userChanges(), emitsInOrder([null, isA<User>()]));
       expect(user.isAnonymous, isTrue);
     });
   });
@@ -89,6 +107,7 @@ void main() {
 
     expect(auth.currentUser, isNull);
     expect(auth.authStateChanges(), emitsInOrder([user, null]));
+    expect(auth.userChanges(), emitsInOrder([user, null]));
   });
 
   test('User.reload returns', () async {
@@ -97,6 +116,19 @@ void main() {
     expect(user, isNotNull);
     // Does not throw an exception.
     await user!.reload();
+  });
+
+  test('User.updateDisplayName changes displayName', () async {
+    final auth = MockFirebaseAuth(signedIn: true, mockUser: tUser);
+    final user = auth.currentUser;
+    await user!.updateDisplayName("New Bob");
+    expect(user.displayName, "New Bob");
+  });
+
+  test('Listening twice works', () async {
+    final auth = MockFirebaseAuth();
+    expect(await auth.userChanges().first, isNull);
+    expect(await auth.userChanges().first, isNull);
   });
 }
 

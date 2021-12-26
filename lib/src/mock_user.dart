@@ -6,9 +6,10 @@ class MockUser with EquatableMixin implements User {
   final bool _isEmailVerified;
   final String _uid;
   final String? _email;
-  final String? _displayName;
+  String? _displayName;
   final String? _phoneNumber;
   final String? _photoURL;
+  final List<UserInfo> _providerData;
   final String? _refreshToken;
   final UserMetadata? _metadata;
 
@@ -20,6 +21,7 @@ class MockUser with EquatableMixin implements User {
     String? displayName,
     String? phoneNumber,
     String? photoURL,
+    List<UserInfo>? providerData,
     String? refreshToken,
     UserMetadata? metadata,
   })  : _isAnonymous = isAnonymous,
@@ -29,6 +31,7 @@ class MockUser with EquatableMixin implements User {
         _displayName = displayName,
         _phoneNumber = phoneNumber,
         _photoURL = photoURL,
+        _providerData = providerData ?? [],
         _refreshToken = refreshToken,
         _metadata = metadata;
 
@@ -47,11 +50,18 @@ class MockUser with EquatableMixin implements User {
   @override
   String? get displayName => _displayName;
 
+  set displayName(String? value) {
+    _displayName = value;
+  }
+
   @override
   String? get phoneNumber => _phoneNumber;
 
   @override
   String? get photoURL => _photoURL;
+
+  @override
+  List<UserInfo> get providerData => _providerData;
 
   @override
   String? get refreshToken => _refreshToken;
@@ -79,6 +89,12 @@ class MockUser with EquatableMixin implements User {
   @override
   Future<void> reload() {
     // Do nothing.
+    return Future.value();
+  }
+
+  @override
+  Future<void> updateDisplayName(String? value) {
+    displayName = value;
     return Future.value();
   }
 

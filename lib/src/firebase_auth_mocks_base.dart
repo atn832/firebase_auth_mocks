@@ -8,13 +8,22 @@ import 'mock_user_credential.dart';
 
 class MockFirebaseAuth implements FirebaseAuth {
   final stateChangedStreamController = StreamController<User?>();
+  late Stream<User?> stateChangedStream;
+  final userChangedStreamController = StreamController<User?>();
+  late Stream<User?> userChangedStream;
   final MockUser? _mockUser;
   User? _currentUser;
 
   MockFirebaseAuth({signedIn = false, MockUser? mockUser})
       : _mockUser = mockUser {
+    stateChangedStream =
+        stateChangedStreamController.stream.asBroadcastStream();
+    userChangedStream = userChangedStreamController.stream.asBroadcastStream();
     if (signedIn) {
       signInWithCredential(null);
+    } else {
+      // Notify of null on startup.
+      signOut();
     }
   }
 
@@ -56,20 +65,30 @@ class MockFirebaseAuth implements FirebaseAuth {
   Future<void> signOut() async {
     _currentUser = null;
     stateChangedStreamController.add(null);
+    userChangedStreamController.add(null);
+  }
+
+  @override
+  Future<List<String>> fetchSignInMethodsForEmail(String email) {
+    return Future.value([]);
   }
 
   Future<UserCredential> _fakeSignIn({bool isAnonymous = false}) {
     final userCredential = MockUserCredential(isAnonymous, mockUser: _mockUser);
     _currentUser = userCredential.user;
     stateChangedStreamController.add(_currentUser);
+    userChangedStreamController.add(_currentUser);
     return Future.value(userCredential);
   }
 
-  @override
   Stream<User> get onAuthStateChanged =>
       authStateChanges().map((event) => event!);
 
-  Stream<User?> authStateChanges() => stateChangedStreamController.stream;
+  @override
+  Stream<User?> authStateChanges() => stateChangedStream;
+
+  @override
+  Stream<User?> userChanges() => userChangedStream;
 
   @override
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
