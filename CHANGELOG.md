@@ -1,13 +1,18 @@
-## 0.8.1
+## 0.8.2
 
 - Added `providerData` in MockUser. Thanks [kornperkus](https://github.com/kornperkus)!
 - Made `userChanges` and `authStateChanges` fire `null` on startup when signed out.
 - Turned `userChanges` and `authStateChanges` into broadcast streams so they can be listened to more than once.
 
+## 0.8.1
+- Implemented `FirebaseAuth.userChanges`. Thanks [mazzonem](https://github.com/mazzonem)!
+- Implemented `User.updateDisplayName`. Thanks [oudehomar](https://github.com/oudehomar)!
+- Implemented `FirebaseAuth.fetchSignInMethodsForEmail`. Thanks [ketanchoyal](https://github.com/ketanchoyal)!
+
 ## 0.8.0
 
 - Updated dependency to firebase_auth ^3.0.0.
-- Implemented User.reload().
+- Implemented `User.reload()`.
 
 ## 0.7.1
 
