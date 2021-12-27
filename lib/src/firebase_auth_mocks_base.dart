@@ -14,7 +14,7 @@ class MockFirebaseAuth implements FirebaseAuth {
   final MockUser? _mockUser;
   User? _currentUser;
 
-  MockFirebaseAuth({signedIn = false, MockUser? mockUser})
+  MockFirebaseAuth({bool signedIn = false, MockUser? mockUser})
       : _mockUser = mockUser {
     stateChangedStream =
         stateChangedStreamController.stream.asBroadcastStream();
