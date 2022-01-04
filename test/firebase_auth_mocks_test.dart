@@ -32,6 +32,21 @@ void main() {
     });
   });
 
+  group('Returns a mocked user user after sign up', () {
+    test('with email and password', () async {
+      final email = 'some@email.com';
+      final password = 'some!password';
+      final auth = MockFirebaseAuth();
+      final result = await auth.createUserWithEmailAndPassword(
+          email: email, password: password);
+      final user = result.user!;
+      expect(user.email, email);
+      expect(auth.authStateChanges(), emitsInOrder([null, isA<User>()]));
+      expect(auth.userChanges(), emitsInOrder([null, isA<User>()]));
+      expect(user.isAnonymous, isFalse);
+    });
+  });
+
   group('Returns a mocked user user after sign in', () {
     test('with Credential', () async {
       final auth = MockFirebaseAuth(mockUser: tUser);
