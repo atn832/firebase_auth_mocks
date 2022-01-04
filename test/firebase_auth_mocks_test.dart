@@ -47,7 +47,7 @@ void main() {
     });
   });
 
-  group('Returns a mocked user user after sign in', () {
+  group('Returns a mocked user after sign in', () {
     test('with Credential', () async {
       final auth = MockFirebaseAuth(mockUser: tUser);
       // Credentials would typically come from GoogleSignIn.
@@ -136,8 +136,8 @@ void main() {
   test('User.updateDisplayName changes displayName', () async {
     final auth = MockFirebaseAuth(signedIn: true, mockUser: tUser);
     final user = auth.currentUser;
-    await user!.updateDisplayName("New Bob");
-    expect(user.displayName, "New Bob");
+    await user!.updateDisplayName('New Bob');
+    expect(user.displayName, 'New Bob');
   });
 
   test('Listening twice works', () async {
