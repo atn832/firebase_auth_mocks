@@ -144,6 +144,15 @@ void main() {
     );
   });
 
+  test('User.delete works', () async {
+    final auth = MockFirebaseAuth(signedIn: true, mockUser: tUser);
+    final user = auth.currentUser;
+    expect(
+      () async => await user!.delete(),
+      returnsNormally,
+    );
+  });
+
   test('Listening twice works', () async {
     final auth = MockFirebaseAuth();
     expect(await auth.userChanges().first, isNull);

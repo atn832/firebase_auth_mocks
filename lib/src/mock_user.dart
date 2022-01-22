@@ -112,5 +112,11 @@ class MockUser with EquatableMixin implements User {
   }
 
   @override
+  Future<void> delete() {
+    // Do nothing.
+    return Future.value();
+  }
+
+  @override
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
