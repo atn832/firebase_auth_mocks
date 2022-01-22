@@ -106,5 +106,11 @@ class MockUser with EquatableMixin implements User {
   }
 
   @override
+  Future<void> updatePassword(String newPassword) {
+    // Do nothing.
+    return Future.value();
+  }
+
+  @override
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }

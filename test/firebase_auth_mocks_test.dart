@@ -135,6 +135,15 @@ void main() {
     );
   });
 
+  test('User.updatePassword works', () async {
+    final auth = MockFirebaseAuth(signedIn: true, mockUser: tUser);
+    final user = auth.currentUser;
+    expect(
+      () async => await user!.updatePassword('newPassword'),
+      returnsNormally,
+    );
+  });
+
   test('Listening twice works', () async {
     final auth = MockFirebaseAuth();
     expect(await auth.userChanges().first, isNull);
