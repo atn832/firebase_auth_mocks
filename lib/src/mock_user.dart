@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth_mocks/src/mock_user_credential.dart';
 
 class MockUser with EquatableMixin implements User {
   final bool _isAnonymous;
@@ -96,6 +97,12 @@ class MockUser with EquatableMixin implements User {
   Future<void> updateDisplayName(String? value) {
     displayName = value;
     return Future.value();
+  }
+
+  @override
+  Future<UserCredential> reauthenticateWithCredential(
+      AuthCredential? credential) {
+    return Future.value(MockUserCredential(false, mockUser: this));
   }
 
   @override

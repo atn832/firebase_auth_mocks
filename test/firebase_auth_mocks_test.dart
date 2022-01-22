@@ -125,6 +125,16 @@ void main() {
     expect(user.displayName, "New Bob");
   });
 
+  test('User.reauthenticateWithCredential works', () async {
+    final auth = MockFirebaseAuth(signedIn: true, mockUser: tUser);
+    final user = auth.currentUser;
+    expect(
+      () async => await user!.reauthenticateWithCredential(
+          AuthCredential(signInMethod: '', providerId: '')),
+      returnsNormally,
+    );
+  });
+
   test('Listening twice works', () async {
     final auth = MockFirebaseAuth();
     expect(await auth.userChanges().first, isNull);
