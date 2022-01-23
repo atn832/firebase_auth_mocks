@@ -36,6 +36,11 @@ class MockUser with EquatableMixin implements User {
         _refreshToken = refreshToken,
         _metadata = metadata;
 
+  FirebaseAuthException? _exception;
+
+  /// Sets a [FirebaseAuthException]
+  set exception(FirebaseAuthException value) => _exception = value;
+
   @override
   bool get isAnonymous => _isAnonymous;
 
@@ -102,19 +107,34 @@ class MockUser with EquatableMixin implements User {
   @override
   Future<UserCredential> reauthenticateWithCredential(
       AuthCredential? credential) {
+    _maybeThrowException();
+
     return Future.value(MockUserCredential(false, mockUser: this));
   }
 
   @override
   Future<void> updatePassword(String newPassword) {
+    _maybeThrowException();
+
     // Do nothing.
     return Future.value();
   }
 
   @override
   Future<void> delete() {
+    _maybeThrowException();
+
     // Do nothing.
     return Future.value();
+  }
+
+  void _maybeThrowException() {
+    if (_exception != null) {
+      final exceptionCopy = _exception!;
+      _exception = null;
+
+      throw (exceptionCopy);
+    }
   }
 
   @override
