@@ -43,6 +43,9 @@ main() {
 - `UserCredential` contains the provided `User` with the information of your choice.
 - `User` supports:
   - updateDisplayName
+  - reauthenticateWithCredential
+  - updatePassword
+  - delete
 
 ## Features and bugs
 

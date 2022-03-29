@@ -140,6 +140,65 @@ void main() {
     expect(user.displayName, 'New Bob');
   });
 
+  test('User.reauthenticateWithCredential works', () async {
+    final auth = MockFirebaseAuth(signedIn: true, mockUser: tUser);
+    final user = auth.currentUser;
+    expect(
+      () async => await user!.reauthenticateWithCredential(
+          AuthCredential(signInMethod: '', providerId: '')),
+      returnsNormally,
+    );
+  });
+
+  test('User.reauthenticateWithCredential can throw exception', () async {
+    final auth = MockFirebaseAuth(signedIn: true, mockUser: tUser);
+    tUser.exception = FirebaseAuthException(code: 'wrong-password');
+    final user = auth.currentUser;
+    expect(
+      () async => await user!.reauthenticateWithCredential(
+          AuthCredential(signInMethod: '', providerId: '')),
+      throwsA(isA<FirebaseAuthException>()),
+    );
+  });
+
+  test('User.updatePassword works', () async {
+    final auth = MockFirebaseAuth(signedIn: true, mockUser: tUser);
+    final user = auth.currentUser;
+    expect(
+      () async => await user!.updatePassword('newPassword'),
+      returnsNormally,
+    );
+  });
+
+  test('User.updatePassword can throw exception', () async {
+    final auth = MockFirebaseAuth(signedIn: true, mockUser: tUser);
+    tUser.exception = FirebaseAuthException(code: 'weak-password');
+    final user = auth.currentUser;
+    expect(
+      () async => await user!.updatePassword('newPassword'),
+      throwsA(isA<FirebaseAuthException>()),
+    );
+  });
+
+  test('User.delete works', () async {
+    final auth = MockFirebaseAuth(signedIn: true, mockUser: tUser);
+    final user = auth.currentUser;
+    expect(
+      () async => await user!.delete(),
+      returnsNormally,
+    );
+  });
+
+  test('User.delete can throw exception', () async {
+    final auth = MockFirebaseAuth(signedIn: true, mockUser: tUser);
+    tUser.exception = FirebaseAuthException(code: 'wrong-password');
+    final user = auth.currentUser;
+    expect(
+      () async => await user!.delete(),
+      throwsA(isA<FirebaseAuthException>()),
+    );
+  });
+
   test('Listening twice works', () async {
     final auth = MockFirebaseAuth();
     expect(await auth.userChanges().first, isNull);
