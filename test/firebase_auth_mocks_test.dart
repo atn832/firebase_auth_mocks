@@ -206,6 +206,12 @@ void main() {
     await auth.signOut();
     expect(await auth.userChanges().first, isNull);
   });
+
+  test('$AuthExceptions ensure equality', () {
+    final authExceptions1 = AuthExceptions();
+    final authExceptions2 = AuthExceptions();
+    expect(authExceptions1, authExceptions2);
+  });
 }
 
 class FakeAuthCredential implements AuthCredential {
