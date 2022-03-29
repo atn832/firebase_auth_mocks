@@ -202,6 +202,8 @@ void main() {
   test('Listening twice works', () async {
     final auth = MockFirebaseAuth();
     expect(await auth.userChanges().first, isNull);
+    // Fire a second event.
+    await auth.signOut();
     expect(await auth.userChanges().first, isNull);
   });
 }
