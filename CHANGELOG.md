@@ -1,3 +1,8 @@
+## 0.8.3
+
+- Implemented `User` methods `reauthenticateWithCredential`, `updatePassword` and `delete` with the ability to throw exceptions. Thanks [defuncart](https://github.com/defuncart)!
+- Implemented `createUserWithEmailAndPassword`. Thanks [f-hoedl](https://github.com/f-hoedl)!
+
 ## 0.8.2
 
 - Made `userChanges` and `authStateChanges` fire `null` on startup when signed out.
