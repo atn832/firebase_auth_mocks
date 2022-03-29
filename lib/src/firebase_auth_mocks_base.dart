@@ -11,7 +11,7 @@ class MockFirebaseAuth implements FirebaseAuth {
   late Stream<User?> stateChangedStream;
   final userChangedStreamController = StreamController<User?>();
   late Stream<User?> userChangedStream;
-  final MockUser? _mockUser;
+  MockUser? _mockUser;
   User? _currentUser;
 
   MockFirebaseAuth({bool signedIn = false, MockUser? mockUser})
@@ -46,6 +46,19 @@ class MockFirebaseAuth implements FirebaseAuth {
   }
 
   @override
+  Future<UserCredential> createUserWithEmailAndPassword({
+    required String email,
+    required String password,
+  }) {
+    _mockUser = MockUser(
+      uid: 'mock_uid',
+      email: email,
+      displayName: 'Mock User',
+    );
+    return _fakeSignUp();
+  }
+
+  @override
   Future<UserCredential> signInWithCustomToken(String token) async {
     return _fakeSignIn();
   }
@@ -74,6 +87,14 @@ class MockFirebaseAuth implements FirebaseAuth {
   }
 
   Future<UserCredential> _fakeSignIn({bool isAnonymous = false}) {
+    final userCredential = MockUserCredential(isAnonymous, mockUser: _mockUser);
+    _currentUser = userCredential.user;
+    stateChangedStreamController.add(_currentUser);
+    userChangedStreamController.add(_currentUser);
+    return Future.value(userCredential);
+  }
+
+  Future<UserCredential> _fakeSignUp({bool isAnonymous = false}) {
     final userCredential = MockUserCredential(isAnonymous, mockUser: _mockUser);
     _currentUser = userCredential.user;
     stateChangedStreamController.add(_currentUser);
