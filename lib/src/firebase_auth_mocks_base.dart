@@ -2,8 +2,9 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 
-import '../firebase_auth_mocks.dart';
+import 'auth_exceptions.dart';
 import 'mock_confirmation_result.dart';
+import 'mock_user.dart';
 import 'mock_user_credential.dart';
 
 class MockFirebaseAuth implements FirebaseAuth {
@@ -13,9 +14,14 @@ class MockFirebaseAuth implements FirebaseAuth {
   late Stream<User?> userChangedStream;
   MockUser? _mockUser;
   User? _currentUser;
+  final AuthExceptions? _authExceptions;
 
-  MockFirebaseAuth({bool signedIn = false, MockUser? mockUser})
-      : _mockUser = mockUser {
+  MockFirebaseAuth({
+    bool signedIn = false,
+    MockUser? mockUser,
+    AuthExceptions? authExceptions,
+  })  : _mockUser = mockUser,
+        _authExceptions = authExceptions {
     stateChangedStream =
         stateChangedStreamController.stream.asBroadcastStream();
     userChangedStream = userChangedStreamController.stream.asBroadcastStream();
@@ -34,6 +40,10 @@ class MockFirebaseAuth implements FirebaseAuth {
 
   @override
   Future<UserCredential> signInWithCredential(AuthCredential? credential) {
+    if (_authExceptions?.signInWithCredential != null) {
+      throw (_authExceptions!.signInWithCredential!);
+    }
+
     return _fakeSignIn();
   }
 
@@ -42,6 +52,10 @@ class MockFirebaseAuth implements FirebaseAuth {
     required String email,
     required String password,
   }) {
+    if (_authExceptions?.signInWithEmailAndPassword != null) {
+      throw (_authExceptions!.signInWithEmailAndPassword!);
+    }
+
     return _fakeSignIn();
   }
 
@@ -50,6 +64,10 @@ class MockFirebaseAuth implements FirebaseAuth {
     required String email,
     required String password,
   }) {
+    if (_authExceptions?.createUserWithEmailAndPassword != null) {
+      throw (_authExceptions!.createUserWithEmailAndPassword!);
+    }
+
     _mockUser = MockUser(
       uid: 'mock_uid',
       email: email,
@@ -60,6 +78,10 @@ class MockFirebaseAuth implements FirebaseAuth {
 
   @override
   Future<UserCredential> signInWithCustomToken(String token) async {
+    if (_authExceptions?.signInWithCustomToken != null) {
+      throw (_authExceptions!.signInWithCustomToken!);
+    }
+
     return _fakeSignIn();
   }
 
@@ -71,6 +93,10 @@ class MockFirebaseAuth implements FirebaseAuth {
 
   @override
   Future<UserCredential> signInAnonymously() {
+    if (_authExceptions?.signInAnonymously != null) {
+      throw (_authExceptions!.signInAnonymously!);
+    }
+
     return _fakeSignIn(isAnonymous: true);
   }
 
@@ -83,6 +109,10 @@ class MockFirebaseAuth implements FirebaseAuth {
 
   @override
   Future<List<String>> fetchSignInMethodsForEmail(String email) {
+    if (_authExceptions?.fetchSignInMethodsForEmail != null) {
+      throw (_authExceptions!.fetchSignInMethodsForEmail!);
+    }
+
     return Future.value([]);
   }
 
