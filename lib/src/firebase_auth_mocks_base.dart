@@ -118,7 +118,9 @@ class MockFirebaseAuth implements FirebaseAuth {
     @visibleForTesting String? autoRetrievedSmsCodeForTesting,
     Duration timeout = const Duration(seconds: 30),
     int? forceResendingToken,
-  }) async {}
+  }) async {
+    codeSent('id', 0);
+  }
 
   @override
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
