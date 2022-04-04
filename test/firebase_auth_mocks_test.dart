@@ -125,6 +125,81 @@ void main() {
     expect(auth.userChanges(), emitsInOrder([user, null]));
   });
 
+  group('exceptions', () {
+    test('signInWithCredential', () async {
+      final auth = MockFirebaseAuth(
+        authExceptions: AuthExceptions(
+          signInWithCredential: FirebaseAuthException(code: 'bla'),
+        ),
+      );
+      expect(
+        () async => await auth.signInWithCredential(FakeAuthCredential()),
+        throwsA(isA<FirebaseAuthException>()),
+      );
+    });
+
+    test('signInWithEmailAndPassword', () async {
+      final auth = MockFirebaseAuth(
+        authExceptions: AuthExceptions(
+          signInWithEmailAndPassword: FirebaseAuthException(code: 'bla'),
+        ),
+      );
+      expect(
+        () async =>
+            await auth.signInWithEmailAndPassword(email: '', password: ''),
+        throwsA(isA<FirebaseAuthException>()),
+      );
+    });
+
+    test('createUserWithEmailAndPassword', () async {
+      final auth = MockFirebaseAuth(
+        authExceptions: AuthExceptions(
+          createUserWithEmailAndPassword: FirebaseAuthException(code: 'bla'),
+        ),
+      );
+      expect(
+        () async =>
+            await auth.createUserWithEmailAndPassword(email: '', password: ''),
+        throwsA(isA<FirebaseAuthException>()),
+      );
+    });
+
+    test('signInWithCustomToken', () async {
+      final auth = MockFirebaseAuth(
+        authExceptions: AuthExceptions(
+          signInWithCustomToken: FirebaseAuthException(code: 'bla'),
+        ),
+      );
+      expect(
+        () async => await auth.signInWithCustomToken(''),
+        throwsA(isA<FirebaseAuthException>()),
+      );
+    });
+
+    test('signInAnonymously', () async {
+      final auth = MockFirebaseAuth(
+        authExceptions: AuthExceptions(
+          signInAnonymously: FirebaseAuthException(code: 'bla'),
+        ),
+      );
+      expect(
+        () async => await auth.signInAnonymously(),
+        throwsA(isA<FirebaseAuthException>()),
+      );
+    });
+
+    test('fetchSignInMethodsForEmail', () async {
+      final auth = MockFirebaseAuth(
+        authExceptions: AuthExceptions(
+            fetchSignInMethodsForEmail: FirebaseAuthException(code: 'bla')),
+      );
+      expect(
+        () async => await auth.fetchSignInMethodsForEmail(''),
+        throwsA(isA<FirebaseAuthException>()),
+      );
+    });
+  });
+
   test('User.reload returns', () async {
     final auth = MockFirebaseAuth(signedIn: true);
     final user = auth.currentUser;
@@ -205,6 +280,12 @@ void main() {
     // Fire a second event.
     await auth.signOut();
     expect(await auth.userChanges().first, isNull);
+  });
+
+  test('$AuthExceptions ensure equality', () {
+    final authExceptions1 = AuthExceptions();
+    final authExceptions2 = AuthExceptions();
+    expect(authExceptions1, authExceptions2);
   });
 }
 

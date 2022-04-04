@@ -40,6 +40,14 @@ main() {
     `signInAnonymously` and `createUserWithEmailAndPassword` signs in.
   - `signOut` method.
   - `currentUser`
+  - the ability to throw exceptions using `authExceptions`:
+  ```dart
+  final auth = MockFirebaseAuth(
+    authExceptions: AuthExceptions(
+      signInWithCredential: FirebaseAuthException(code: 'invalid-credential'),
+    ),
+  );
+  ```
 - `UserCredential` contains the provided `User` with the information of your choice.
 - `User` supports:
   - `updateDisplayName`
