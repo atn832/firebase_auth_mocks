@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
 import 'package:test/test.dart';
@@ -98,6 +100,23 @@ void main() {
       expect(auth.authStateChanges(), emitsInOrder([null, isA<User>()]));
       expect(auth.userChanges(), emitsInOrder([null, isA<User>()]));
       expect(user.isAnonymous, isTrue);
+    });
+
+    test('should send sms code to user', () async {
+      final auth = MockFirebaseAuth();
+      final codeSent = Completer<bool>();
+      // currently does not auto retrieve the sms code like it does on Android
+      // it is left to the user to use the code to sign in, so we encompass
+      // every platform
+      await auth.verifyPhoneNumber(
+        phoneNumber: '+1 832 234 5678',
+        verificationCompleted: (_) {},
+        verificationFailed: (_) {},
+        codeSent: (_, __) => codeSent.complete(true),
+        codeAutoRetrievalTimeout: (_) {},
+      );
+      final wasCodeSent = await codeSent.future;
+      expect(wasCodeSent, isTrue);
     });
   });
 

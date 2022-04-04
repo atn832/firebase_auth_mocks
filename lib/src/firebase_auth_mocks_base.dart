@@ -119,7 +119,7 @@ class MockFirebaseAuth implements FirebaseAuth {
     Duration timeout = const Duration(seconds: 30),
     int? forceResendingToken,
   }) async {
-    codeSent('id', 0);
+    codeSent('verification-id', 0);
   }
 
   @override
