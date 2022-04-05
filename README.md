@@ -38,7 +38,8 @@ main() {
   - firing events on sign-in to `authStateChanges` and `userChanges`.
   - `signInWithCredential`, `signInWithEmailAndPassword`, `signInWithCustomToken`,
     `signInAnonymously` and `createUserWithEmailAndPassword` signs in.
-  - `signOut` method.
+  - `verifyPhoneNumber` resolves `codeSent`.
+  - `signOut`
   - `currentUser`
   - the ability to throw exceptions using `authExceptions`:
   ```dart
