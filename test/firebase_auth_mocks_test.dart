@@ -5,14 +5,23 @@ import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
 import 'package:test/test.dart';
 
 final tUser = MockUser(
-  isAnonymous: false,
-  uid: 'T3STU1D',
-  email: 'bob@thebuilder.com',
-  displayName: 'Bob Builder',
-  phoneNumber: '0800 I CAN FIX IT',
-  photoURL: 'http://photos.url/bobbie.jpg',
-  refreshToken: 'some_long_token',
-);
+    isAnonymous: false,
+    uid: 'T3STU1D',
+    email: 'bob@thebuilder.com',
+    displayName: 'Bob Builder',
+    phoneNumber: '0800 I CAN FIX IT',
+    photoURL: 'http://photos.url/bobbie.jpg',
+    refreshToken: 'some_long_token',
+    idTokenResult: IdTokenResult({
+      'authTimestamp': DateTime.now().millisecondsSinceEpoch,
+      'claims': {'role': 'admin'},
+      'token': 'some_long_token',
+      'expirationTime':
+          DateTime.now().add(Duration(days: 1)).millisecondsSinceEpoch,
+      'issuedAtTimestamp':
+          DateTime.now().subtract(Duration(days: 1)).millisecondsSinceEpoch,
+      'signInProvider': 'phone',
+    }));
 
 void main() {
   test('Returns no user if not signed in', () async {
