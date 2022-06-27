@@ -1,4 +1,5 @@
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
+import 'package:uuid/uuid.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_mocks/src/mock_user_credential.dart';
@@ -18,7 +19,7 @@ class MockUser with EquatableMixin implements User {
   MockUser({
     bool isAnonymous = false,
     bool isEmailVerified = true,
-    String uid = 'some_random_id',
+    String? uid,
     String? email,
     String? displayName,
     String? phoneNumber,
@@ -28,7 +29,7 @@ class MockUser with EquatableMixin implements User {
     UserMetadata? metadata,
   })  : _isAnonymous = isAnonymous,
         _isEmailVerified = isEmailVerified,
-        _uid = uid,
+        _uid = uid ?? const Uuid().v4(),
         _email = email,
         _displayName = displayName,
         _phoneNumber = phoneNumber,
@@ -52,7 +53,7 @@ class MockUser with EquatableMixin implements User {
   String get uid => _uid;
 
   @override
-  String? get email => _email;
+  String? get email => _email ?? '_test_$uid@test.test';
 
   @override
   String? get displayName => _displayName;
