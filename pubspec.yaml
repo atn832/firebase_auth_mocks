@@ -13,6 +13,7 @@ dependencies:
   firebase_auth: ^3.0.0
   meta: ^1.3.0
   equatable: ^2.0.0
+  dart_jsonwebtoken: ^2.4.1
 
 dev_dependencies:
   flutter_test:

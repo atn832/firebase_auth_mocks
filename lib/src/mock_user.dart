@@ -1,3 +1,4 @@
+import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_mocks/src/mock_user_credential.dart';
@@ -73,8 +74,36 @@ class MockUser with EquatableMixin implements User {
   String? get refreshToken => _refreshToken;
 
   @override
-  Future<String> getIdToken([bool forceRefresh = false]) async {
-    return Future.value('fake_token');
+  Future<String> getIdToken([bool forceRefresh = false]) {
+    var payload = {
+      'name': displayName ?? 'fake_name',
+      'picture': photoURL ?? 'https://i.stack.imgur.com/34AD2.jpg',
+      'iss': 'fake_iss',
+      'aud': 'fake_aud',
+      'auth_time': 1655946582,
+      'user_id': uid,
+      'sub': uid,
+      'iat': 1656302136,
+      'exp': 1656305736,
+      'email': email,
+      'email_verified': emailVerified,
+      'firebase': {
+        'identities': {
+          'google.com': ['fake_identity'],
+          'email': [email]
+        },
+        'sign_in_provider': 'google.com'
+      }
+    };
+    // Create a json web token
+    final jwt = JWT(
+      payload,
+      issuer: 'https://github.com/jonasroussel/dart_jsonwebtoken',
+    );
+
+    // Sign it (default with HS256 algorithm)
+    var token = jwt.sign(SecretKey('secret passphrase'));
+    return Future.value(token);
   }
 
   @override
