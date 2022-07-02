@@ -53,7 +53,7 @@ class MockUser with EquatableMixin implements User {
   String get uid => _uid;
 
   @override
-  String? get email => _email ?? '_test_$uid@test.test';
+  String? get email => _email ?? '_test_$uid@example.test';
 
   @override
   String? get displayName => _displayName;
