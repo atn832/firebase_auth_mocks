@@ -157,7 +157,7 @@ class MockFirebaseAuth implements FirebaseAuth {
     required String email,
     ActionCodeSettings? actionCodeSettings,
   }) {
-    if(_authExceptions?.sendPasswordResetEmail != null){
+    if (_authExceptions?.sendPasswordResetEmail != null) {
       throw _authExceptions!.sendPasswordResetEmail!;
     }
 
