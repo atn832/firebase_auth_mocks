@@ -1,7 +1,8 @@
+import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 /// A class containing optional [FirebaseAuthException]s for methods in [FirebaseAuth]
-class AuthExceptions {
+class AuthExceptions extends Equatable {
   const AuthExceptions({
     this.signInWithCredential,
     this.signInWithEmailAndPassword,
@@ -21,28 +22,13 @@ class AuthExceptions {
   final FirebaseAuthException? sendPasswordResetEmail;
 
   @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-
-    return other is AuthExceptions &&
-        other.signInWithCredential == signInWithCredential &&
-        other.signInWithEmailAndPassword == signInWithEmailAndPassword &&
-        other.createUserWithEmailAndPassword ==
-            createUserWithEmailAndPassword &&
-        other.signInWithCustomToken == signInWithCustomToken &&
-        other.signInAnonymously == signInAnonymously &&
-        other.fetchSignInMethodsForEmail == fetchSignInMethodsForEmail;
-  }
-
-  @override
-  int get hashCode {
-    return signInWithCredential.hashCode ^
-        signInWithEmailAndPassword.hashCode ^
-        createUserWithEmailAndPassword.hashCode ^
-        signInWithCustomToken.hashCode ^
-        signInAnonymously.hashCode ^
-        fetchSignInMethodsForEmail.hashCode;
-  }
+  List<Object?> get props => [
+        signInWithCredential,
+        signInWithEmailAndPassword,
+        createUserWithEmailAndPassword,
+        signInWithCustomToken,
+        signInAnonymously,
+        fetchSignInMethodsForEmail,
+        sendPasswordResetEmail,
+      ];
 }
