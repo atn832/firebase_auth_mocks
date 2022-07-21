@@ -9,6 +9,7 @@ class AuthExceptions {
     this.signInWithCustomToken,
     this.signInAnonymously,
     this.fetchSignInMethodsForEmail,
+    this.sendPasswordResetEmail,
   });
 
   final FirebaseAuthException? signInWithCredential;
@@ -17,6 +18,7 @@ class AuthExceptions {
   final FirebaseAuthException? signInWithCustomToken;
   final FirebaseAuthException? signInAnonymously;
   final FirebaseAuthException? fetchSignInMethodsForEmail;
+  final FirebaseAuthException? sendPasswordResetEmail;
 
   @override
   bool operator ==(Object other) {
