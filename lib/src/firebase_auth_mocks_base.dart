@@ -153,5 +153,17 @@ class MockFirebaseAuth implements FirebaseAuth {
   }
 
   @override
+  Future<void> sendPasswordResetEmail({
+    required String email,
+    ActionCodeSettings? actionCodeSettings,
+  }) {
+    if (_authExceptions?.sendPasswordResetEmail != null) {
+      throw _authExceptions!.sendPasswordResetEmail!;
+    }
+
+    return Future.value();
+  }
+
+  @override
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }

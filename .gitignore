@@ -16,5 +16,8 @@ doc/api/
 # VSCode settings
 .vscode
 
+# Android Studio settings
+.idea
+
 # FVM local path
 .fvm
