@@ -1,3 +1,6 @@
+## 1.0.0
+- Changed `verifyPhoneNumber` params to be in line with newer fireauth params (added multi factor).
+
 ## 0.8.3
 
 - Implemented `User` methods `reauthenticateWithCredential`, `updatePassword` and `delete` with the ability to throw exceptions. Thanks [defuncart](https://github.com/defuncart)!
