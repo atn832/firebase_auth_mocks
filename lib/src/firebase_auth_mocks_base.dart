@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
 import 'package:meta/meta.dart';
 
 import 'auth_exceptions.dart';
@@ -23,8 +24,7 @@ class MockFirebaseAuth implements FirebaseAuth {
     AuthExceptions? authExceptions,
   })  : _mockUser = mockUser,
         _authExceptions = authExceptions {
-    stateChangedStream =
-        stateChangedStreamController.stream.asBroadcastStream();
+    stateChangedStream = stateChangedStreamController.stream.asBroadcastStream();
     userChangedStream = userChangedStreamController.stream.asBroadcastStream();
     if (signedIn) {
       signInWithCredential(null);
@@ -87,8 +87,7 @@ class MockFirebaseAuth implements FirebaseAuth {
   }
 
   @override
-  Future<ConfirmationResult> signInWithPhoneNumber(String phoneNumber,
-      [RecaptchaVerifier? verifier]) async {
+  Future<ConfirmationResult> signInWithPhoneNumber(String phoneNumber, [RecaptchaVerifier? verifier]) async {
     return MockConfirmationResult(onConfirm: () => _fakeSignIn());
   }
 
@@ -129,8 +128,7 @@ class MockFirebaseAuth implements FirebaseAuth {
     return _fakeSignIn(isAnonymous: isAnonymous);
   }
 
-  Stream<User> get onAuthStateChanged =>
-      authStateChanges().map((event) => event!);
+  Stream<User> get onAuthStateChanged => authStateChanges().map((event) => event!);
 
   @override
   Stream<User?> authStateChanges() => stateChangedStream;
@@ -140,7 +138,8 @@ class MockFirebaseAuth implements FirebaseAuth {
 
   @override
   Future<void> verifyPhoneNumber({
-    required String phoneNumber,
+    String? phoneNumber,
+    PhoneMultiFactorInfo? multiFactorInfo,
     required PhoneVerificationCompleted verificationCompleted,
     required PhoneVerificationFailed verificationFailed,
     required PhoneCodeSent codeSent,
@@ -148,6 +147,7 @@ class MockFirebaseAuth implements FirebaseAuth {
     @visibleForTesting String? autoRetrievedSmsCodeForTesting,
     Duration timeout = const Duration(seconds: 30),
     int? forceResendingToken,
+    MultiFactorSession? multiFactorSession,
   }) async {
     codeSent('verification-id', 0);
   }
