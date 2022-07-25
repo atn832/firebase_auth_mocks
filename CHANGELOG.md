@@ -2,6 +2,11 @@
 
 - Changed `verifyPhoneNumber` params to be in line with newer fireauth params (added multi factor). Thanks [cedvdb](https://github.com/cedvdb) and [cselti](https://github.com/cselti)!
 
+## 0.8.4
+
+- Support throwing exceptions in FirebaseAuth's `signInWithCredential`, `signInWithEmailAndPassword`, `createUserWithEmailAndPassword`, `signInWithCustomToken`, `signInAnonymously`, and `fetchSignInMethodsForEmail`. Thanks [defuncart](https://github.com/defuncart)!
+- Implemented `FirebaseAuth.verifyPhoneNumber` so that it resolves `codeSent`. Thanks [cedvdb](https://github.com/cedvdb)!
+
 ## 0.8.3
 
 - Implemented `User` methods `reauthenticateWithCredential`, `updatePassword` and `delete` with the ability to throw exceptions. Thanks [defuncart](https://github.com/defuncart)!
