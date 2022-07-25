@@ -1,6 +1,6 @@
-## 0.9.0
+## 0.8.5
 
-- Changed `verifyPhoneNumber` params to be in line with newer fireauth params (added multi factor). Thanks [cedvdb](https://github.com/cedvdb) and [cselti](https://github.com/cselti)!
+- Changed `verifyPhoneNumber`'s signature to include firebase_auth 3.5.0's new multi factor params. Thanks [cedvdb](https://github.com/cedvdb) and [cselti](https://github.com/cselti)!
 
 ## 0.8.4
 
