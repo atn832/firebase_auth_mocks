@@ -39,6 +39,7 @@ main() {
   - `signInWithCredential`, `signInWithEmailAndPassword`, `signInWithCustomToken`,
     `signInAnonymously` and `createUserWithEmailAndPassword` signs in.
   - `signOut` method.
+  - `sendPasswordResetEmail`
   - `currentUser`
   - the ability to throw exceptions using `authExceptions`:
   ```dart
@@ -54,6 +55,7 @@ main() {
   - `reauthenticateWithCredential`
   - `updatePassword`
   - `delete`
+  - `sendEmailVerification`
   - the ability to throw exceptions.
 
 ## Features and bugs

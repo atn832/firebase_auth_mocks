@@ -1,6 +1,12 @@
+## 0.8.5+1
+
+- Added missing changelogs.
+
 ## 0.8.5
 
-- Changed `verifyPhoneNumber`'s signature to include firebase_auth 3.5.0's new multi factor params. Thanks [cedvdb](https://github.com/cedvdb) and [cselti](https://github.com/cselti)!
+- Changed `FirebaseAuth.verifyPhoneNumber`'s signature to include firebase_auth 3.5.0's new multi factor params. Thanks [cedvdb](https://github.com/cedvdb) and [cselti](https://github.com/cselti)!
+- Implemented `FirebaseAuth.sendPasswordResetEmail`. Thanks [Zohenn](https://github.com/Zohenn)!
+- Implemented `User.sendEmailVerification`. Thanks [dipeshdulal](https://github.com/dipeshdulal)!
 
 ## 0.8.4
 
