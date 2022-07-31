@@ -159,6 +159,83 @@ void main() {
     expect(user?.sendEmailVerification(), completes);
   });
 
+  test('sendSignInLinkToEmail works', () async {
+    final auth = MockFirebaseAuth();
+
+    expect(
+      () async => await auth.sendSignInLinkToEmail(
+        email: 'test@example.com',
+        actionCodeSettings: ActionCodeSettings(
+          url: 'https://example.com',
+          handleCodeInApp: true,
+        ),
+      ),
+      returnsNormally,
+    );
+  });
+
+  test(
+    'sendSignInLinkToEmail throws ArgumentError if ActionCodeSettings.handleCodeInApp is not true',
+    () async {
+      final auth = MockFirebaseAuth();
+
+      expect(
+        () async => await auth.sendSignInLinkToEmail(
+          email: 'test@example.com',
+          actionCodeSettings: ActionCodeSettings(
+            url: 'https://example.com',
+          ),
+        ),
+        throwsA(isA<ArgumentError>()),
+      );
+      expect(
+        () async => await auth.sendSignInLinkToEmail(
+          email: 'test@example.com',
+          actionCodeSettings: ActionCodeSettings(
+            url: 'https://example.com',
+            handleCodeInApp: false,
+          ),
+        ),
+        throwsA(isA<ArgumentError>()),
+      );
+    },
+  );
+
+  test('confirmPasswordReset works', () async {
+    final auth = MockFirebaseAuth();
+
+    expect(
+      () async => await auth.confirmPasswordReset(
+        code: 'code',
+        newPassword: 'password',
+      ),
+      returnsNormally,
+    );
+  });
+
+  test('verifyPasswordResetCode returns MockUser.email', () async {
+    final mockUser = MockUser(email: 'email@gmail.com');
+    final auth = MockFirebaseAuth(mockUser: mockUser);
+
+    expect(
+      await auth.verifyPasswordResetCode('code'),
+      equals(mockUser.email),
+    );
+  });
+
+  test(
+    'verifyPasswordResetCode returns hardcoded email without mockUser',
+    () async {
+      final mockUser = MockUser(email: 'email@gmail.com');
+      final auth = MockFirebaseAuth(mockUser: mockUser);
+
+      expect(
+        await auth.verifyPasswordResetCode('code'),
+        isNotEmpty,
+      );
+    },
+  );
+
   group('exceptions', () {
     test('signInWithCredential', () async {
       final auth = MockFirebaseAuth(
@@ -242,6 +319,56 @@ void main() {
 
       expect(
         () async => await auth.sendPasswordResetEmail(email: ''),
+        throwsA(isA<FirebaseAuthException>()),
+      );
+    });
+
+    test('sendSignInLinkToEmail', () async {
+      final auth = MockFirebaseAuth(
+        authExceptions: AuthExceptions(
+          sendSignInLinkToEmail: FirebaseAuthException(code: 'invalid-email'),
+        ),
+      );
+
+      expect(
+        () async => await auth.sendSignInLinkToEmail(
+          email: 'test@example.com',
+          actionCodeSettings: ActionCodeSettings(
+            url: 'https://example.com',
+            handleCodeInApp: true,
+          ),
+        ),
+        throwsA(isA<FirebaseAuthException>()),
+      );
+    });
+
+    test('confirmPasswordReset', () async {
+      final auth = MockFirebaseAuth(
+        authExceptions: AuthExceptions(
+          confirmPasswordReset:
+              FirebaseAuthException(code: 'invalid-action-code'),
+        ),
+      );
+
+      expect(
+        () async => await auth.confirmPasswordReset(
+          code: 'code',
+          newPassword: 'password',
+        ),
+        throwsA(isA<FirebaseAuthException>()),
+      );
+    });
+
+    test('verifyPasswordResetCode', () async {
+      final auth = MockFirebaseAuth(
+        authExceptions: AuthExceptions(
+          verifyPasswordResetCode:
+              FirebaseAuthException(code: 'invalid-action-code'),
+        ),
+      );
+
+      expect(
+        () async => await auth.verifyPasswordResetCode('code'),
         throwsA(isA<FirebaseAuthException>()),
       );
     });
