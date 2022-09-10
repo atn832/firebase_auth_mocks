@@ -56,7 +56,7 @@ class MockUser with EquatableMixin implements User {
   String? get email => _email ?? '_test_$uid@example.test';
 
   @override
-  String? get displayName => _displayName;
+  String? get displayName => _displayName ?? 'fake_name';
 
   set displayName(String? value) {
     _displayName = value;
@@ -66,7 +66,7 @@ class MockUser with EquatableMixin implements User {
   String? get phoneNumber => _phoneNumber;
 
   @override
-  String? get photoURL => _photoURL;
+  String? get photoURL => _photoURL ?? 'https://i.stack.imgur.com/34AD2.jpg';
 
   @override
   List<UserInfo> get providerData => _providerData;
@@ -77,8 +77,8 @@ class MockUser with EquatableMixin implements User {
   @override
   Future<String> getIdToken([bool forceRefresh = false]) {
     var payload = {
-      'name': displayName ?? 'fake_name',
-      'picture': photoURL ?? 'https://i.stack.imgur.com/34AD2.jpg',
+      'name': displayName,
+      'picture': photoURL,
       'iss': 'fake_iss',
       'aud': 'fake_aud',
       'auth_time': 1655946582,
