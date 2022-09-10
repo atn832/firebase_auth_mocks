@@ -358,6 +358,18 @@ void main() {
     expect(decodedToken['email_verified'], tUser.emailVerified);
   });
 
+  test('Id token contains user data when using default value', () async {
+    final user = MockUser();
+    final idToken = await user.getIdToken();
+    final decodedToken = JwtDecoder.decode(idToken);
+    expect(decodedToken['name'], user.displayName);
+    expect(decodedToken['picture'], user.photoURL);
+    expect(decodedToken['user_id'], user.uid);
+    expect(decodedToken['sub'], user.uid);
+    expect(decodedToken['email'], user.email);
+    expect(decodedToken['email_verified'], user.emailVerified);
+  });
+
   test('getIdToken still works when using the default value', () async {
     final idToken = await MockUser().getIdToken();
     final decodedToken = JwtDecoder.decode(idToken);
