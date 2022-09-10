@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:test/test.dart';
 
 final tUser = MockUser(
@@ -305,6 +307,49 @@ void main() {
     final authExceptions1 = AuthExceptions();
     final authExceptions2 = AuthExceptions();
     expect(authExceptions1, authExceptions2);
+  });
+
+  test('Id token contains user data', () async {
+    final idToken = await tUser.getIdToken();
+    final decodedToken = JwtDecoder.decode(idToken);
+    expect(decodedToken['name'], tUser.displayName);
+    expect(decodedToken['picture'], tUser.photoURL);
+    expect(decodedToken['user_id'], tUser.uid);
+    expect(decodedToken['sub'], tUser.uid);
+    expect(decodedToken['email'], tUser.email);
+    expect(decodedToken['email_verified'], tUser.emailVerified);
+  });
+
+  test('getIdToken still works when using the default value', () async {
+    final idToken = await MockUser().getIdToken();
+    final decodedToken = JwtDecoder.decode(idToken);
+    expect(decodedToken['name'] != null, true);
+    expect(decodedToken['picture'] != null, true);
+    expect(decodedToken['user_id'] != null, true);
+    expect(decodedToken['sub'] != null, true);
+    expect(decodedToken['email'] != null, true);
+    expect(decodedToken['email_verified'] != null, true);
+  });
+
+  test('Each decoded token\'s user_id should not change', () async {
+    final user = MockUser();
+    final idToken1 = await user.getIdToken();
+    final decodedToken1 = JwtDecoder.decode(idToken1);
+    final idToken2 = await user.getIdToken();
+    final decodedToken2 = JwtDecoder.decode(idToken2);
+    expect(decodedToken1['user_id'], decodedToken2['user_id']);
+  });
+
+  test('Each edecoded token\'s user_id should unique', () async {
+    final user1 = MockUser();
+    final user2 = MockUser();
+    final idToken1 = await user1.getIdToken();
+    final decodedToken1 = JwtDecoder.decode(idToken1);
+    final idToken2 = await user2.getIdToken();
+    final decodedToken2 = JwtDecoder.decode(idToken2);
+    expect(decodedToken1['user_id'] is String, true);
+    expect(decodedToken2['user_id'] is String, true);
+    expect(decodedToken1['user_id'] != decodedToken2['user_id'], true);
   });
 }
 
