@@ -158,6 +158,16 @@ class MockUser with EquatableMixin implements User {
     return Future.value();
   }
 
+  @override
+  Future<void> sendEmailVerification([
+    ActionCodeSettings? actionCodeSettings,
+  ]) {
+    _maybeThrowException();
+
+    // Do nothing
+    return Future.value();
+  }
+
   void _maybeThrowException() {
     if (_exception != null) {
       final exceptionCopy = _exception!;

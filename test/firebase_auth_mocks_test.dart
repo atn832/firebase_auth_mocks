@@ -146,6 +146,21 @@ void main() {
     expect(auth.userChanges(), emitsInOrder([user, null]));
   });
 
+  test('sendPasswordResetEmail works', () async {
+    final auth = MockFirebaseAuth();
+
+    expect(
+      () async => await auth.sendPasswordResetEmail(email: ''),
+      returnsNormally,
+    );
+  });
+
+  test('should send verification email', () async {
+    final auth = MockFirebaseAuth(signedIn: true, mockUser: tUser);
+    final user = auth.currentUser;
+    expect(user?.sendEmailVerification(), completes);
+  });
+
   group('exceptions', () {
     test('signInWithCredential', () async {
       final auth = MockFirebaseAuth(
@@ -216,6 +231,19 @@ void main() {
       );
       expect(
         () async => await auth.fetchSignInMethodsForEmail(''),
+        throwsA(isA<FirebaseAuthException>()),
+      );
+    });
+
+    test('sendPasswordResetEmail', () async {
+      final auth = MockFirebaseAuth(
+        authExceptions: AuthExceptions(
+          sendPasswordResetEmail: FirebaseAuthException(code: 'invalid-email'),
+        ),
+      );
+
+      expect(
+        () async => await auth.sendPasswordResetEmail(email: ''),
         throwsA(isA<FirebaseAuthException>()),
       );
     });
@@ -291,6 +319,16 @@ void main() {
     final user = auth.currentUser;
     expect(
       () async => await user!.delete(),
+      throwsA(isA<FirebaseAuthException>()),
+    );
+  });
+
+  test('User.sendEmailVerification can throw exception', () async {
+    final auth = MockFirebaseAuth(mockUser: tUser, signedIn: true);
+    tUser.exception = FirebaseAuthException(code: 'verification-failure');
+    final user = auth.currentUser;
+    expect(
+      () async => await user?.sendEmailVerification(),
       throwsA(isA<FirebaseAuthException>()),
     );
   });

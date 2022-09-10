@@ -149,9 +149,24 @@ class MockFirebaseAuth implements FirebaseAuth {
     @visibleForTesting String? autoRetrievedSmsCodeForTesting,
     Duration timeout = const Duration(seconds: 30),
     int? forceResendingToken,
-    MultiFactorSession? multiFactorSession,
+    // at this time firebase auth does not export the original class
+    // when this is merged, this can be typed
+    // https://github.com/firebase/flutterfire/pull/9189
+    Object? multiFactorSession,
   }) async {
     codeSent('verification-id', 0);
+  }
+
+  @override
+  Future<void> sendPasswordResetEmail({
+    required String email,
+    ActionCodeSettings? actionCodeSettings,
+  }) {
+    if (_authExceptions?.sendPasswordResetEmail != null) {
+      throw _authExceptions!.sendPasswordResetEmail!;
+    }
+
+    return Future.value();
   }
 
   @override
