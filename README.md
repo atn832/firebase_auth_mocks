@@ -40,6 +40,7 @@ main() {
     `signInAnonymously` and `createUserWithEmailAndPassword` signs in.
   - `verifyPhoneNumber` resolves `codeSent`.
   - `signOut`
+  - `sendPasswordResetEmail`
   - `currentUser`
   - the ability to throw exceptions using `authExceptions`:
   ```dart
@@ -55,6 +56,7 @@ main() {
   - `reauthenticateWithCredential`
   - `updatePassword`
   - `delete`
+  - `sendEmailVerification`
   - the ability to throw exceptions.
 
 ## Features and bugs

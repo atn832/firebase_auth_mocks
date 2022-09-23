@@ -140,7 +140,8 @@ class MockFirebaseAuth implements FirebaseAuth {
 
   @override
   Future<void> verifyPhoneNumber({
-    required String phoneNumber,
+    String? phoneNumber,
+    PhoneMultiFactorInfo? multiFactorInfo,
     required PhoneVerificationCompleted verificationCompleted,
     required PhoneVerificationFailed verificationFailed,
     required PhoneCodeSent codeSent,
@@ -148,8 +149,63 @@ class MockFirebaseAuth implements FirebaseAuth {
     @visibleForTesting String? autoRetrievedSmsCodeForTesting,
     Duration timeout = const Duration(seconds: 30),
     int? forceResendingToken,
+    // at this time firebase auth does not export the original class
+    // when this is merged, this can be typed
+    // https://github.com/firebase/flutterfire/pull/9189
+    Object? multiFactorSession,
   }) async {
     codeSent('verification-id', 0);
+  }
+
+  @override
+  Future<void> sendPasswordResetEmail({
+    required String email,
+    ActionCodeSettings? actionCodeSettings,
+  }) {
+    if (_authExceptions?.sendPasswordResetEmail != null) {
+      throw _authExceptions!.sendPasswordResetEmail!;
+    }
+
+    return Future.value();
+  }
+
+  @override
+  Future<void> sendSignInLinkToEmail({
+    required String email,
+    required ActionCodeSettings actionCodeSettings,
+  }) {
+    if (actionCodeSettings.handleCodeInApp != true) {
+      throw ArgumentError(
+        'The [handleCodeInApp] value of [ActionCodeSettings] must be `true`.',
+      );
+    }
+
+    if (_authExceptions?.sendSignInLinkToEmail != null) {
+      throw _authExceptions!.sendSignInLinkToEmail!;
+    }
+
+    return Future.value();
+  }
+
+  @override
+  Future<void> confirmPasswordReset({
+    required String code,
+    required String newPassword,
+  }) {
+    if (_authExceptions?.confirmPasswordReset != null) {
+      throw _authExceptions!.confirmPasswordReset!;
+    }
+
+    return Future.value();
+  }
+
+  @override
+  Future<String> verifyPasswordResetCode(String code) {
+    if (_authExceptions?.verifyPasswordResetCode != null) {
+      throw _authExceptions!.verifyPasswordResetCode!;
+    }
+
+    return Future.value(_mockUser?.email ?? 'email@example.com');
   }
 
   @override

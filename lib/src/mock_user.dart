@@ -1,3 +1,5 @@
+import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
+import 'package:uuid/uuid.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_mocks/src/mock_user_credential.dart';
@@ -17,7 +19,7 @@ class MockUser with EquatableMixin implements User {
   MockUser({
     bool isAnonymous = false,
     bool isEmailVerified = true,
-    String uid = 'some_random_id',
+    String? uid,
     String? email,
     String? displayName,
     String? phoneNumber,
@@ -27,7 +29,7 @@ class MockUser with EquatableMixin implements User {
     UserMetadata? metadata,
   })  : _isAnonymous = isAnonymous,
         _isEmailVerified = isEmailVerified,
-        _uid = uid,
+        _uid = uid ?? const Uuid().v4(),
         _email = email,
         _displayName = displayName,
         _phoneNumber = phoneNumber,
@@ -51,10 +53,10 @@ class MockUser with EquatableMixin implements User {
   String get uid => _uid;
 
   @override
-  String? get email => _email;
+  String? get email => _email ?? '_test_$uid@example.test';
 
   @override
-  String? get displayName => _displayName;
+  String? get displayName => _displayName ?? 'fake_name';
 
   set displayName(String? value) {
     _displayName = value;
@@ -64,7 +66,7 @@ class MockUser with EquatableMixin implements User {
   String? get phoneNumber => _phoneNumber;
 
   @override
-  String? get photoURL => _photoURL;
+  String? get photoURL => _photoURL ?? 'https://i.stack.imgur.com/34AD2.jpg';
 
   @override
   List<UserInfo> get providerData => _providerData;
@@ -73,8 +75,36 @@ class MockUser with EquatableMixin implements User {
   String? get refreshToken => _refreshToken;
 
   @override
-  Future<String> getIdToken([bool forceRefresh = false]) async {
-    return Future.value('fake_token');
+  Future<String> getIdToken([bool forceRefresh = false]) {
+    var payload = {
+      'name': displayName,
+      'picture': photoURL,
+      'iss': 'fake_iss',
+      'aud': 'fake_aud',
+      'auth_time': 1655946582,
+      'user_id': uid,
+      'sub': uid,
+      'iat': 1656302136,
+      'exp': 1656305736,
+      'email': email,
+      'email_verified': emailVerified,
+      'firebase': {
+        'identities': {
+          'google.com': ['fake_identity'],
+          'email': [email]
+        },
+        'sign_in_provider': 'google.com'
+      }
+    };
+    // Create a json web token
+    final jwt = JWT(
+      payload,
+      issuer: 'https://github.com/jonasroussel/dart_jsonwebtoken',
+    );
+
+    // Sign it (default with HS256 algorithm)
+    var token = jwt.sign(SecretKey('secret passphrase'));
+    return Future.value(token);
   }
 
   @override
@@ -125,6 +155,16 @@ class MockUser with EquatableMixin implements User {
     _maybeThrowException();
 
     // Do nothing.
+    return Future.value();
+  }
+
+  @override
+  Future<void> sendEmailVerification([
+    ActionCodeSettings? actionCodeSettings,
+  ]) {
+    _maybeThrowException();
+
+    // Do nothing
     return Future.value();
   }
 
