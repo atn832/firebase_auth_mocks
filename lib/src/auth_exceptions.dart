@@ -11,6 +11,9 @@ class AuthExceptions extends Equatable {
     this.signInAnonymously,
     this.fetchSignInMethodsForEmail,
     this.sendPasswordResetEmail,
+    this.sendSignInLinkToEmail,
+    this.confirmPasswordReset,
+    this.verifyPasswordResetCode,
   });
 
   final FirebaseAuthException? signInWithCredential;
@@ -20,6 +23,9 @@ class AuthExceptions extends Equatable {
   final FirebaseAuthException? signInAnonymously;
   final FirebaseAuthException? fetchSignInMethodsForEmail;
   final FirebaseAuthException? sendPasswordResetEmail;
+  final FirebaseAuthException? sendSignInLinkToEmail;
+  final FirebaseAuthException? confirmPasswordReset;
+  final FirebaseAuthException? verifyPasswordResetCode;
 
   @override
   List<Object?> get props => [
@@ -30,5 +36,8 @@ class AuthExceptions extends Equatable {
         signInAnonymously,
         fetchSignInMethodsForEmail,
         sendPasswordResetEmail,
+        sendSignInLinkToEmail,
+        confirmPasswordReset,
+        verifyPasswordResetCode,
       ];
 }
