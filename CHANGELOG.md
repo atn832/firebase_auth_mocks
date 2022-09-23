@@ -1,3 +1,8 @@
+## 0.8.6
+
+- Implemented generation of proper JWT token in `User.getIdToken`. Thanks [kody-liou](https://github.com/kody-liou)!
+- Implemented `sendSignInLinkToEmail`, `confirmPasswordReset` and `verifyPasswordResetCode` in `FirebaseAuth`. Thanks [Zohenn](https://github.com/Zohenn)!
+
 ## 0.8.5+1
 
 - Added missing changelogs.

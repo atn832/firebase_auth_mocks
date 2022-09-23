@@ -38,6 +38,7 @@ main() {
   - firing events on sign-in to `authStateChanges` and `userChanges`.
   - `signInWithCredential`, `signInWithEmailAndPassword`, `signInWithCustomToken`,
     `signInAnonymously` and `createUserWithEmailAndPassword` signs in.
+  - `sendSignInLinkToEmail`, `confirmPasswordReset` and `verifyPasswordResetCode`.
   - `verifyPhoneNumber` resolves `codeSent`.
   - `signOut`
   - `sendPasswordResetEmail`
