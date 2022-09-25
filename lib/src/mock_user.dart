@@ -140,7 +140,10 @@ class MockUser with EquatableMixin implements User {
 
   @override
   Future<void> updateEmail(String value) {
+    _maybeThrowException();
+
     email = value;
+
     return Future.value();
   }
 
