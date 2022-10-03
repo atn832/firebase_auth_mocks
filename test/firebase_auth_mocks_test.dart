@@ -516,7 +516,7 @@ void main() {
     expect(decodedToken1['user_id'], decodedToken2['user_id']);
   });
 
-  test('Each edecoded token\'s user_id should unique', () async {
+  test('Each decoded token\'s user_id should unique', () async {
     final user1 = MockUser();
     final user2 = MockUser();
     final idToken1 = await user1.getIdToken();
