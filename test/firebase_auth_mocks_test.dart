@@ -527,6 +527,37 @@ void main() {
     expect(decodedToken2['user_id'], isA<String>());
     expect(decodedToken1['user_id'], isNot(decodedToken2['user_id']));
   });
+
+  test(
+      'Each decoded token\'s auth_time and exp should be the time in seconds since unix epoch',
+      () async {
+    final idToken = await tUser.getIdToken();
+    final decodedToken = JwtDecoder.decode(idToken);
+    bool isTimeInSecondsSinceUnixEpoch(dynamic number) {
+      if (number is! int) return false;
+      if (number.toString().length != 10) return false;
+      return true;
+    }
+
+    expect(decodedToken['auth_time'], isTimeInSecondsSinceUnixEpoch);
+    expect(decodedToken['exp'], isTimeInSecondsSinceUnixEpoch);
+  });
+
+  test(
+      'The decodedToken\'s auth_time and exp should as same as user.idTokenAuthTime after modify MockUser',
+      () async {
+    final user = MockUser();
+    final customAuthTime = DateTime.parse('2020-01-01');
+    final customExp = DateTime.parse('2020-01-02');
+    // Modify MockUser
+    user.idTokenAuthTime = customAuthTime;
+    user.idTokenExp = customExp;
+    final idToken = await user.getIdToken();
+    final decodedToken = JwtDecoder.decode(idToken);
+    expect(decodedToken['auth_time'],
+        customAuthTime.millisecondsSinceEpoch ~/ 1000);
+    expect(decodedToken['exp'], customExp.millisecondsSinceEpoch ~/ 1000);
+  });
 }
 
 class FakeAuthCredential implements AuthCredential {
