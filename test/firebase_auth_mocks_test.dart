@@ -544,12 +544,12 @@ void main() {
   test(
       'The decodedToken\'s auth_time and exp should as same as user.idTokenAuthTime after modify MockUser',
       () async {
-    final user = MockUser();
     final customAuthTime = DateTime.parse('2020-01-01');
     final customExp = DateTime.parse('2020-01-02');
-    // Modify MockUser
-    user.idTokenAuthTime = customAuthTime;
-    user.idTokenExp = customExp;
+    final user = MockUser(
+      idTokenAuthTime: customAuthTime,
+      idTokenExp: customExp,
+    );
     final idToken = await user.getIdToken();
     final decodedToken = JwtDecoder.decode(idToken);
     expect(decodedToken['auth_time'],

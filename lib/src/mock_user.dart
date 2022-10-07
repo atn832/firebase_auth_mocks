@@ -15,8 +15,8 @@ class MockUser with EquatableMixin implements User {
   final List<UserInfo> _providerData;
   final String? _refreshToken;
   final UserMetadata? _metadata;
-  late DateTime _idTokenAuthTime;
-  DateTime? _idTokenExp;
+  late final DateTime _idTokenAuthTime;
+  final DateTime? _idTokenExp;
 
   MockUser({
     bool isAnonymous = false,
@@ -79,14 +79,6 @@ class MockUser with EquatableMixin implements User {
 
   @override
   String? get refreshToken => _refreshToken;
-
-  set idTokenAuthTime(DateTime time) {
-    _idTokenAuthTime = time;
-  }
-
-  set idTokenExp(DateTime time) {
-    _idTokenExp = time;
-  }
 
   @override
   Future<String> getIdToken([bool forceRefresh = false]) {
