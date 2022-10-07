@@ -98,6 +98,7 @@ class MockUser with EquatableMixin implements User {
       'auth_time': _idTokenAuthTime.millisecondsSinceEpoch ~/ 1000,
       'user_id': uid,
       'sub': uid,
+      // https://firebase.google.com/docs/reference/admin/node/firebase-admin.auth.decodedidtoken
       'exp': (_idTokenExp ?? DateTime.now().add(Duration(hours: 1)))
               .millisecondsSinceEpoch ~/
           1000,
@@ -118,6 +119,7 @@ class MockUser with EquatableMixin implements User {
     );
 
     // Sign it (default with HS256 algorithm)
+    // jwt.sign will populate iat
     final token = jwt.sign(SecretKey('secret passphrase'));
     return Future.value(token);
   }
