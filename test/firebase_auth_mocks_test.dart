@@ -534,7 +534,7 @@ void main() {
     final idToken = await tUser.getIdToken();
     final decodedToken = JwtDecoder.decode(idToken);
     final isTimeInSecondsSinceUnixEpoch = predicate(
-      (dynamic number) => number is int && number.toString().length == 11,
+      (dynamic number) => number is int && number.toString().length == 10,
       'is time in seconds since unix epoch',
     );
     expect(decodedToken['auth_time'], isTimeInSecondsSinceUnixEpoch);
