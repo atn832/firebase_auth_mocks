@@ -499,12 +499,12 @@ void main() {
   test('getIdToken still works when using the default value', () async {
     final idToken = await MockUser().getIdToken();
     final decodedToken = JwtDecoder.decode(idToken);
-    expect(decodedToken['name'] != null, true);
-    expect(decodedToken['picture'] != null, true);
-    expect(decodedToken['user_id'] != null, true);
-    expect(decodedToken['sub'] != null, true);
-    expect(decodedToken['email'] != null, true);
-    expect(decodedToken['email_verified'] != null, true);
+    expect(decodedToken['name'], isNotNull);
+    expect(decodedToken['picture'], isNotNull);
+    expect(decodedToken['user_id'], isNotNull);
+    expect(decodedToken['sub'], isNotNull);
+    expect(decodedToken['email'], isNotNull);
+    expect(decodedToken['email_verified'], isNotNull);
   });
 
   test('Each decoded token\'s user_id should not change', () async {
@@ -516,16 +516,45 @@ void main() {
     expect(decodedToken1['user_id'], decodedToken2['user_id']);
   });
 
-  test('Each edecoded token\'s user_id should unique', () async {
+  test('Each decoded token\'s user_id should unique', () async {
     final user1 = MockUser();
     final user2 = MockUser();
     final idToken1 = await user1.getIdToken();
     final decodedToken1 = JwtDecoder.decode(idToken1);
     final idToken2 = await user2.getIdToken();
     final decodedToken2 = JwtDecoder.decode(idToken2);
-    expect(decodedToken1['user_id'] is String, true);
-    expect(decodedToken2['user_id'] is String, true);
-    expect(decodedToken1['user_id'] != decodedToken2['user_id'], true);
+    expect(decodedToken1['user_id'], isA<String>());
+    expect(decodedToken2['user_id'], isA<String>());
+    expect(decodedToken1['user_id'], isNot(decodedToken2['user_id']));
+  });
+
+  test(
+      'Each decoded token\'s auth_time and exp should be the time in seconds since unix epoch',
+      () async {
+    final idToken = await tUser.getIdToken();
+    final decodedToken = JwtDecoder.decode(idToken);
+    final isTimeInSecondsSinceUnixEpoch = predicate(
+      (dynamic number) => number is int && number.toString().length == 10,
+      'is time in seconds since unix epoch',
+    );
+    expect(decodedToken['auth_time'], isTimeInSecondsSinceUnixEpoch);
+    expect(decodedToken['exp'], isTimeInSecondsSinceUnixEpoch);
+  });
+
+  test(
+      'The decodedToken\'s auth_time and exp should as same as user.idTokenAuthTime after modify MockUser',
+      () async {
+    final customAuthTime = DateTime.parse('2020-01-01');
+    final customExp = DateTime.parse('2020-01-02');
+    final user = MockUser(
+      idTokenAuthTime: customAuthTime,
+      idTokenExp: customExp,
+    );
+    final idToken = await user.getIdToken();
+    final decodedToken = JwtDecoder.decode(idToken);
+    expect(decodedToken['auth_time'],
+        customAuthTime.millisecondsSinceEpoch ~/ 1000);
+    expect(decodedToken['exp'], customExp.millisecondsSinceEpoch ~/ 1000);
   });
 }
 
