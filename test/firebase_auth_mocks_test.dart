@@ -496,17 +496,6 @@ void main() {
     expect(decodedToken['email_verified'], user.emailVerified);
   });
 
-  test('getIdToken still works when using the default value', () async {
-    final idToken = await MockUser().getIdToken();
-    final decodedToken = JwtDecoder.decode(idToken);
-    expect(decodedToken['name'], isNotNull);
-    expect(decodedToken['picture'], isNotNull);
-    expect(decodedToken['user_id'], isNotNull);
-    expect(decodedToken['sub'], isNotNull);
-    expect(decodedToken['email'], isNotNull);
-    expect(decodedToken['email_verified'], isNotNull);
-  });
-
   test('Each decoded token\'s user_id should not change', () async {
     final user = MockUser();
     final idToken1 = await user.getIdToken();
@@ -555,6 +544,16 @@ void main() {
     expect(decodedToken['auth_time'],
         customAuthTime.millisecondsSinceEpoch ~/ 1000);
     expect(decodedToken['exp'], customExp.millisecondsSinceEpoch ~/ 1000);
+  });
+
+  group('MockUser', () {
+    test('when default constructor, expect defaults', () {
+      final user = MockUser();
+      expect(user.isAnonymous, isFalse);
+      expect(user.emailVerified, isTrue);
+      expect(user.uid, isNotNull);
+      expect(user.email, isNull);
+    });
   });
 }
 
