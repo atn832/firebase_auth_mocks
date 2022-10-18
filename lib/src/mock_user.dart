@@ -1,8 +1,8 @@
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
-import 'package:uuid/uuid.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_mocks/src/mock_user_credential.dart';
+import 'package:uuid/uuid.dart';
 
 class MockUser with EquatableMixin implements User {
   final bool _isAnonymous;
@@ -43,8 +43,7 @@ class MockUser with EquatableMixin implements User {
         _providerData = providerData ?? [],
         _refreshToken = refreshToken,
         _metadata = metadata,
-        _idTokenResult = idTokenResult;
-        _metadata = metadata,
+        _idTokenResult = idTokenResult,
         _idTokenAuthTime = idTokenAuthTime ?? DateTime.now(),
         _idTokenExp = idTokenExp;
 
