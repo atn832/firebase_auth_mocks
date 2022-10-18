@@ -1,8 +1,8 @@
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
-import 'package:uuid/uuid.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_mocks/src/mock_user_credential.dart';
+import 'package:uuid/uuid.dart';
 
 class MockUser with EquatableMixin implements User {
   final bool _isAnonymous;
@@ -15,6 +15,7 @@ class MockUser with EquatableMixin implements User {
   final List<UserInfo> _providerData;
   final String? _refreshToken;
   final UserMetadata? _metadata;
+  final IdTokenResult? _idTokenResult;
   late final DateTime _idTokenAuthTime;
   final DateTime? _idTokenExp;
 
@@ -29,6 +30,7 @@ class MockUser with EquatableMixin implements User {
     List<UserInfo>? providerData,
     String? refreshToken,
     UserMetadata? metadata,
+    IdTokenResult? idTokenResult,
     DateTime? idTokenAuthTime,
     DateTime? idTokenExp,
   })  : _isAnonymous = isAnonymous,
@@ -41,6 +43,7 @@ class MockUser with EquatableMixin implements User {
         _providerData = providerData ?? [],
         _refreshToken = refreshToken,
         _metadata = metadata,
+        _idTokenResult = idTokenResult,
         _idTokenAuthTime = idTokenAuthTime ?? DateTime.now(),
         _idTokenExp = idTokenExp;
 
@@ -79,6 +82,19 @@ class MockUser with EquatableMixin implements User {
 
   @override
   String? get refreshToken => _refreshToken;
+
+  @override
+  Future<IdTokenResult> getIdTokenResult([bool forceRefresh = false]) {
+    return Future.value(_idTokenResult ??
+        IdTokenResult({
+          'authTimestamp': 1655946582,
+          'claims': {},
+          'expirationTimestamp': 1656305736,
+          'issuedAtTimestamp': 1656302136,
+          'token': 'fake_token',
+          'signInProvider': 'google.com'
+        }));
+  }
 
   @override
   Future<String> getIdToken([bool forceRefresh = false]) {
