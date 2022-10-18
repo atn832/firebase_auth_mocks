@@ -151,6 +151,8 @@ void main() {
     final user = auth.currentUser!;
     final idTokenResult = await user.getIdTokenResult();
     expect(idTokenResult, isNotNull);
+    // Using IdTokenResult's implementation of toString
+    // https://github.com/firebase/flutterfire/blob/982bdfb5fbfae4a68e1af6ab62a9bd762891b217/packages/firebase_auth/firebase_auth_platform_interface/lib/src/id_token_result.dart#L53
     expect(
       idTokenResult.toString(),
       equals(userIdTokenResult.toString()),
