@@ -5,6 +5,17 @@ import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:test/test.dart';
 
+final userIdTokenResult = IdTokenResult({
+  'authTimestamp': DateTime.now().millisecondsSinceEpoch,
+  'claims': {'role': 'admin'},
+  'token': 'some_long_token',
+  'expirationTime':
+      DateTime.now().add(Duration(days: 1)).millisecondsSinceEpoch,
+  'issuedAtTimestamp':
+      DateTime.now().subtract(Duration(days: 1)).millisecondsSinceEpoch,
+  'signInProvider': 'phone',
+});
+
 final tUser = MockUser(
   isAnonymous: false,
   uid: 'T3STU1D',
@@ -13,6 +24,7 @@ final tUser = MockUser(
   phoneNumber: '0800 I CAN FIX IT',
   photoURL: 'http://photos.url/bobbie.jpg',
   refreshToken: 'some_long_token',
+  idTokenResult: userIdTokenResult,
 );
 
 void main() {
@@ -132,6 +144,19 @@ void main() {
     final user = auth.currentUser!;
     final idToken = await user.getIdToken();
     expect(idToken, isNotEmpty);
+  });
+
+  test('Returns a hardcoded user token result', () async {
+    final auth = MockFirebaseAuth(signedIn: true, mockUser: tUser);
+    final user = auth.currentUser!;
+    final idTokenResult = await user.getIdTokenResult();
+    expect(idTokenResult, isNotNull);
+    // Using IdTokenResult's implementation of toString
+    // https://github.com/firebase/flutterfire/blob/982bdfb5fbfae4a68e1af6ab62a9bd762891b217/packages/firebase_auth/firebase_auth_platform_interface/lib/src/id_token_result.dart#L53
+    expect(
+      idTokenResult.toString(),
+      equals(userIdTokenResult.toString()),
+    );
   });
 
   test('Returns null after sign out', () async {
