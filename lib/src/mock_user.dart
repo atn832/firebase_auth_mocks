@@ -16,6 +16,8 @@ class MockUser with EquatableMixin implements User {
   final String? _refreshToken;
   final UserMetadata? _metadata;
   final IdTokenResult? _idTokenResult;
+  late final DateTime _idTokenAuthTime;
+  final DateTime? _idTokenExp;
 
   MockUser({
     bool isAnonymous = false,
@@ -29,6 +31,8 @@ class MockUser with EquatableMixin implements User {
     String? refreshToken,
     UserMetadata? metadata,
     IdTokenResult? idTokenResult,
+    DateTime? idTokenAuthTime,
+    DateTime? idTokenExp,
   })  : _isAnonymous = isAnonymous,
         _isEmailVerified = isEmailVerified,
         _uid = uid ?? const Uuid().v4(),
@@ -40,6 +44,9 @@ class MockUser with EquatableMixin implements User {
         _refreshToken = refreshToken,
         _metadata = metadata,
         _idTokenResult = idTokenResult;
+        _metadata = metadata,
+        _idTokenAuthTime = idTokenAuthTime ?? DateTime.now(),
+        _idTokenExp = idTokenExp;
 
   FirebaseAuthException? _exception;
 
@@ -92,16 +99,18 @@ class MockUser with EquatableMixin implements User {
 
   @override
   Future<String> getIdToken([bool forceRefresh = false]) {
-    var payload = {
+    final payload = {
       'name': displayName,
       'picture': photoURL,
       'iss': 'fake_iss',
       'aud': 'fake_aud',
-      'auth_time': 1655946582,
+      'auth_time': _idTokenAuthTime.millisecondsSinceEpoch ~/ 1000,
       'user_id': uid,
       'sub': uid,
-      'iat': 1656302136,
-      'exp': 1656305736,
+      // https://firebase.google.com/docs/reference/admin/node/firebase-admin.auth.decodedidtoken
+      'exp': (_idTokenExp ?? DateTime.now().add(Duration(hours: 1)))
+              .millisecondsSinceEpoch ~/
+          1000,
       'email': email,
       'email_verified': emailVerified,
       'firebase': {
@@ -119,7 +128,8 @@ class MockUser with EquatableMixin implements User {
     );
 
     // Sign it (default with HS256 algorithm)
-    var token = jwt.sign(SecretKey('secret passphrase'));
+    // jwt.sign will populate iat
+    final token = jwt.sign(SecretKey('secret passphrase'));
     return Future.value(token);
   }
 
