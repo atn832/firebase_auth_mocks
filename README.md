@@ -70,6 +70,7 @@ main() {
 
 | firebase_auth | firebase_auth_mocks |
 |---------------|---------------------|
+| 4.0.0         | 0.9.0               |
 | 3.5.0         | 0.8.7               |
 
 ## Features and bugs

@@ -1,3 +1,7 @@
+## 0.9.0
+
+- Updated dependency to firebase_auth ^4.0.0.
+
 ## 0.8.7
 
 - Implemented proper generation of the `auth_time`, `exp` and `iat` values in `User.getIdToken`. Thanks [kody-liou](https://github.com/kody-liou)!
