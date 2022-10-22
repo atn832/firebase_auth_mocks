@@ -61,6 +61,13 @@ main() {
   - `getIdToken` and `getIdTokenResult`
   - the ability to throw exceptions.
 
+
+## Compatibility table
+
+| firebase_auth | firebase_auth_mocks |
+|---------------|---------------------|
+| 3.5.0         | 0.8.7               |
+
 ## Features and bugs
 
 Please file feature requests and bugs at the issue tracker.
