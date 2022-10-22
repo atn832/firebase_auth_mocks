@@ -1,3 +1,9 @@
+## 0.8.7
+
+- Implemented proper generation of the `auth_time`, `exp` and `iat` values in `User.getIdToken`. Thanks [kody-liou](https://github.com/kody-liou)!
+- Implemented `User.getIdTokenResult`. Thank you [BenGMiles](https://github.com/BenGMiles)!
+- Fixed `User.email` so that it returns `null` by default. Thank you [defuncart](https://github.com/defuncart)!
+
 ## 0.8.6
 
 - Implemented generation of proper JWT token in `User.getIdToken`. Thanks [kody-liou](https://github.com/kody-liou)!

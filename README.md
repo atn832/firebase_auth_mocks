@@ -58,6 +58,7 @@ main() {
   - `updatePassword`
   - `delete`
   - `sendEmailVerification`
+  - `getIdToken` and `getIdTokenResult`
   - the ability to throw exceptions.
 
 ## Features and bugs
