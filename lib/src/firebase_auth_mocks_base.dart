@@ -14,6 +14,7 @@ class MockFirebaseAuth implements FirebaseAuth {
   final userChangedStreamController = StreamController<User?>();
   late Stream<User?> userChangedStream;
   MockUser? _mockUser;
+  final Map<String, List<String>> _signInMethodsForEmail;
   User? _currentUser;
   final AuthExceptions? _authExceptions;
 
@@ -21,8 +22,10 @@ class MockFirebaseAuth implements FirebaseAuth {
     bool signedIn = false,
     MockUser? mockUser,
     AuthExceptions? authExceptions,
+    Map<String, List<String>>? signInMethodsForEmail,
   })  : _mockUser = mockUser,
-        _authExceptions = authExceptions {
+        _authExceptions = authExceptions,
+        _signInMethodsForEmail = signInMethodsForEmail ?? {} {
     stateChangedStream =
         stateChangedStreamController.stream.asBroadcastStream();
     userChangedStream = userChangedStreamController.stream.asBroadcastStream();
@@ -114,7 +117,7 @@ class MockFirebaseAuth implements FirebaseAuth {
       throw (_authExceptions!.fetchSignInMethodsForEmail!);
     }
 
-    return Future.value([]);
+    return Future.value(_signInMethodsForEmail[email] ?? []);
   }
 
   Future<UserCredential> _fakeSignIn({bool isAnonymous = false}) {
