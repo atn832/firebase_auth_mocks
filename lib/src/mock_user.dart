@@ -193,6 +193,13 @@ class MockUser with EquatableMixin implements User {
     return Future.value();
   }
 
+  @override
+  Future<UserCredential> linkWithCredential(AuthCredential credential) async {
+    _maybeThrowException();
+
+    return Future.value(MockUserCredential(false, mockUser: this));
+  }
+
   void _maybeThrowException() {
     if (_exception != null) {
       final exceptionCopy = _exception!;

@@ -262,6 +262,14 @@ void main() {
     },
   );
 
+  test('should link credentials', () async {
+    final auth = MockFirebaseAuth(signedIn: true, mockUser: tUser);
+    final user = auth.currentUser;
+    final credential =
+        AuthCredential(providerId: 'providerId', signInMethod: 'signInMethod');
+    expect(user?.linkWithCredential(credential), completes);
+  });
+
   group('exceptions', () {
     test('signInWithCredential', () async {
       final auth = MockFirebaseAuth(
@@ -480,6 +488,18 @@ void main() {
     final user = auth.currentUser;
     expect(
       () async => await user?.sendEmailVerification(),
+      throwsA(isA<FirebaseAuthException>()),
+    );
+  });
+
+  test('User.linkWithCredential can throw exception', () async {
+    final auth = MockFirebaseAuth(signedIn: true, mockUser: tUser);
+    final user = auth.currentUser;
+    final credential =
+        AuthCredential(providerId: 'providerId', signInMethod: 'signInMethod');
+    tUser.exception = FirebaseAuthException(code: 'verification-failure');
+    expect(
+      () async => await user?.linkWithCredential(credential),
       throwsA(isA<FirebaseAuthException>()),
     );
   });
