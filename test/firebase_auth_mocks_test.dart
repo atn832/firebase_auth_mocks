@@ -571,6 +571,16 @@ void main() {
     expect(decodedToken['exp'], customExp.millisecondsSinceEpoch ~/ 1000);
   });
 
+  test('Set up fetchSignInMethodsForEmail results', () async {
+    final auth = MockFirebaseAuth(
+      signInMethodsForEmail: {
+        'test@example.com': ['password']
+      },
+    );
+    expect(await auth.fetchSignInMethodsForEmail('test@example.com'),
+        equals(['password']));
+  });
+
   group('MockUser', () {
     test('when default constructor, expect defaults', () {
       final user = MockUser();
