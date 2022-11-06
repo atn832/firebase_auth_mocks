@@ -46,6 +46,7 @@ main() {
   - `verifyPhoneNumber` resolves `codeSent`.
   - `signOut`
   - `sendPasswordResetEmail`
+  - `fetchSignInMethodsForEmail`
   - `currentUser`
   - the ability to throw exceptions using `authExceptions`:
   ```dart

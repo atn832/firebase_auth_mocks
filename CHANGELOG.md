@@ -1,3 +1,9 @@
+## 0.9.1
+
+- Implemented `FirebaseAuth.fetchSignInMethodsForEmail`. Thanks [BenVercammen](https://github.com/BenVercammen)!
+- Implemented `User.linkWithCredential`. Thanks [BenVercammen](https://github.com/BenVercammen)!
+- Support setting a `customClaim` for `User.getIdToken`. Thanks [kody-liou](https://github.com/kody-liou)!
+
 ## 0.9.0
 
 - Updated dependency to firebase_auth ^4.0.0.
