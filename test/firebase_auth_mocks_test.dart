@@ -601,6 +601,49 @@ void main() {
         equals(['password']));
   });
 
+  test('Add customClaim into id token', () async {
+    final user = MockUser(customClaim: {'role': 'admin', 'bodyHeight': 169});
+    final idToken = await user.getIdToken();
+    final decodedToken = JwtDecoder.decode(idToken);
+    expect(decodedToken['role'], 'admin');
+    expect(decodedToken['bodyHeight'], 169);
+  });
+
+  test('The customClain should exist after sign-out and sign-in', () async {
+    final auth = MockFirebaseAuth(
+      mockUser: MockUser(customClaim: {'role': 'admin', 'bodyHeight': 169}),
+      signedIn: true,
+    );
+    final decodedToken =
+        JwtDecoder.decode(await auth.currentUser!.getIdToken());
+    expect(decodedToken['role'], 'admin');
+    expect(decodedToken['bodyHeight'], 169);
+    await auth.signOut();
+    await auth.signInWithEmailAndPassword(email: '', password: '');
+    final decodedToken2 =
+        JwtDecoder.decode(await auth.currentUser!.getIdToken());
+    expect(decodedToken2['role'], 'admin');
+    expect(decodedToken2['bodyHeight'], 169);
+  });
+
+  test('update firebaseAuth user customClaim by copyWith', () async {
+    final auth = MockFirebaseAuth(
+      signedIn: true,
+    );
+    final decodedToken =
+        JwtDecoder.decode(await auth.currentUser!.getIdToken());
+    expect(decodedToken['role'], null);
+    expect(decodedToken['bodyHeight'], null);
+
+    auth.mockUser = (auth.currentUser as MockUser)
+        .copyWith(customClaim: {'role': 'admin', 'bodyHeight': 169});
+
+    final decodedToken2 =
+        JwtDecoder.decode(await auth.currentUser!.getIdToken());
+    expect(decodedToken2['role'], 'admin');
+    expect(decodedToken2['bodyHeight'], 169);
+  });
+
   group('MockUser', () {
     test('when default constructor, expect defaults', () {
       final user = MockUser();

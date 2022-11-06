@@ -37,6 +37,14 @@ class MockFirebaseAuth implements FirebaseAuth {
     }
   }
 
+  set mockUser(MockUser user) {
+    _mockUser = user;
+    // Update _currentUser if already sign in
+    if (_currentUser != null) {
+      _currentUser = user;
+    }
+  }
+
   @override
   User? get currentUser {
     return _currentUser;

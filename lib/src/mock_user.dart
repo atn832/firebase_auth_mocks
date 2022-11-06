@@ -18,6 +18,7 @@ class MockUser with EquatableMixin implements User {
   final IdTokenResult? _idTokenResult;
   late final DateTime _idTokenAuthTime;
   final DateTime? _idTokenExp;
+  final Map<String, dynamic> _customClaim;
 
   MockUser({
     bool isAnonymous = false,
@@ -33,6 +34,7 @@ class MockUser with EquatableMixin implements User {
     IdTokenResult? idTokenResult,
     DateTime? idTokenAuthTime,
     DateTime? idTokenExp,
+    Map<String, dynamic>? customClaim,
   })  : _isAnonymous = isAnonymous,
         _isEmailVerified = isEmailVerified,
         _uid = uid ?? const Uuid().v4(),
@@ -45,7 +47,8 @@ class MockUser with EquatableMixin implements User {
         _metadata = metadata,
         _idTokenResult = idTokenResult,
         _idTokenAuthTime = idTokenAuthTime ?? DateTime.now(),
-        _idTokenExp = idTokenExp;
+        _idTokenExp = idTokenExp,
+        _customClaim = customClaim ?? {};
 
   FirebaseAuthException? _exception;
 
@@ -118,7 +121,8 @@ class MockUser with EquatableMixin implements User {
           'email': [email]
         },
         'sign_in_provider': 'google.com'
-      }
+      },
+      ..._customClaim,
     };
     // Create a json web token
     final jwt = JWT(
@@ -207,6 +211,40 @@ class MockUser with EquatableMixin implements User {
 
       throw (exceptionCopy);
     }
+  }
+
+  MockUser copyWith({
+    bool? isAnonymous,
+    bool? isEmailVerified,
+    String? uid,
+    String? email,
+    String? displayName,
+    String? phoneNumber,
+    String? photoURL,
+    List<UserInfo>? providerData,
+    String? refreshToken,
+    UserMetadata? metadata,
+    IdTokenResult? idTokenResult,
+    DateTime? idTokenAuthTime,
+    DateTime? idTokenExp,
+    Map<String, dynamic>? customClaim,
+  }) {
+    return MockUser(
+      isAnonymous: isAnonymous ?? _isAnonymous,
+      isEmailVerified: isEmailVerified ?? _isEmailVerified,
+      uid: uid ?? _uid,
+      email: email ?? _email,
+      displayName: displayName ?? _displayName,
+      phoneNumber: phoneNumber ?? _phoneNumber,
+      photoURL: photoURL ?? _photoURL,
+      providerData: providerData ?? _providerData,
+      refreshToken: refreshToken ?? _refreshToken,
+      metadata: metadata ?? _metadata,
+      idTokenResult: idTokenResult ?? _idTokenResult,
+      idTokenAuthTime: idTokenAuthTime ?? _idTokenAuthTime,
+      idTokenExp: idTokenExp ?? _idTokenExp,
+      customClaim: customClaim ?? _customClaim,
+    );
   }
 
   @override
