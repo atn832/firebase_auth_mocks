@@ -30,7 +30,11 @@ class MockFirebaseAuth implements FirebaseAuth {
         stateChangedStreamController.stream.asBroadcastStream();
     userChangedStream = userChangedStreamController.stream.asBroadcastStream();
     if (signedIn) {
-      signInWithCredential(null);
+      if (mockUser?.isAnonymous ?? false) {
+        signInAnonymously();
+      } else {
+        signInWithCredential(null);
+      }
     } else {
       // Notify of null on startup.
       signOut();

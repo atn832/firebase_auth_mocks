@@ -139,6 +139,13 @@ void main() {
     expect(user, tUser);
   });
 
+  test('Returns a mocked anonymous user if already signed in', () {
+    var anonymousUser = MockUser(isAnonymous: true, uid: 'T3STU1D');
+    final auth = MockFirebaseAuth(signedIn: true, mockUser: anonymousUser);
+    final user = auth.currentUser;
+    expect(user, anonymousUser);
+  });
+
   test('Returns a hardcoded user token', () async {
     final auth = MockFirebaseAuth(signedIn: true, mockUser: tUser);
     final user = auth.currentUser!;
