@@ -1,3 +1,8 @@
+## 0.9.2
+
+- Fixed a crash when testing in signed in mode for an anonymous user. Thanks [BenVercammen](https://github.com/BenVercammen)!
+- Fixed `User.displayName` so that it returns `null` by default. Thanks [BenVercammen](https://github.com/BenVercammen)!
+
 ## 0.9.1
 
 - Implemented `FirebaseAuth.fetchSignInMethodsForEmail`. Thanks [BenVercammen](https://github.com/BenVercammen)!
