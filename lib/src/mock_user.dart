@@ -68,7 +68,7 @@ class MockUser with EquatableMixin implements User {
   String? get email => _email;
 
   @override
-  String? get displayName => _displayName ?? 'fake_name';
+  String? get displayName => _displayName;
 
   set displayName(String? value) {
     _displayName = value;
