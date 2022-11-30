@@ -660,6 +660,10 @@ void main() {
       expect(user.email, isNull);
     });
   });
+
+  test('app', () {
+    expect(MockFirebaseAuth().app, isNotNull);
+  });
 }
 
 class FakeAuthCredential implements AuthCredential {

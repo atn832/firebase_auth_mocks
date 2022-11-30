@@ -1,10 +1,12 @@
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:meta/meta.dart';
 
 import 'auth_exceptions.dart';
 import 'mock_confirmation_result.dart';
+import 'mock_firebase_app.dart';
 import 'mock_user.dart';
 import 'mock_user_credential.dart';
 
@@ -18,6 +20,10 @@ class MockFirebaseAuth implements FirebaseAuth {
   User? _currentUser;
   final AuthExceptions? _authExceptions;
 
+  /// The [FirebaseApp] for this current Auth instance.
+  @override
+  FirebaseApp app;
+
   MockFirebaseAuth({
     bool signedIn = false,
     MockUser? mockUser,
@@ -25,7 +31,8 @@ class MockFirebaseAuth implements FirebaseAuth {
     Map<String, List<String>>? signInMethodsForEmail,
   })  : _mockUser = mockUser,
         _authExceptions = authExceptions,
-        _signInMethodsForEmail = signInMethodsForEmail ?? {} {
+        _signInMethodsForEmail = signInMethodsForEmail ?? {},
+        app = MockFirebaseApp() {
     stateChangedStream =
         stateChangedStreamController.stream.asBroadcastStream();
     userChangedStream = userChangedStreamController.stream.asBroadcastStream();
