@@ -202,7 +202,7 @@ void main() {
     final auth = MockFirebaseAuth();
 
     expect(
-      () async => await auth.sendPasswordResetEmail(email: ''),
+      () => auth.sendPasswordResetEmail(email: ''),
       returnsNormally,
     );
   });
@@ -217,7 +217,7 @@ void main() {
     final auth = MockFirebaseAuth();
 
     expect(
-      () async => await auth.sendSignInLinkToEmail(
+      () => auth.sendSignInLinkToEmail(
         email: 'test@example.com',
         actionCodeSettings: ActionCodeSettings(
           url: 'https://example.com',
@@ -234,7 +234,7 @@ void main() {
       final auth = MockFirebaseAuth();
 
       expect(
-        () async => await auth.sendSignInLinkToEmail(
+        () => auth.sendSignInLinkToEmail(
           email: 'test@example.com',
           actionCodeSettings: ActionCodeSettings(
             url: 'https://example.com',
@@ -243,7 +243,7 @@ void main() {
         throwsA(isA<ArgumentError>()),
       );
       expect(
-        () async => await auth.sendSignInLinkToEmail(
+        () => auth.sendSignInLinkToEmail(
           email: 'test@example.com',
           actionCodeSettings: ActionCodeSettings(
             url: 'https://example.com',
@@ -259,7 +259,7 @@ void main() {
     final auth = MockFirebaseAuth();
 
     expect(
-      () async => await auth.confirmPasswordReset(
+      () => auth.confirmPasswordReset(
         code: 'code',
         newPassword: 'password',
       ),
@@ -305,7 +305,7 @@ void main() {
           .on(auth)
           .thenThrow(FirebaseAuthException(code: 'red'));
       expect(
-        () async => await auth.signInWithPopup(AppleAuthProvider()),
+        () => auth.signInWithPopup(AppleAuthProvider()),
         throwsA(isA<FirebaseAuthException>()),
       );
     });
@@ -316,7 +316,7 @@ void main() {
           .on(auth)
           .thenThrow(FirebaseAuthException(code: 'veronica'));
       expect(
-        () async => await auth.signInWithProvider(AppleAuthProvider()),
+        () => auth.signInWithProvider(AppleAuthProvider()),
         throwsA(isA<FirebaseAuthException>()),
       );
     });
@@ -327,7 +327,7 @@ void main() {
           .on(auth)
           .thenThrow(FirebaseAuthException(code: 'bla'));
       expect(
-        () async => await auth.signInWithCredential(FakeAuthCredential()),
+        () => auth.signInWithCredential(FakeAuthCredential()),
         throwsA(isA<FirebaseAuthException>()),
       );
     });
@@ -362,7 +362,7 @@ void main() {
           .on(auth)
           .thenThrow(FirebaseAuthException(code: 'bla'));
       expect(
-        () async => await auth.signInWithCustomToken(''),
+        () => auth.signInWithCustomToken(''),
         throwsA(isA<FirebaseAuthException>()),
       );
     });
@@ -373,7 +373,7 @@ void main() {
           .on(auth)
           .thenThrow(FirebaseAuthException(code: 'bla'));
       expect(
-        () async => await auth.signInAnonymously(),
+        () => auth.signInAnonymously(),
         throwsA(isA<FirebaseAuthException>()),
       );
     });
@@ -399,7 +399,7 @@ void main() {
           .thenThrow(FirebaseAuthException(code: 'invalid-email'));
 
       expect(
-        () async => await auth.sendPasswordResetEmail(email: ''),
+        () => auth.sendPasswordResetEmail(email: ''),
         throwsA(isA<FirebaseAuthException>()),
       );
     });
@@ -411,7 +411,7 @@ void main() {
           .thenThrow(FirebaseAuthException(code: 'invalid-email'));
 
       expect(
-        () async => await auth.sendSignInLinkToEmail(
+        () => auth.sendSignInLinkToEmail(
           email: 'test@example.com',
           actionCodeSettings: ActionCodeSettings(
             url: 'https://example.com',
@@ -430,7 +430,7 @@ void main() {
           .on(auth)
           .thenThrow(FirebaseAuthException(code: 'invalid-action-code'));
       expect(
-        () async => await auth.confirmPasswordReset(
+        () => auth.confirmPasswordReset(
           code: 'code',
           newPassword: 'password',
         ),
@@ -451,7 +451,7 @@ void main() {
           .thenThrow(FirebaseAuthException(code: 'invalid-action-code'));
 
       expect(
-        () async => await auth.verifyPasswordResetCode('code'),
+        () => auth.verifyPasswordResetCode('code'),
         throwsA(isA<FirebaseAuthException>()),
       );
     });
@@ -476,7 +476,7 @@ void main() {
     final auth = MockFirebaseAuth(signedIn: true, mockUser: tUser);
     final user = auth.currentUser;
     expect(
-      () async => await user!.reauthenticateWithCredential(
+      () => user!.reauthenticateWithCredential(
           AuthCredential(signInMethod: '', providerId: '')),
       returnsNormally,
     );
@@ -487,7 +487,7 @@ void main() {
     tUser.exception = FirebaseAuthException(code: 'wrong-password');
     final user = auth.currentUser;
     expect(
-      () async => await user!.reauthenticateWithCredential(
+      () => user!.reauthenticateWithCredential(
           AuthCredential(signInMethod: '', providerId: '')),
       throwsA(isA<FirebaseAuthException>()),
     );
@@ -497,7 +497,7 @@ void main() {
     final auth = MockFirebaseAuth(signedIn: true, mockUser: tUser);
     final user = auth.currentUser;
     expect(
-      () async => await user!.updatePassword('newPassword'),
+      () => user!.updatePassword('newPassword'),
       returnsNormally,
     );
   });
@@ -507,7 +507,7 @@ void main() {
     tUser.exception = FirebaseAuthException(code: 'weak-password');
     final user = auth.currentUser;
     expect(
-      () async => await user!.updatePassword('newPassword'),
+      () => user!.updatePassword('newPassword'),
       throwsA(isA<FirebaseAuthException>()),
     );
   });
@@ -516,7 +516,7 @@ void main() {
     final auth = MockFirebaseAuth(signedIn: true, mockUser: tUser);
     final user = auth.currentUser;
     expect(
-      () async => await user!.delete(),
+      () => user!.delete(),
       returnsNormally,
     );
   });
@@ -526,7 +526,7 @@ void main() {
     tUser.exception = FirebaseAuthException(code: 'wrong-password');
     final user = auth.currentUser;
     expect(
-      () async => await user!.delete(),
+      () => user!.delete(),
       throwsA(isA<FirebaseAuthException>()),
     );
   });
@@ -536,7 +536,7 @@ void main() {
     tUser.exception = FirebaseAuthException(code: 'verification-failure');
     final user = auth.currentUser;
     expect(
-      () async => await user?.sendEmailVerification(),
+      () => user?.sendEmailVerification(),
       throwsA(isA<FirebaseAuthException>()),
     );
   });
