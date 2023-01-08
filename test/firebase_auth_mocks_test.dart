@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:mock_exceptions/mock_exceptions.dart';
 import 'package:test/test.dart';
 
 final userIdTokenResult = IdTokenResult({
@@ -323,11 +324,10 @@ void main() {
     });
 
     test('signInWithCredential', () async {
-      final auth = MockFirebaseAuth(
-        authExceptions: AuthExceptions(
-          signInWithCredential: FirebaseAuthException(code: 'bla'),
-        ),
-      );
+      final auth = MockFirebaseAuth();
+      whenCalling(Invocation.method(#signInWithCredential, [anything]))
+          .on(auth)
+          .thenThrow(FirebaseAuthException(code: 'bla'));
       expect(
         () async => await auth.signInWithCredential(FakeAuthCredential()),
         throwsA(isA<FirebaseAuthException>()),
