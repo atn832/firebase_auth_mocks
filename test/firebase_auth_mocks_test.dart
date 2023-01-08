@@ -338,8 +338,7 @@ void main() {
           .on(auth)
           .thenThrow(FirebaseAuthException(code: 'veronica'));
       expect(
-        () async =>
-            await auth.signInWithEmailAndPassword(email: '', password: ''),
+        () => auth.signInWithEmailAndPassword(email: '', password: ''),
         throwsA(isA<FirebaseAuthException>()),
       );
     });
@@ -350,8 +349,7 @@ void main() {
           .on(auth)
           .thenThrow(FirebaseAuthException(code: 'bla'));
       expect(
-        () async =>
-            await auth.createUserWithEmailAndPassword(email: '', password: ''),
+        () => auth.createUserWithEmailAndPassword(email: '', password: ''),
         throwsA(isA<FirebaseAuthException>()),
       );
     });
