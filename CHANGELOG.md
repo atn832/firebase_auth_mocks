@@ -1,7 +1,10 @@
+## 0.10.2
+
+Implemented `authInformationForFakeFirestore` to feed to FakeFirestore.
+
 ## 0.10.1
 
-- `User.getIdTokenResult` will return `customClaims` if `idTokenResult` is not explicitly set.
-- Implemented `authInformationForFakeFirestore` to feed to FakeFirestore.
+`User.getIdTokenResult` will return `customClaims` if `idTokenResult` is not explicitly set.
 
 ## 0.10.0
 
