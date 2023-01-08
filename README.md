@@ -41,7 +41,7 @@ main() {
   - instantiating in a signed-in state or not: `MockFirebaseAuth(signedIn: true/false)`.
   - firing events on sign-in to `authStateChanges` and `userChanges`.
   - `signInWithCredential`, `signInWithEmailAndPassword`, `signInWithCustomToken`,
-    `signInAnonymously` and `createUserWithEmailAndPassword` signs in.
+    `signInAnonymously`, `createUserWithEmailAndPassword`, `signInWithPopup` and `signInWithProvider` signs in.
   - `sendSignInLinkToEmail`, `confirmPasswordReset` and `verifyPasswordResetCode`.
   - `verifyPhoneNumber` resolves `codeSent`.
   - `signOut`
@@ -49,6 +49,7 @@ main() {
   - `fetchSignInMethodsForEmail`
   - `currentUser`
   - the ability to throw exceptions using `authExceptions`:
+
   ```dart
   final auth = MockFirebaseAuth(
     authExceptions: AuthExceptions(
@@ -56,6 +57,7 @@ main() {
     ),
   );
   ```
+
 - `UserCredential` contains the provided `User` with the information of your choice.
 - `User` supports:
   - `updateDisplayName`

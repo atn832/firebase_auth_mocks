@@ -1,3 +1,7 @@
+## 0.9.3
+
+- Implemented `FirebaseAuth.signInWithPopup` and `FirebaseAuth.signInWithProvider`. Thanks [ga-bri-el](https://github.com/atn832/firebase_auth_mocks/pull/85)!
+
 ## 0.9.2
 
 - Fixed a crash when testing in signed in mode for an anonymous user. Thanks [BenVercammen](https://github.com/BenVercammen)!
