@@ -300,11 +300,10 @@ void main() {
 
   group('exceptions', () {
     test('signInWithPopup', () async {
-      final auth = MockFirebaseAuth(
-        authExceptions: AuthExceptions(
-          signInWithPopup: FirebaseAuthException(code: 'red'),
-        ),
-      );
+      final auth = MockFirebaseAuth();
+      whenCalling(Invocation.method(#signInWithPopup, null))
+          .on(auth)
+          .thenThrow(FirebaseAuthException(code: 'red'));
       expect(
         () async => await auth.signInWithPopup(AppleAuthProvider()),
         throwsA(isA<FirebaseAuthException>()),
@@ -312,11 +311,10 @@ void main() {
     });
 
     test('signInWithProvider', () async {
-      final auth = MockFirebaseAuth(
-        authExceptions: AuthExceptions(
-          signInWithProvider: FirebaseAuthException(code: 'veronica'),
-        ),
-      );
+      final auth = MockFirebaseAuth();
+      whenCalling(Invocation.method(#signInWithProvider, null))
+          .on(auth)
+          .thenThrow(FirebaseAuthException(code: 'veronica'));
       expect(
         () async => await auth.signInWithProvider(AppleAuthProvider()),
         throwsA(isA<FirebaseAuthException>()),
@@ -325,7 +323,7 @@ void main() {
 
     test('signInWithCredential', () async {
       final auth = MockFirebaseAuth();
-      whenCalling(Invocation.method(#signInWithCredential, [anything]))
+      whenCalling(Invocation.method(#signInWithCredential, null))
           .on(auth)
           .thenThrow(FirebaseAuthException(code: 'bla'));
       expect(
@@ -335,11 +333,10 @@ void main() {
     });
 
     test('signInWithEmailAndPassword', () async {
-      final auth = MockFirebaseAuth(
-        authExceptions: AuthExceptions(
-          signInWithEmailAndPassword: FirebaseAuthException(code: 'bla'),
-        ),
-      );
+      final auth = MockFirebaseAuth();
+      whenCalling(Invocation.method(#signInWithEmailAndPassword, null))
+          .on(auth)
+          .thenThrow(FirebaseAuthException(code: 'veronica'));
       expect(
         () async =>
             await auth.signInWithEmailAndPassword(email: '', password: ''),
@@ -348,11 +345,10 @@ void main() {
     });
 
     test('createUserWithEmailAndPassword', () async {
-      final auth = MockFirebaseAuth(
-        authExceptions: AuthExceptions(
-          createUserWithEmailAndPassword: FirebaseAuthException(code: 'bla'),
-        ),
-      );
+      final auth = MockFirebaseAuth();
+      whenCalling(Invocation.method(#createUserWithEmailAndPassword, null))
+          .on(auth)
+          .thenThrow(FirebaseAuthException(code: 'bla'));
       expect(
         () async =>
             await auth.createUserWithEmailAndPassword(email: '', password: ''),
@@ -361,11 +357,10 @@ void main() {
     });
 
     test('signInWithCustomToken', () async {
-      final auth = MockFirebaseAuth(
-        authExceptions: AuthExceptions(
-          signInWithCustomToken: FirebaseAuthException(code: 'bla'),
-        ),
-      );
+      final auth = MockFirebaseAuth();
+      whenCalling(Invocation.method(#signInWithCustomToken, null))
+          .on(auth)
+          .thenThrow(FirebaseAuthException(code: 'bla'));
       expect(
         () async => await auth.signInWithCustomToken(''),
         throwsA(isA<FirebaseAuthException>()),
@@ -373,11 +368,10 @@ void main() {
     });
 
     test('signInAnonymously', () async {
-      final auth = MockFirebaseAuth(
-        authExceptions: AuthExceptions(
-          signInAnonymously: FirebaseAuthException(code: 'bla'),
-        ),
-      );
+      final auth = MockFirebaseAuth();
+      whenCalling(Invocation.method(#signInAnonymously, null))
+          .on(auth)
+          .thenThrow(FirebaseAuthException(code: 'bla'));
       expect(
         () async => await auth.signInAnonymously(),
         throwsA(isA<FirebaseAuthException>()),
@@ -385,22 +379,24 @@ void main() {
     });
 
     test('fetchSignInMethodsForEmail', () async {
-      final auth = MockFirebaseAuth(
-        authExceptions: AuthExceptions(
-            fetchSignInMethodsForEmail: FirebaseAuthException(code: 'bla')),
-      );
+      final auth = MockFirebaseAuth();
+      whenCalling(Invocation.method(
+              #fetchSignInMethodsForEmail, ['someone@somewhere.com']))
+          .on(auth)
+          .thenThrow(FirebaseAuthException(code: 'bla'));
+      expect(() => auth.fetchSignInMethodsForEmail('someone@somewhere.com'),
+          throwsA(isA<FirebaseAuthException>()));
       expect(
-        () async => await auth.fetchSignInMethodsForEmail(''),
-        throwsA(isA<FirebaseAuthException>()),
-      );
+          () =>
+              auth.fetchSignInMethodsForEmail('someoneelse@somewhereelse.com'),
+          returnsNormally);
     });
 
     test('sendPasswordResetEmail', () async {
-      final auth = MockFirebaseAuth(
-        authExceptions: AuthExceptions(
-          sendPasswordResetEmail: FirebaseAuthException(code: 'invalid-email'),
-        ),
-      );
+      final auth = MockFirebaseAuth();
+      whenCalling(Invocation.method(#sendPasswordResetEmail, null))
+          .on(auth)
+          .thenThrow(FirebaseAuthException(code: 'invalid-email'));
 
       expect(
         () async => await auth.sendPasswordResetEmail(email: ''),
@@ -409,11 +405,10 @@ void main() {
     });
 
     test('sendSignInLinkToEmail', () async {
-      final auth = MockFirebaseAuth(
-        authExceptions: AuthExceptions(
-          sendSignInLinkToEmail: FirebaseAuthException(code: 'invalid-email'),
-        ),
-      );
+      final auth = MockFirebaseAuth();
+      whenCalling(Invocation.method(#sendSignInLinkToEmail, null))
+          .on(auth)
+          .thenThrow(FirebaseAuthException(code: 'invalid-email'));
 
       expect(
         () async => await auth.sendSignInLinkToEmail(
@@ -428,13 +423,12 @@ void main() {
     });
 
     test('confirmPasswordReset', () async {
-      final auth = MockFirebaseAuth(
-        authExceptions: AuthExceptions(
-          confirmPasswordReset:
-              FirebaseAuthException(code: 'invalid-action-code'),
-        ),
-      );
+      final auth = MockFirebaseAuth();
 
+      whenCalling(Invocation.method(
+              #confirmPasswordReset, null, {#code: contains('code')}))
+          .on(auth)
+          .thenThrow(FirebaseAuthException(code: 'invalid-action-code'));
       expect(
         () async => await auth.confirmPasswordReset(
           code: 'code',
@@ -442,15 +436,19 @@ void main() {
         ),
         throwsA(isA<FirebaseAuthException>()),
       );
+      expect(
+          () => auth.confirmPasswordReset(
+                code: '10293',
+                newPassword: 'password',
+              ),
+          returnsNormally);
     });
 
     test('verifyPasswordResetCode', () async {
-      final auth = MockFirebaseAuth(
-        authExceptions: AuthExceptions(
-          verifyPasswordResetCode:
-              FirebaseAuthException(code: 'invalid-action-code'),
-        ),
-      );
+      final auth = MockFirebaseAuth();
+      whenCalling(Invocation.method(#verifyPasswordResetCode, null))
+          .on(auth)
+          .thenThrow(FirebaseAuthException(code: 'invalid-action-code'));
 
       expect(
         () async => await auth.verifyPasswordResetCode('code'),
@@ -561,12 +559,6 @@ void main() {
     // Fire a second event.
     await auth.signOut();
     expect(await auth.userChanges().first, isNull);
-  });
-
-  test('$AuthExceptions ensure equality', () {
-    final authExceptions1 = AuthExceptions();
-    final authExceptions2 = AuthExceptions();
-    expect(authExceptions1, authExceptions2);
   });
 
   test('Id token contains user data', () async {

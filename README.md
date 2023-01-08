@@ -68,6 +68,77 @@ main() {
   - `getIdToken` and `getIdTokenResult`
   - the ability to throw exceptions.
 
+## Throwing exceptions
+
+### Regardless of the parameters
+
+```dart
+whenCalling(Invocation.method(#signInWithCredential, null))
+  .on(auth)
+  .thenThrow(FirebaseAuthException(code: 'bla'));
+expect(
+  () => auth.signInWithCredential(FakeAuthCredential()),
+  throwsA(isA<FirebaseAuthException>()),
+);
+```
+
+### Depending on positional parameters
+
+#### Equality
+
+```dart
+final auth = MockFirebaseAuth();
+whenCalling(Invocation.method(
+        #fetchSignInMethodsForEmail, ['someone@somewhere.com']))
+    .on(auth)
+    .thenThrow(FirebaseAuthException(code: 'bla'));
+expect(() => auth.fetchSignInMethodsForEmail('someone@somewhere.com'),
+    throwsA(isA<FirebaseAuthException>()));
+expect(() => auth.fetchSignInMethodsForEmail('someoneelse@somewhereelse.com'),
+    returnsNormally);
+```
+
+#### Using any other matcher
+
+Supports all of the matchers from the [Dart matchers library](https://api.flutter.dev/flutter/package-matcher_matcher/package-matcher_matcher-library.html#functions).
+
+```dart
+final auth = MockFirebaseAuth();
+whenCalling(Invocation.method(
+        #fetchSignInMethodsForEmail, [endsWith('@somewhere.com')]))
+    .on(auth)
+    .thenThrow(FirebaseAuthException(code: 'bla'));
+expect(() => auth.fetchSignInMethodsForEmail('someone@somewhere.com'),
+    throwsA(isA<FirebaseAuthException>()));
+expect(() => auth.fetchSignInMethodsForEmail('someoneelse@somewhereelse.com'),
+    returnsNormally);
+```
+
+### Depending on named parameters
+
+You can match some or all named parameters. If you omit a named parameter, the library matches it against `anything`.
+
+In this example, it will throw an exception if the `code` contains the String 'code', no matter the value of `newPassword`.
+
+```dart
+whenCalling(Invocation.method(
+          #confirmPasswordReset, null, {#code: contains('code')}))
+      .on(auth)
+      .thenThrow(FirebaseAuthException(code: 'invalid-action-code'));
+  expect(
+    () async => await auth.confirmPasswordReset(
+      code: 'code',
+      newPassword: 'password',
+    ),
+    throwsA(isA<FirebaseAuthException>()),
+  );
+  expect(
+      () => auth.confirmPasswordReset(
+            code: '10293',
+            newPassword: 'password',
+          ),
+      returnsNormally);
+```
 
 ## Compatibility table
 

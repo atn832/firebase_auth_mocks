@@ -6,7 +6,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:meta/meta.dart';
 import 'package:mock_exceptions/mock_exceptions.dart';
 
-import 'auth_exceptions.dart';
 import 'mock_confirmation_result.dart';
 import 'mock_firebase_app.dart';
 import 'mock_user.dart';
@@ -20,7 +19,6 @@ class MockFirebaseAuth implements FirebaseAuth {
   MockUser? _mockUser;
   final Map<String, List<String>> _signInMethodsForEmail;
   User? _currentUser;
-  final AuthExceptions? _authExceptions;
 
   /// The [FirebaseApp] for this current Auth instance.
   @override
@@ -29,10 +27,8 @@ class MockFirebaseAuth implements FirebaseAuth {
   MockFirebaseAuth({
     bool signedIn = false,
     MockUser? mockUser,
-    AuthExceptions? authExceptions,
     Map<String, List<String>>? signInMethodsForEmail,
   })  : _mockUser = mockUser,
-        _authExceptions = authExceptions,
         _signInMethodsForEmail = signInMethodsForEmail ?? {},
         app = MockFirebaseApp() {
     stateChangedStream =
@@ -73,18 +69,15 @@ class MockFirebaseAuth implements FirebaseAuth {
 
   @override
   Future<UserCredential> signInWithPopup(AuthProvider provider) {
-    if (_authExceptions?.signInWithPopup != null) {
-      throw (_authExceptions!.signInWithPopup!);
-    }
+    maybeThrowException(this, Invocation.method(#signInWithPopup, [provider]));
 
     return _fakeSignIn();
   }
 
   @override
   Future<UserCredential> signInWithProvider(AuthProvider provider) {
-    if (_authExceptions?.signInWithProvider != null) {
-      throw (_authExceptions!.signInWithProvider!);
-    }
+    maybeThrowException(
+        this, Invocation.method(#signInWithProvider, [provider]));
 
     return _fakeSignIn();
   }
@@ -94,9 +87,10 @@ class MockFirebaseAuth implements FirebaseAuth {
     required String email,
     required String password,
   }) {
-    if (_authExceptions?.signInWithEmailAndPassword != null) {
-      throw (_authExceptions!.signInWithEmailAndPassword!);
-    }
+    maybeThrowException(
+        this,
+        Invocation.method(#signInWithEmailAndPassword, null,
+            {#email: email, #password: password}));
 
     return _fakeSignIn();
   }
@@ -106,9 +100,10 @@ class MockFirebaseAuth implements FirebaseAuth {
     required String email,
     required String password,
   }) {
-    if (_authExceptions?.createUserWithEmailAndPassword != null) {
-      throw (_authExceptions!.createUserWithEmailAndPassword!);
-    }
+    maybeThrowException(
+        this,
+        Invocation.method(#createUserWithEmailAndPassword, null,
+            {#email: email, #password: password}));
 
     _mockUser = MockUser(
       uid: 'mock_uid',
@@ -120,9 +115,8 @@ class MockFirebaseAuth implements FirebaseAuth {
 
   @override
   Future<UserCredential> signInWithCustomToken(String token) async {
-    if (_authExceptions?.signInWithCustomToken != null) {
-      throw (_authExceptions!.signInWithCustomToken!);
-    }
+    maybeThrowException(
+        this, Invocation.method(#signInWithCustomToken, [token]));
 
     return _fakeSignIn();
   }
@@ -135,9 +129,7 @@ class MockFirebaseAuth implements FirebaseAuth {
 
   @override
   Future<UserCredential> signInAnonymously() {
-    if (_authExceptions?.signInAnonymously != null) {
-      throw (_authExceptions!.signInAnonymously!);
-    }
+    maybeThrowException(this, Invocation.method(#signInAnonymously, null));
 
     return _fakeSignIn(isAnonymous: true);
   }
@@ -151,9 +143,8 @@ class MockFirebaseAuth implements FirebaseAuth {
 
   @override
   Future<List<String>> fetchSignInMethodsForEmail(String email) {
-    if (_authExceptions?.fetchSignInMethodsForEmail != null) {
-      throw (_authExceptions!.fetchSignInMethodsForEmail!);
-    }
+    maybeThrowException(
+        this, Invocation.method(#fetchSignInMethodsForEmail, [email]));
 
     return Future.value(_signInMethodsForEmail[email] ?? []);
   }
@@ -203,9 +194,10 @@ class MockFirebaseAuth implements FirebaseAuth {
     required String email,
     ActionCodeSettings? actionCodeSettings,
   }) {
-    if (_authExceptions?.sendPasswordResetEmail != null) {
-      throw _authExceptions!.sendPasswordResetEmail!;
-    }
+    maybeThrowException(
+        this,
+        Invocation.method(#sendPasswordResetEmail, null,
+            {#email: email, #actionCodeSettings: actionCodeSettings}));
 
     return Future.value();
   }
@@ -221,9 +213,10 @@ class MockFirebaseAuth implements FirebaseAuth {
       );
     }
 
-    if (_authExceptions?.sendSignInLinkToEmail != null) {
-      throw _authExceptions!.sendSignInLinkToEmail!;
-    }
+    maybeThrowException(
+        this,
+        Invocation.method(#sendSignInLinkToEmail, null,
+            {#email: email, #actionCodeSettings: actionCodeSettings}));
 
     return Future.value();
   }
@@ -233,18 +226,18 @@ class MockFirebaseAuth implements FirebaseAuth {
     required String code,
     required String newPassword,
   }) {
-    if (_authExceptions?.confirmPasswordReset != null) {
-      throw _authExceptions!.confirmPasswordReset!;
-    }
+    maybeThrowException(
+        this,
+        Invocation.method(#confirmPasswordReset, null,
+            {#code: code, #newPassword: newPassword}));
 
     return Future.value();
   }
 
   @override
   Future<String> verifyPasswordResetCode(String code) {
-    if (_authExceptions?.verifyPasswordResetCode != null) {
-      throw _authExceptions!.verifyPasswordResetCode!;
-    }
+    maybeThrowException(
+        this, Invocation.method(#verifyPasswordResetCode, [code]));
 
     return Future.value(_mockUser?.email ?? 'email@example.com');
   }

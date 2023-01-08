@@ -1,3 +1,27 @@
+## 0.10.0
+
+BREAKING CHANGE. Use the `whenCalling(...).on(...).thenThrow(...)` pattern instead of `AuthExceptions` ([PR-87](https://github.com/atn832/firebase_auth_mocks/pull/87)).
+
+Instead of setting up your exception like this:
+
+```dart
+final auth = MockFirebaseAuth(
+  authExceptions: AuthExceptions(
+    signInWithCredential: FirebaseAuthException(code: 'something'),
+  ),
+);
+```
+
+Use:
+
+```dart
+whenCalling(Invocation.method(#signInWithCredential, null))
+  .on(auth)
+  .thenThrow(FirebaseAuthException(code: 'bla'));
+```
+
+You can also be more specific on when to throw the exception. See the README and <https://pub.dev/packages/mock_exceptions>.
+
 ## 0.9.3
 
 - Implemented `FirebaseAuth.signInWithPopup` and `FirebaseAuth.signInWithProvider`. Thanks [ga-bri-el](https://github.com/atn832/firebase_auth_mocks/pull/85)!
