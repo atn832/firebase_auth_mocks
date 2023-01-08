@@ -16,6 +16,7 @@ dependencies:
   equatable: ^2.0.0
   dart_jsonwebtoken: ^2.4.1
   uuid: ^3.0.6
+  firebase_auth_platform_interface: ^6.11.7
 
 dev_dependencies:
   flutter_test:
