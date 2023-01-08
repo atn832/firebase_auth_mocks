@@ -63,6 +63,26 @@ void main() {
   });
 
   group('Returns a mocked user after sign in', () {
+    test('with popup', () async {
+      final auth = MockFirebaseAuth(mockUser: tUser);
+      final result = await auth.signInWithPopup(AppleAuthProvider());
+      final user = result.user!;
+      expect(user, tUser);
+      expect(auth.authStateChanges(), emitsInOrder([null, isA<User>()]));
+      expect(auth.userChanges(), emitsInOrder([null, isA<User>()]));
+      expect(user.isAnonymous, false);
+    });
+
+    test('with Provider', () async {
+      final auth = MockFirebaseAuth(mockUser: tUser);
+      final result = await auth.signInWithProvider(AppleAuthProvider());
+      final user = result.user!;
+      expect(user, tUser);
+      expect(auth.authStateChanges(), emitsInOrder([null, isA<User>()]));
+      expect(auth.userChanges(), emitsInOrder([null, isA<User>()]));
+      expect(user.isAnonymous, false);
+    });
+
     test('with Credential', () async {
       final auth = MockFirebaseAuth(mockUser: tUser);
       // Credentials would typically come from GoogleSignIn.
@@ -278,6 +298,30 @@ void main() {
   });
 
   group('exceptions', () {
+    test('signInWithPopup', () async {
+      final auth = MockFirebaseAuth(
+        authExceptions: AuthExceptions(
+          signInWithPopup: FirebaseAuthException(code: 'red'),
+        ),
+      );
+      expect(
+        () async => await auth.signInWithPopup(AppleAuthProvider()),
+        throwsA(isA<FirebaseAuthException>()),
+      );
+    });
+
+    test('signInWithProvider', () async {
+      final auth = MockFirebaseAuth(
+        authExceptions: AuthExceptions(
+          signInWithProvider: FirebaseAuthException(code: 'veronica'),
+        ),
+      );
+      expect(
+        () async => await auth.signInWithProvider(AppleAuthProvider()),
+        throwsA(isA<FirebaseAuthException>()),
+      );
+    });
+
     test('signInWithCredential', () async {
       final auth = MockFirebaseAuth(
         authExceptions: AuthExceptions(

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:meta/meta.dart';
 
@@ -65,6 +66,24 @@ class MockFirebaseAuth implements FirebaseAuth {
   Future<UserCredential> signInWithCredential(AuthCredential? credential) {
     if (_authExceptions?.signInWithCredential != null) {
       throw (_authExceptions!.signInWithCredential!);
+    }
+
+    return _fakeSignIn();
+  }
+
+  @override
+  Future<UserCredential> signInWithPopup(AuthProvider provider) {
+    if (_authExceptions?.signInWithPopup != null) {
+      throw (_authExceptions!.signInWithPopup!);
+    }
+
+    return _fakeSignIn();
+  }
+
+  @override
+  Future<UserCredential> signInWithProvider(AuthProvider provider) {
+    if (_authExceptions?.signInWithProvider != null) {
+      throw (_authExceptions!.signInWithProvider!);
     }
 
     return _fakeSignIn();
