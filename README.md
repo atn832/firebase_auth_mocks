@@ -70,7 +70,7 @@ main() {
 
 ## Throwing exceptions
 
-### Throwing no matter the parameters
+### Regardless of the parameters
 
 ```dart
 whenCalling(Invocation.method(#signInWithCredential, null))
@@ -78,7 +78,7 @@ whenCalling(Invocation.method(#signInWithCredential, null))
   .thenThrow(FirebaseAuthException(code: 'bla'));
 ```
 
-### Throwing depending on some positional parameter
+### Depending on some positional parameter
 
 #### Equality
 
@@ -94,7 +94,9 @@ expect(() => auth.fetchSignInMethodsForEmail('someoneelse@somewhereelse.com'),
     returnsNormally);
 ```
 
-#### Some any other matcher
+#### Using any other matcher
+
+Supports all of the matchers from the [Dart matchers library](https://api.flutter.dev/flutter/package-matcher_matcher/package-matcher_matcher-library.html#functions).
 
 ```dart
 final auth = MockFirebaseAuth();
@@ -108,7 +110,11 @@ expect(() => auth.fetchSignInMethodsForEmail('someoneelse@somewhereelse.com'),
     returnsNormally);
 ```
 
-### Throwing depending on some named parameters
+### Depending on named parameters
+
+You can match some or all of named parameters. If you omit a named parameter, the library matches against `anything`.
+
+In this example, it will throw an exception if the `code` contains the String 'code', no matter the value of `newPassword`.
 
 ```dart
 whenCalling(Invocation.method(

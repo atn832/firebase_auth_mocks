@@ -1,6 +1,8 @@
 ## 0.10.0
 
-BREAKING CHANGE. Instead of:
+BREAKING CHANGE. Use the `whenCalling(...).on(...).thenThrow(...)` pattern instead of `AuthExceptions` ([PR-87](https://github.com/atn832/firebase_auth_mocks/pull/87)).
+
+Instead of:
 
 ```dart
 final auth = MockFirebaseAuth(
