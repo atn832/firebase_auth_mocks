@@ -78,7 +78,7 @@ whenCalling(Invocation.method(#signInWithCredential, null))
   .thenThrow(FirebaseAuthException(code: 'bla'));
 ```
 
-### Depending on some positional parameter
+### Depending on positional parameters
 
 #### Equality
 
@@ -112,7 +112,7 @@ expect(() => auth.fetchSignInMethodsForEmail('someoneelse@somewhereelse.com'),
 
 ### Depending on named parameters
 
-You can match some or all of named parameters. If you omit a named parameter, the library matches against `anything`.
+You can match some or all named parameters. If you omit a named parameter, the library matches it against `anything`.
 
 In this example, it will throw an exception if the `code` contains the String 'code', no matter the value of `newPassword`.
 
