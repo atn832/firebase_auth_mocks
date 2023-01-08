@@ -17,6 +17,7 @@ dependencies:
   dart_jsonwebtoken: ^2.4.1
   uuid: ^3.0.6
   firebase_auth_platform_interface: ^6.11.7
+  mock_exceptions: ^0.8.2
 
 dev_dependencies:
   flutter_test:
