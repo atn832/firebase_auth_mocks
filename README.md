@@ -76,6 +76,10 @@ main() {
 whenCalling(Invocation.method(#signInWithCredential, null))
   .on(auth)
   .thenThrow(FirebaseAuthException(code: 'bla'));
+expect(
+  () => auth.signInWithCredential(FakeAuthCredential()),
+  throwsA(isA<FirebaseAuthException>()),
+);
 ```
 
 ### Depending on positional parameters

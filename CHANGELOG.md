@@ -2,7 +2,7 @@
 
 BREAKING CHANGE. Use the `whenCalling(...).on(...).thenThrow(...)` pattern instead of `AuthExceptions` ([PR-87](https://github.com/atn832/firebase_auth_mocks/pull/87)).
 
-Instead of:
+Instead of setting up your exception like this:
 
 ```dart
 final auth = MockFirebaseAuth(
