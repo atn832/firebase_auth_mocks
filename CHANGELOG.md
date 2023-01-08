@@ -1,3 +1,7 @@
+## 0.10.1
+
+`User.getIdTokenResult` will return `customClaims` if `idTokenResult` is not explicitly set.
+
 ## 0.10.0
 
 BREAKING CHANGE. Use the `whenCalling(...).on(...).thenThrow(...)` pattern instead of `AuthExceptions` ([PR-87](https://github.com/atn832/firebase_auth_mocks/pull/87)).

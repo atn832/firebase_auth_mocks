@@ -91,7 +91,7 @@ class MockUser with EquatableMixin implements User {
     return Future.value(_idTokenResult ??
         IdTokenResult({
           'authTimestamp': 1655946582,
-          'claims': {},
+          'claims': _customClaim,
           'expirationTimestamp': 1656305736,
           'issuedAtTimestamp': 1656302136,
           'token': 'fake_token',
