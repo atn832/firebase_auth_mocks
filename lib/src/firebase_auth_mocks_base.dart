@@ -20,6 +20,10 @@ class MockFirebaseAuth implements FirebaseAuth {
   final Map<String, List<String>> _signInMethodsForEmail;
   User? _currentUser;
 
+  /// Pass this to FakeFirestore's constructor so it can apply security rules
+  /// according to the signed in user.
+  late Stream<Map<String, dynamic>?> authInformationForFakeFirestore;
+
   /// The [FirebaseApp] for this current Auth instance.
   @override
   FirebaseApp app;
@@ -34,6 +38,20 @@ class MockFirebaseAuth implements FirebaseAuth {
     stateChangedStream =
         stateChangedStreamController.stream.asBroadcastStream();
     userChangedStream = userChangedStreamController.stream.asBroadcastStream();
+    authInformationForFakeFirestore =
+        userChangedStream.asyncMap((u) async => u != null
+            ? {
+                'uid': u.uid,
+                'token': {
+                  'name': u.displayName,
+                  'email': u.email,
+                  'email_verified': u.emailVerified,
+                  'firebase.sign_in_provider':
+                      (await u.getIdTokenResult()).signInProvider,
+                  ...(await u.getIdTokenResult()).claims ?? {}
+                }
+              }
+            : null);
     if (signedIn) {
       if (mockUser?.isAnonymous ?? false) {
         signInAnonymously();

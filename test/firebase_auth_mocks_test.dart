@@ -694,6 +694,26 @@ void main() {
     expect(decodedToken2['bodyHeight'], 169);
   });
 
+  test('authInformationForFakeFirestore', () {
+    final auth = MockFirebaseAuth(mockUser: tUser);
+    auth.signInWithCustomToken('token');
+    expect(
+        auth.authInformationForFakeFirestore,
+        emitsInOrder([
+          null,
+          {
+            'uid': 'T3STU1D',
+            'token': {
+              'name': 'Bob Builder',
+              'email': 'bob@thebuilder.com',
+              'email_verified': true,
+              'firebase.sign_in_provider': 'phone',
+              'role': 'admin'
+            }
+          }
+        ]));
+  });
+
   group('MockUser', () {
     test('when default constructor, expect defaults', () {
       final user = MockUser();
