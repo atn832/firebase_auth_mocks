@@ -473,7 +473,8 @@ void main() {
   });
 
   test('User.updateDisplayName changes displayName', () async {
-    final auth = MockFirebaseAuth(signedIn: true, mockUser: tUser);
+    // Make a deep copy to not modify the original and affect other tests.
+    final auth = MockFirebaseAuth(signedIn: true, mockUser: tUser.copyWith());
     final user = auth.currentUser;
     await user!.updateDisplayName('New Bob');
     expect(user.displayName, 'New Bob');
