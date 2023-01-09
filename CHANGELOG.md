@@ -1,6 +1,6 @@
 ## 0.10.2
 
-Implemented `authInformationForFakeFirestore` to feed to FakeFirestore.
+Implemented `authForFakeFirestore` for Fake Cloud Firestore's security rules.
 
 ## 0.10.1
 

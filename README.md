@@ -48,16 +48,8 @@ main() {
   - `sendPasswordResetEmail`
   - `fetchSignInMethodsForEmail`
   - `currentUser`
-  - the ability to throw exceptions using `authExceptions`:
-
-  ```dart
-  final auth = MockFirebaseAuth(
-    authExceptions: AuthExceptions(
-      signInWithCredential: FirebaseAuthException(code: 'invalid-credential'),
-    ),
-  );
-  ```
-
+  - the ability to throw exceptions using `whenCalling(...).on(...).thenThrow(...)`. See details below.
+  - `authForFakeFirestore` for Fake Cloud Firestore's security rules.
 - `UserCredential` contains the provided `User` with the information of your choice.
 - `User` supports:
   - `updateDisplayName`

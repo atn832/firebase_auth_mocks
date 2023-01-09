@@ -698,7 +698,7 @@ void main() {
     final auth = MockFirebaseAuth(mockUser: tUser);
     auth.signInWithCustomToken('token');
     expect(
-        auth.authInformationForFakeFirestore,
+        auth.authForFakeFirestore,
         emitsInOrder([
           null,
           {
