@@ -39,6 +39,8 @@ class MockFirebaseAuth implements FirebaseAuth {
     stateChangedStream =
         stateChangedStreamController.stream.asBroadcastStream();
     userChangedStream = userChangedStreamController.stream.asBroadcastStream();
+    // Based on https://firebase.google.com/docs/rules/rules-and-auth#identify_users
+    // and https://firebase.google.com/docs/reference/rules/rules.firestore.Request#auth.
     authInformationForFakeFirestore =
         userChangedStream.asyncMap((u) async => u != null
             ? {
