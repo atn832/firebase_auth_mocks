@@ -23,6 +23,9 @@ class MockFirebaseAuth implements FirebaseAuth {
   /// Pass this to FakeFirestore's constructor so it can apply security rules
   /// according to the signed in user. It builds the `auth` Map defined at
   /// https://firebase.google.com/docs/reference/rules/rules.firestore.Request#auth.
+  /// The reason this is a Map<String, dynamic>?> instead of a [User] is because
+  /// we don't want to make Fake Cloud Firestore depend on firebase_auth if
+  /// possible.
   late Stream<Map<String, dynamic>?> authForFakeFirestore;
 
   /// The [FirebaseApp] for this current Auth instance.
