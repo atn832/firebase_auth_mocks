@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
+import 'package:firebase_auth_mocks/src/mock_user_credential.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:mock_exceptions/mock_exceptions.dart';
 import 'package:test/test.dart';
@@ -152,6 +153,14 @@ void main() {
       final wasCodeSent = await codeSent.future;
       expect(wasCodeSent, isTrue);
     });
+  });
+
+  test('calling MockUserCredential.user several times returns the same object',
+      () {
+    final credential = MockUserCredential(true);
+    final uid1 = credential.user.uid;
+    final uid2 = credential.user.uid;
+    expect(uid1, uid2);
   });
 
   test('Returns a mocked user if already signed in', () async {

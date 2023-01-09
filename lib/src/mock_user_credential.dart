@@ -3,20 +3,18 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'mock_user.dart';
 
 class MockUserCredential implements UserCredential {
-  final bool _isAnonymous;
-  final MockUser? _mockUser;
+  final MockUser _mockUser;
 
   MockUserCredential(bool isAnonymous, {MockUser? mockUser})
       // Ensure no mocked credentials or mocked for Anonymous
       : assert(mockUser == null || mockUser.isAnonymous == isAnonymous),
-        _isAnonymous = isAnonymous,
-        _mockUser = mockUser;
+        _mockUser = mockUser ?? MockUser(isAnonymous: isAnonymous);
 
   @override
   User get user => mockUser;
 
   // Strongly typed for use within the project.
-  MockUser get mockUser => _mockUser ?? MockUser(isAnonymous: _isAnonymous);;
+  MockUser get mockUser => _mockUser;
 
   @override
   // TODO: implement additionalUserInfo
