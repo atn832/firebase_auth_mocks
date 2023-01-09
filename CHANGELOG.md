@@ -1,6 +1,7 @@
 ## 0.10.2+2
 
-Make `authForFakeFirestore` send an event at the same time as the other two streams to fix race condition when Fake Cloud Firestore gets the latest user to check security rules.
+- Make `authForFakeFirestore` send an event at the same time as the other two streams to fix race condition when Fake Cloud Firestore gets the latest user to check security rules.
+- Fixed a bug where `MockUserCredential.user` would create a new MockUser at every call, in the anonymous case.
 
 ## 0.10.2
 
