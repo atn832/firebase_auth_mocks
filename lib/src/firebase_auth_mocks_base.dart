@@ -170,20 +170,17 @@ class MockFirebaseAuth implements FirebaseAuth {
     _currentUser = userCredential.user;
     stateChangedStreamController.add(_currentUser);
     userChangedStreamController.add(_currentUser);
-    final u = _currentUser;
-    authForFakeFirestoreStreamController.add(u != null
-        ? {
-            'uid': u.uid,
-            'token': {
-              'name': u.displayName,
-              'email': u.email,
-              'email_verified': u.emailVerified,
-              'firebase.sign_in_provider':
-                  (await u.getIdTokenResult()).signInProvider,
-              ...(await u.getIdTokenResult()).claims ?? {}
-            }
-          }
-        : null);
+    final u = userCredential.mockUser;
+    authForFakeFirestoreStreamController.add({
+      'uid': u.uid,
+      'token': {
+        'name': u.displayName,
+        'email': u.email,
+        'email_verified': u.emailVerified,
+        'firebase.sign_in_provider': u.getIdTokenResultSync().signInProvider,
+        ...u.getIdTokenResultSync().claims ?? {}
+      }
+    });
     return Future.value(userCredential);
   }
 

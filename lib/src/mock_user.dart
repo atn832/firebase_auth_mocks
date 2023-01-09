@@ -88,7 +88,11 @@ class MockUser with EquatableMixin implements User {
 
   @override
   Future<IdTokenResult> getIdTokenResult([bool forceRefresh = false]) {
-    return Future.value(_idTokenResult ??
+    return Future.value(getIdTokenResultSync());
+  }
+
+  IdTokenResult getIdTokenResultSync() {
+    return _idTokenResult ??
         IdTokenResult({
           'authTimestamp': 1655946582,
           'claims': _customClaim,
@@ -96,7 +100,7 @@ class MockUser with EquatableMixin implements User {
           'issuedAtTimestamp': 1656302136,
           'token': 'fake_token',
           'signInProvider': 'google.com'
-        }));
+        });
   }
 
   @override
