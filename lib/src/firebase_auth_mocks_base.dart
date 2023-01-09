@@ -27,6 +27,8 @@ class MockFirebaseAuth implements FirebaseAuth {
   /// we don't want to make Fake Cloud Firestore depend on firebase_auth if
   /// possible.
   late Stream<Map<String, dynamic>?> authForFakeFirestore;
+  final authForFakeFirestoreStreamController =
+      StreamController<Map<String, dynamic>?>();
 
   /// The [FirebaseApp] for this current Auth instance.
   @override
@@ -44,19 +46,9 @@ class MockFirebaseAuth implements FirebaseAuth {
     userChangedStream = userChangedStreamController.stream.asBroadcastStream();
     // Based on https://firebase.google.com/docs/rules/rules-and-auth#identify_users
     // and https://firebase.google.com/docs/reference/rules/rules.firestore.Request#auth.
-    authForFakeFirestore = userChangedStream.asyncMap((u) async => u != null
-        ? {
-            'uid': u.uid,
-            'token': {
-              'name': u.displayName,
-              'email': u.email,
-              'email_verified': u.emailVerified,
-              'firebase.sign_in_provider':
-                  (await u.getIdTokenResult()).signInProvider,
-              ...(await u.getIdTokenResult()).claims ?? {}
-            }
-          }
-        : null);
+    authForFakeFirestore =
+        authForFakeFirestoreStreamController.stream.asBroadcastStream();
+
     if (signedIn) {
       if (mockUser?.isAnonymous ?? false) {
         signInAnonymously();
@@ -162,6 +154,7 @@ class MockFirebaseAuth implements FirebaseAuth {
     _currentUser = null;
     stateChangedStreamController.add(null);
     userChangedStreamController.add(null);
+    authForFakeFirestoreStreamController.add(null);
   }
 
   @override
@@ -172,11 +165,25 @@ class MockFirebaseAuth implements FirebaseAuth {
     return Future.value(_signInMethodsForEmail[email] ?? []);
   }
 
-  Future<UserCredential> _fakeSignIn({bool isAnonymous = false}) {
+  Future<UserCredential> _fakeSignIn({bool isAnonymous = false}) async {
     final userCredential = MockUserCredential(isAnonymous, mockUser: _mockUser);
     _currentUser = userCredential.user;
     stateChangedStreamController.add(_currentUser);
     userChangedStreamController.add(_currentUser);
+    final u = _currentUser;
+    authForFakeFirestoreStreamController.add(u != null
+        ? {
+            'uid': u.uid,
+            'token': {
+              'name': u.displayName,
+              'email': u.email,
+              'email_verified': u.emailVerified,
+              'firebase.sign_in_provider':
+                  (await u.getIdTokenResult()).signInProvider,
+              ...(await u.getIdTokenResult()).claims ?? {}
+            }
+          }
+        : null);
     return Future.value(userCredential);
   }
 

@@ -1,3 +1,7 @@
+## 0.10.2+1
+
+Make `authForFakeFirestore` send an event at the same time as the other two streams to fix race condition when Fake Cloud Firestore gets the latest user to check security rules.
+
 ## 0.10.2
 
 Implemented `authForFakeFirestore` for Fake Cloud Firestore's security rules.
