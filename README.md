@@ -1,12 +1,13 @@
 # Firebase Auth Mocks
 
-Mocks for [Firebase Auth](https://pub.dev/packages/firebase_auth). Use this package with [google_sign_in_mocks](https://pub.dev/packages/google_sign_in_mocks) to write unit tests involving Firebase Authentication.
-
 [![pub package](https://img.shields.io/pub/v/firebase_auth_mocks.svg)](https://pub.dartlang.org/packages/firebase_auth_mocks)
+[![Unit Tests](https://github.com/atn832/firebase_auth_mocks/actions/workflows/unit-tests.yaml/badge.svg)](https://github.com/atn832/firebase_auth_mocks/actions/workflows/unit-tests.yaml)
+
+Mocks for [Firebase Auth](https://pub.dev/packages/firebase_auth). Use this package with [google_sign_in_mocks](https://pub.dev/packages/google_sign_in_mocks) to write unit tests involving Firebase Authentication.
 
 ## Usage
 
-A simple usage example:
+A simple usage example. Add firebase_auth_mocks and google_sign_in_mocks to dev dependencies.
 
 ```dart
 import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
@@ -49,7 +50,7 @@ main() {
   - `fetchSignInMethodsForEmail`
   - `currentUser`
   - the ability to throw exceptions using `whenCalling(...).on(...).thenThrow(...)`. See details below.
-  - `authForFakeFirestore` for Fake Cloud Firestore's security rules.
+  - pass auth information (uid, custom claims...) to Fake Cloud Firestore for security rules via `authForFakeFirestore`. See the docs at [fake_cloud_firestore](https://pub.dev/packages/fake_cloud_firestore) for usage.
 - `UserCredential` contains the provided `User` with the information of your choice.
 - `User` supports:
   - `updateDisplayName`
