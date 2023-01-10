@@ -50,7 +50,7 @@ main() {
   - `fetchSignInMethodsForEmail`
   - `currentUser`
   - the ability to throw exceptions using `whenCalling(...).on(...).thenThrow(...)`. See details below.
-  - pass auth information (uid, custom claims...) to Fake Cloud Firestore for security rules via `authForFakeFirestore`. See the docs at [fake_cloud_firestore](https://pub.dev/packages/fake_cloud_firestore) for usage.
+  - pass auth information (uid, custom claims...) to Fake Cloud Firestore for security rules via `authForFakeFirestore`. See the docs at [fake_cloud_firestore](https://pub.dev/packages/fake_cloud_firestore#security-rules) for usage.
 - `UserCredential` contains the provided `User` with the information of your choice.
 - `User` supports:
   - `updateDisplayName`
