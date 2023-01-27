@@ -489,6 +489,25 @@ void main() {
     expect(user.displayName, 'New Bob');
   });
 
+  test('User.updateEmail works', () async {
+    final auth = MockFirebaseAuth(signedIn: true, mockUser: tUser);
+    final user = auth.currentUser;
+    expect(
+      () async => await user!.updateEmail('john@domain.tld'),
+      returnsNormally,
+    );
+  });
+
+  test('User.updateEmail can throw exception', () async {
+    final auth = MockFirebaseAuth(signedIn: true, mockUser: tUser);
+    tUser.exception = FirebaseAuthException(code: 'invalid-email');
+    final user = auth.currentUser;
+    expect(
+      () async => await user!.updateEmail('john@domain.tld'),
+      throwsA(isA<FirebaseAuthException>()),
+    );
+  });
+
   test('User.reauthenticateWithCredential works', () async {
     final auth = MockFirebaseAuth(signedIn: true, mockUser: tUser);
     final user = auth.currentUser;
