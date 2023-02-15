@@ -168,6 +168,12 @@ class MockUser with EquatableMixin implements User {
   }
 
   @override
+  Future<void> updatePhotoURL(String? photoURL) {
+    photoURL = photoURL;
+    return Future.value();
+  }
+
+  @override
   Future<UserCredential> reauthenticateWithCredential(
       AuthCredential? credential) {
     _maybeThrowException();
