@@ -236,6 +236,19 @@ class MockUser with EquatableMixin implements User {
     return Future.value(MockUserCredential(false, mockUser: this));
   }
 
+  @override
+  Future<User> unlink(String providerId) async {
+    if (!providerData.any((info) => info.providerId == providerId)) {
+      exception = FirebaseAuthException(
+        code: 'no-such-provider',
+        message: 'User is not linked to the given provider.',
+      );
+    }
+    _maybeThrowException();
+    providerData.removeWhere((info) => info.providerId == providerId);
+    return Future.value(this);
+  }
+
   void _maybeThrowException() {
     if (_exception != null) {
       final exceptionCopy = _exception!;

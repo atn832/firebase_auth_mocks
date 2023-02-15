@@ -577,6 +577,9 @@ void main() {
     );
   });
 
+  // Temp variable to hold tUser before provider is linked
+  final _unlinkedTUser = tUser;
+
   test('User.linkWithProvider works if not already linked', () async {
     final auth = MockFirebaseAuth(signedIn: true, mockUser: tUser);
     final user = auth.currentUser;
@@ -596,6 +599,25 @@ void main() {
     final provider = TwitterAuthProvider();
     expect(
       () async => await user!.linkWithProvider(provider),
+      throwsA(isA<FirebaseAuthException>()),
+    );
+  });
+
+  test('User.unlink succeeds', () async {
+    final auth = MockFirebaseAuth(signedIn: true, mockUser: tUser);
+    final user = auth.currentUser;
+    final provider = TwitterAuthProvider();
+    final newUser = await user!.unlink(provider.providerId);
+    expect(newUser, _unlinkedTUser);
+  });
+
+  // tUser should now be unlinked
+  test('User.unlink throws Exception if no provider is linked', () async {
+    final auth = MockFirebaseAuth(signedIn: true, mockUser: tUser);
+    final user = auth.currentUser;
+    final provider = TwitterAuthProvider();
+    expect(
+      () async => await user!.unlink(provider.providerId),
       throwsA(isA<FirebaseAuthException>()),
     );
   });
