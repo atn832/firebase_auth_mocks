@@ -489,6 +489,13 @@ void main() {
     expect(user.displayName, 'New Bob');
   });
 
+  test('User.updatePhotoURL changes photoURL', () async {
+    final auth = MockFirebaseAuth(signedIn: true, mockUser: tUser);
+    expect(auth.currentUser, isNotNull);
+    await auth.currentUser!.updatePhotoURL('https://example.com/photo.jpg');
+    expect(auth.currentUser!.photoURL, 'https://example.com/photo.jpg');
+  });
+
   test('User.reauthenticateWithCredential works', () async {
     final auth = MockFirebaseAuth(signedIn: true, mockUser: tUser);
     final user = auth.currentUser;
