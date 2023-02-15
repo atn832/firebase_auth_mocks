@@ -2,6 +2,7 @@ import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_mocks/src/mock_user_credential.dart';
+import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
 import 'package:uuid/uuid.dart';
 
 class MockUser with EquatableMixin implements User {
@@ -11,7 +12,7 @@ class MockUser with EquatableMixin implements User {
   final String? _email;
   String? _displayName;
   final String? _phoneNumber;
-  final String? _photoURL;
+  String? _photoURL;
   final List<UserInfo> _providerData;
   final String? _refreshToken;
   final UserMetadata? _metadata;
@@ -72,6 +73,10 @@ class MockUser with EquatableMixin implements User {
 
   set displayName(String? value) {
     _displayName = value;
+  }
+
+  set photoURL(String? value) {
+    _photoURL = value;
   }
 
   @override
@@ -168,8 +173,8 @@ class MockUser with EquatableMixin implements User {
   }
 
   @override
-  Future<void> updatePhotoURL(String? photoURL) {
-    photoURL = photoURL;
+  Future<void> updatePhotoURL(String? value) {
+    photoURL = value;
     return Future.value();
   }
 
@@ -211,6 +216,23 @@ class MockUser with EquatableMixin implements User {
   Future<UserCredential> linkWithCredential(AuthCredential credential) async {
     _maybeThrowException();
 
+    return Future.value(MockUserCredential(false, mockUser: this));
+  }
+
+  @override
+  Future<UserCredential> linkWithProvider(AuthProvider provider) async {
+    if (providerData.any((info) => info.providerId == provider.providerId)) {
+      exception = FirebaseAuthException(
+        code: 'provider-already-linked',
+        message: 'User has already been linked to the given provider.',
+      );
+    }
+    _maybeThrowException();
+    providerData.add(
+      UserInfo({
+        'providerId': provider.providerId,
+      }),
+    );
     return Future.value(MockUserCredential(false, mockUser: this));
   }
 
