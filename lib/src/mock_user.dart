@@ -11,7 +11,7 @@ class MockUser with EquatableMixin implements User {
   final String? _email;
   String? _displayName;
   final String? _phoneNumber;
-  final String? _photoURL;
+  String? _photoURL;
   final List<UserInfo> _providerData;
   final String? _refreshToken;
   final UserMetadata? _metadata;
@@ -79,6 +79,10 @@ class MockUser with EquatableMixin implements User {
 
   @override
   String? get photoURL => _photoURL ?? 'https://i.stack.imgur.com/34AD2.jpg';
+  
+  set photoURL(String? value) {
+    _photoURL = value;
+  }
 
   @override
   List<UserInfo> get providerData => _providerData;
@@ -168,8 +172,8 @@ class MockUser with EquatableMixin implements User {
   }
 
   @override
-  Future<void> updatePhotoURL(String? photoURL) {
-    photoURL = photoURL;
+  Future<void> updatePhotoURL(String? value) {
+    photoURL = value;
     return Future.value();
   }
 
