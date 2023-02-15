@@ -84,6 +84,10 @@ class MockUser with EquatableMixin implements User {
 
   @override
   String? get photoURL => _photoURL ?? 'https://i.stack.imgur.com/34AD2.jpg';
+  
+  set photoURL(String? value) {
+    _photoURL = value;
+  }
 
   @override
   List<UserInfo> get providerData => _providerData;
