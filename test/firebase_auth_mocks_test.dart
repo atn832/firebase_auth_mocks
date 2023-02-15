@@ -577,6 +577,29 @@ void main() {
     );
   });
 
+  test('User.linkWithProvider works if not already linked', () async {
+    final auth = MockFirebaseAuth(signedIn: true, mockUser: tUser);
+    final user = auth.currentUser;
+    final provider = TwitterAuthProvider();
+    final cred = await user!.linkWithProvider(provider);
+    expect(cred, isNotNull);
+    expect(
+      user.providerData.any((info) => info.providerId == 'twitter.com'),
+      true,
+    );
+  });
+
+  test('User.linkWithProvider throws Exception if already linked', () async {
+    // tUser is still linked to twitter.com from previous test
+    final auth = MockFirebaseAuth(signedIn: true, mockUser: tUser);
+    final user = auth.currentUser;
+    final provider = TwitterAuthProvider();
+    expect(
+      () async => await user!.linkWithProvider(provider),
+      throwsException,
+    );
+  });
+
   test('Listening twice works', () async {
     final auth = MockFirebaseAuth();
     expect(await auth.userChanges().first, isNull);
