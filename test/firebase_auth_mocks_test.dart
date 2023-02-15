@@ -596,7 +596,7 @@ void main() {
     final provider = TwitterAuthProvider();
     expect(
       () async => await user!.linkWithProvider(provider),
-      throwsException,
+      throwsA(isA<FirebaseAuthException>()),
     );
   });
 
