@@ -18,18 +18,23 @@ final userIdTokenResult = IdTokenResult({
   'signInProvider': 'phone',
 });
 
-final tUser = MockUser(
-  isAnonymous: false,
-  uid: 'T3STU1D',
-  email: 'bob@thebuilder.com',
-  displayName: 'Bob Builder',
-  phoneNumber: '0800 I CAN FIX IT',
-  photoURL: 'http://photos.url/bobbie.jpg',
-  refreshToken: 'some_long_token',
-  idTokenResult: userIdTokenResult,
-);
-
 void main() {
+  late MockUser tUser;
+
+  setUp(
+    () {
+      tUser = MockUser(
+        isAnonymous: false,
+        email: 'bob@thebuilder.com',
+        displayName: 'Bob Builder',
+        phoneNumber: '0800 I CAN FIX IT',
+        photoURL: 'http://photos.url/bobbie.jpg',
+        refreshToken: 'some_long_token',
+        idTokenResult: userIdTokenResult,
+      );
+    },
+  );
+
   test('Returns no user if not signed in', () async {
     final auth = MockFirebaseAuth();
     final user = auth.currentUser;
@@ -515,7 +520,9 @@ void main() {
 
   test('User.reauthenticateWithCredential can throw exception', () async {
     final auth = MockFirebaseAuth(signedIn: true, mockUser: tUser);
-    tUser.exception = FirebaseAuthException(code: 'wrong-password');
+    whenCalling(Invocation.method(#reauthenticateWithCredential, null))
+        .on(tUser)
+        .thenThrow(FirebaseAuthException(code: 'wrong-password'));
     final user = auth.currentUser;
     expect(
       () => user!.reauthenticateWithCredential(
@@ -535,7 +542,9 @@ void main() {
 
   test('User.updatePassword can throw exception', () async {
     final auth = MockFirebaseAuth(signedIn: true, mockUser: tUser);
-    tUser.exception = FirebaseAuthException(code: 'weak-password');
+    whenCalling(Invocation.method(#updatePassword, null))
+        .on(tUser)
+        .thenThrow(FirebaseAuthException(code: 'weak-password'));
     final user = auth.currentUser;
     expect(
       () => user!.updatePassword('newPassword'),
@@ -554,7 +563,9 @@ void main() {
 
   test('User.delete can throw exception', () async {
     final auth = MockFirebaseAuth(signedIn: true, mockUser: tUser);
-    tUser.exception = FirebaseAuthException(code: 'wrong-password');
+    whenCalling(Invocation.method(#delete, null))
+        .on(tUser)
+        .thenThrow(FirebaseAuthException(code: 'wrong-password'));
     final user = auth.currentUser;
     expect(
       () => user!.delete(),
@@ -564,7 +575,9 @@ void main() {
 
   test('User.sendEmailVerification can throw exception', () async {
     final auth = MockFirebaseAuth(mockUser: tUser, signedIn: true);
-    tUser.exception = FirebaseAuthException(code: 'verification-failure');
+    whenCalling(Invocation.method(#sendEmailVerification, null))
+        .on(tUser)
+        .thenThrow(FirebaseAuthException(code: 'verification-failure'));
     final user = auth.currentUser;
     expect(
       () => user?.sendEmailVerification(),
@@ -577,7 +590,9 @@ void main() {
     final user = auth.currentUser;
     final credential =
         AuthCredential(providerId: 'providerId', signInMethod: 'signInMethod');
-    tUser.exception = FirebaseAuthException(code: 'verification-failure');
+    whenCalling(Invocation.method(#linkWithCredential, null))
+        .on(tUser)
+        .thenThrow(FirebaseAuthException(code: 'verification-failure'));
     expect(
       () => user?.linkWithCredential(credential),
       throwsA(isA<FirebaseAuthException>()),
@@ -755,7 +770,7 @@ void main() {
         emitsInOrder([
           null,
           {
-            'uid': 'T3STU1D',
+            'uid': tUser.uid,
             'token': {
               'name': 'Bob Builder',
               'email': 'bob@thebuilder.com',
