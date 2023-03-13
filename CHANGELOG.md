@@ -4,6 +4,7 @@
 - `FirebaseAuth.createUserWithEmailAndPassword` returns `ProviderData`. Thank you [robyf](https://github.com/atn832/firebase_auth_mocks/pull/90)!
 - Implemented `User.updatePhotoURL`. Thank you [bifrostyyy](https://github.com/atn832/firebase_auth_mocks/pull/91)!
 - Implemented `User.linkWithProvider`, and `User.unlink`. Thank you [bifrostyyy](https://github.com/atn832/firebase_auth_mocks/pull/91)!
+- Make `User.reload` throw exceptions on demand ([9ad29f0](https://github.com/atn832/firebase_auth_mocks/commit/9ad29f057660c3e1869a55d57c9972c0137626bf)).
 
 ## 0.10.3
 
