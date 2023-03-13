@@ -158,6 +158,7 @@ class MockUser with EquatableMixin implements User {
         _photoURL,
         _refreshToken,
         _metadata,
+        providerData
       ];
 
   @override
