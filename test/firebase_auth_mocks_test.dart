@@ -58,6 +58,12 @@ void main() {
           email: email, password: password);
       final user = result.user!;
       expect(user.email, email);
+      final providerData = user.providerData;
+      expect(providerData.length, 1);
+      expect(providerData.first.providerId, 'password');
+      expect(providerData.first.email, 'some@email.com');
+      expect(providerData.first.uid, user.uid);
+
       expect(auth.authStateChanges(), emitsInOrder([null, isA<User>()]));
       expect(auth.userChanges(), emitsInOrder([null, isA<User>()]));
       expect(user.isAnonymous, isFalse);
@@ -367,7 +373,8 @@ void main() {
           .on(auth)
           .thenThrow(FirebaseAuthException(code: 'bla'));
       expect(
-        () => auth.createUserWithEmailAndPassword(email: '', password: ''),
+        () => auth.createUserWithEmailAndPassword(
+            email: 'me@mail.com', password: '123'),
         throwsA(isA<FirebaseAuthException>()),
       );
     });

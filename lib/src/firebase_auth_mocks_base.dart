@@ -5,6 +5,7 @@ import 'package:firebase_auth_platform_interface/firebase_auth_platform_interfac
 import 'package:firebase_core/firebase_core.dart';
 import 'package:meta/meta.dart';
 import 'package:mock_exceptions/mock_exceptions.dart';
+import 'package:uuid/uuid.dart';
 
 import 'mock_confirmation_result.dart';
 import 'mock_firebase_app.dart';
@@ -120,14 +121,15 @@ class MockFirebaseAuth implements FirebaseAuth {
         Invocation.method(#createUserWithEmailAndPassword, null,
             {#email: email, #password: password}));
 
+    final id = Uuid().v4();
     _mockUser = MockUser(
-      uid: 'mock_uid',
+      uid: id,
       email: email,
       displayName: 'Mock User',
       providerData: [
         UserInfo({
           'email': email,
-          'uid': email,
+          'uid': id,
           'providerId': 'password',
         }),
       ],
