@@ -2,6 +2,7 @@
 
 [![pub package](https://img.shields.io/pub/v/firebase_auth_mocks.svg)](https://pub.dartlang.org/packages/firebase_auth_mocks)
 [![Unit Tests](https://github.com/atn832/firebase_auth_mocks/actions/workflows/unit-tests.yaml/badge.svg)](https://github.com/atn832/firebase_auth_mocks/actions/workflows/unit-tests.yaml)
+<a href="https://www.buymeacoffee.com/anhtuann" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" height="30px" width= "108px"></a>
 
 Mocks for [Firebase Auth](https://pub.dev/packages/firebase_auth). Use this package with [google_sign_in_mocks](https://pub.dev/packages/google_sign_in_mocks) to write unit tests involving Firebase Authentication.
 
