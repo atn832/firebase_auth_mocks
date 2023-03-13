@@ -159,6 +159,7 @@ class MockUser with EquatableMixin implements User {
 
   @override
   Future<void> reload() {
+    maybeThrowException(this, Invocation.method(#reload, []));
     // Do nothing.
     return Future.value();
   }

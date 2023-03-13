@@ -483,6 +483,19 @@ void main() {
         throwsA(isA<FirebaseAuthException>()),
       );
     });
+
+    test('User.reload', () async {
+      final auth = MockFirebaseAuth(signedIn: true);
+      final user = auth.currentUser;
+      expect(user, isNotNull);
+      whenCalling(Invocation.method(#reload, null))
+          .on(user!)
+          .thenThrow(FirebaseAuthException(code: 'error'));
+      expect(
+        () => user.reload(),
+        throwsA(isA<FirebaseAuthException>()),
+      );
+    });
   });
 
   test('User.reload returns', () async {
