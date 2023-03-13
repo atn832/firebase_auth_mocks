@@ -1,3 +1,10 @@
+## 0.11.0
+
+- BREAKING CHANGE: Replaced the `MockUser.exception` pattern by `whenCalling(...).on(...).thenThrow(...)` ([PR-95](https://github.com/atn832/firebase_auth_mocks/pull/95)).
+- `FirebaseAuth.createUserWithEmailAndPassword` returns `ProviderData`. Thank you [robyf](https://github.com/atn832/firebase_auth_mocks/pull/90)!
+- Implemented `User.updatePhotoURL`. Thank you [bifrostyyy](https://github.com/atn832/firebase_auth_mocks/pull/91)!
+- Implemented `User.linkWithProvider`, and `User.unlink`. Thank you [bifrostyyy](https://github.com/atn832/firebase_auth_mocks/pull/91)!
+
 ## 0.10.3
 
 Fixed a bug where `MockUserCredential.user` would create a new MockUser at every call, in the anonymous case.
