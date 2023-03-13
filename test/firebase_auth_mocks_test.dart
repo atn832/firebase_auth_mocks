@@ -577,47 +577,31 @@ void main() {
     );
   });
 
-  // Temp variable to hold tUser before provider is linked
-  final _unlinkedTUser = tUser;
-
-  test('User.linkWithProvider works if not already linked', () async {
+  test('User.linkWithProvider and unlink', () async {
     final auth = MockFirebaseAuth(signedIn: true, mockUser: tUser);
     final user = auth.currentUser;
     final provider = TwitterAuthProvider();
+    // linkWithProvider works if not already linked.
     final cred = await user!.linkWithProvider(provider);
     expect(cred, isNotNull);
     expect(
       user.providerData.any((info) => info.providerId == 'twitter.com'),
       true,
     );
-  });
-
-  test('User.linkWithProvider throws Exception if already linked', () async {
-    // tUser is still linked to twitter.com from previous test
-    final auth = MockFirebaseAuth(signedIn: true, mockUser: tUser);
-    final user = auth.currentUser;
-    final provider = TwitterAuthProvider();
+    // tUser is still linked to twitter.com from previous test.
+    // linkWithProvider throws Exception if already linked.
     expect(
-      () async => await user!.linkWithProvider(provider),
+      () async => await user.linkWithProvider(provider),
       throwsA(isA<FirebaseAuthException>()),
     );
-  });
 
-  test('User.unlink succeeds', () async {
-    final auth = MockFirebaseAuth(signedIn: true, mockUser: tUser);
-    final user = auth.currentUser;
-    final provider = TwitterAuthProvider();
-    final newUser = await user!.unlink(provider.providerId);
-    expect(newUser, _unlinkedTUser);
-  });
+    // unlink succeeds.
+    final newUser = await user.unlink(provider.providerId);
+    expect(newUser.providerData, isEmpty);
 
-  // tUser should now be unlinked
-  test('User.unlink throws Exception if no provider is linked', () async {
-    final auth = MockFirebaseAuth(signedIn: true, mockUser: tUser);
-    final user = auth.currentUser;
-    final provider = TwitterAuthProvider();
+    // unlink throws Exception if no provider is linked.
     expect(
-      () async => await user!.unlink(provider.providerId),
+      () async => await user.unlink(provider.providerId),
       throwsA(isA<FirebaseAuthException>()),
     );
   });
