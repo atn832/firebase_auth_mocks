@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_mocks/src/mock_user_credential.dart';
 import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
+import 'package:mock_exceptions/mock_exceptions.dart';
 import 'package:uuid/uuid.dart';
 
 class MockUser with EquatableMixin implements User {
@@ -50,11 +51,6 @@ class MockUser with EquatableMixin implements User {
         _idTokenAuthTime = idTokenAuthTime ?? DateTime.now(),
         _idTokenExp = idTokenExp,
         _customClaim = customClaim ?? {};
-
-  FirebaseAuthException? _exception;
-
-  /// Sets a [FirebaseAuthException]
-  set exception(FirebaseAuthException value) => _exception = value;
 
   @override
   bool get isAnonymous => _isAnonymous;
@@ -182,14 +178,16 @@ class MockUser with EquatableMixin implements User {
   @override
   Future<UserCredential> reauthenticateWithCredential(
       AuthCredential? credential) {
-    _maybeThrowException();
+    maybeThrowException(
+        this, Invocation.method(#reauthenticateWithCredential, [credential]));
 
     return Future.value(MockUserCredential(false, mockUser: this));
   }
 
   @override
   Future<void> updatePassword(String newPassword) {
-    _maybeThrowException();
+    maybeThrowException(
+        this, Invocation.method(#updatePassword, [newPassword]));
 
     // Do nothing.
     return Future.value();
@@ -197,7 +195,7 @@ class MockUser with EquatableMixin implements User {
 
   @override
   Future<void> delete() {
-    _maybeThrowException();
+    maybeThrowException(this, Invocation.method(#delete, []));
 
     // Do nothing.
     return Future.value();
@@ -207,7 +205,8 @@ class MockUser with EquatableMixin implements User {
   Future<void> sendEmailVerification([
     ActionCodeSettings? actionCodeSettings,
   ]) {
-    _maybeThrowException();
+    maybeThrowException(
+        this, Invocation.method(#sendEmailVerification, [actionCodeSettings]));
 
     // Do nothing
     return Future.value();
@@ -215,7 +214,8 @@ class MockUser with EquatableMixin implements User {
 
   @override
   Future<UserCredential> linkWithCredential(AuthCredential credential) async {
-    _maybeThrowException();
+    maybeThrowException(
+        this, Invocation.method(#linkWithCredential, [credential]));
 
     return Future.value(MockUserCredential(false, mockUser: this));
   }
@@ -223,12 +223,12 @@ class MockUser with EquatableMixin implements User {
   @override
   Future<UserCredential> linkWithProvider(AuthProvider provider) async {
     if (providerData.any((info) => info.providerId == provider.providerId)) {
-      exception = FirebaseAuthException(
+      throw FirebaseAuthException(
         code: 'provider-already-linked',
         message: 'User has already been linked to the given provider.',
       );
     }
-    _maybeThrowException();
+    maybeThrowException(this, Invocation.method(#linkWithProvider, [provider]));
     providerData.add(
       UserInfo({
         'providerId': provider.providerId,
@@ -240,23 +240,14 @@ class MockUser with EquatableMixin implements User {
   @override
   Future<User> unlink(String providerId) async {
     if (!providerData.any((info) => info.providerId == providerId)) {
-      exception = FirebaseAuthException(
+      throw FirebaseAuthException(
         code: 'no-such-provider',
         message: 'User is not linked to the given provider.',
       );
     }
-    _maybeThrowException();
+    maybeThrowException(this, Invocation.method(#unlink, [providerId]));
     providerData.removeWhere((info) => info.providerId == providerId);
     return Future.value(this);
-  }
-
-  void _maybeThrowException() {
-    if (_exception != null) {
-      final exceptionCopy = _exception!;
-      _exception = null;
-
-      throw (exceptionCopy);
-    }
   }
 
   MockUser copyWith({
