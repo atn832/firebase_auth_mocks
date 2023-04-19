@@ -134,7 +134,7 @@ class MockFirebaseAuth implements FirebaseAuth {
         UserInfo({
           'email': email,
           'uid': id,
-          'providerId': 'password'
+          'providerId': 'password',
         }),
       ],
     );
