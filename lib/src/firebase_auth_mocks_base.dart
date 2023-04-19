@@ -20,6 +20,7 @@ class MockFirebaseAuth implements FirebaseAuth {
   MockUser? _mockUser;
   final Map<String, List<String>> _signInMethodsForEmail;
   User? _currentUser;
+  final bool _verifyEmailAutomatically;
 
   /// Pass this to FakeFirestore's constructor so it can apply security rules
   /// according to the signed in user. It builds the `auth` Map defined at
@@ -39,7 +40,9 @@ class MockFirebaseAuth implements FirebaseAuth {
     bool signedIn = false,
     MockUser? mockUser,
     Map<String, List<String>>? signInMethodsForEmail,
+    bool verifyEmailAutomatically = true
   })  : _mockUser = mockUser,
+        _verifyEmailAutomatically = verifyEmailAutomatically,
         _signInMethodsForEmail = signInMethodsForEmail ?? {},
         app = MockFirebaseApp() {
     stateChangedStream =
@@ -125,12 +128,13 @@ class MockFirebaseAuth implements FirebaseAuth {
     _mockUser = MockUser(
       uid: id,
       email: email,
+      isEmailVerified: _verifyEmailAutomatically,
       displayName: 'Mock User',
       providerData: [
         UserInfo({
           'email': email,
           'uid': id,
-          'providerId': 'password',
+          'providerId': 'password'
         }),
       ],
     );

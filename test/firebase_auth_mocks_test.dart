@@ -55,7 +55,7 @@ void main() {
   });
 
   group('Returns a mocked user user after sign up', () {
-    test('with email and password', () async {
+    test('with verified email and password', () async {
       final email = 'some@email.com';
       final password = 'some!password';
       final auth = MockFirebaseAuth();
@@ -72,7 +72,29 @@ void main() {
       expect(auth.authStateChanges(), emitsInOrder([null, isA<User>()]));
       expect(auth.userChanges(), emitsInOrder([null, isA<User>()]));
       expect(user.isAnonymous, isFalse);
+      expect(user.emailVerified, isTrue);
     });
+
+    test('with unverified email and password', () async {
+      final email = 'some@email.com';
+      final password = 'some!password';
+      final auth = MockFirebaseAuth(verifyEmailAutomatically: false);
+      final result = await auth.createUserWithEmailAndPassword(
+          email: email, password: password);
+      final user = result.user!;
+      expect(user.email, email);
+      final providerData = user.providerData;
+      expect(providerData.length, 1);
+      expect(providerData.first.providerId, 'password');
+      expect(providerData.first.email, 'some@email.com');
+      expect(providerData.first.uid, user.uid);
+
+      expect(auth.authStateChanges(), emitsInOrder([null, isA<User>()]));
+      expect(auth.userChanges(), emitsInOrder([null, isA<User>()]));
+      expect(user.isAnonymous, isFalse);
+      expect(user.emailVerified, isFalse);
+    });
+
   });
 
   group('Returns a mocked user after sign in', () {
