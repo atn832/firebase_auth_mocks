@@ -55,7 +55,7 @@ void main() {
   });
 
   group('Returns a mocked user user after sign up', () {
-    test('with verified email and password', () async {
+    test('with email and password', () async {
       final email = 'some@email.com';
       final password = 'some!password';
       final auth = MockFirebaseAuth();
@@ -75,7 +75,7 @@ void main() {
       expect(user.emailVerified, isTrue);
     });
 
-    test('with unverified email and password', () async {
+    test('with email and password without email verification by default', () async {
       final email = 'some@email.com';
       final password = 'some!password';
       final auth = MockFirebaseAuth(verifyEmailAutomatically: false);
