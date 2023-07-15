@@ -3,20 +3,23 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
 import 'package:firebase_auth_mocks/src/mock_user_credential.dart';
+import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:mock_exceptions/mock_exceptions.dart';
 import 'package:test/test.dart';
 
-final userIdTokenResult = IdTokenResult({
-  'authTimestamp': DateTime.now().millisecondsSinceEpoch,
-  'claims': {'role': 'admin'},
-  'token': 'some_long_token',
-  'expirationTime':
-      DateTime.now().add(Duration(days: 1)).millisecondsSinceEpoch,
-  'issuedAtTimestamp':
-      DateTime.now().subtract(Duration(days: 1)).millisecondsSinceEpoch,
-  'signInProvider': 'phone',
-});
+final userIdTokenResult = IdTokenResult(
+  PigeonIdTokenResult(
+    authTimestamp: DateTime.now().millisecondsSinceEpoch,
+    claims: {'role': 'admin'},
+    token: 'some_long_token',
+    expirationTimestamp:
+        DateTime.now().add(Duration(days: 1)).millisecondsSinceEpoch,
+    issuedAtTimestamp:
+        DateTime.now().subtract(Duration(days: 1)).millisecondsSinceEpoch,
+    signInProvider: 'phone',
+  )
+);
 
 void main() {
   late MockUser tUser;
@@ -768,13 +771,13 @@ void main() {
       signedIn: true,
     );
     final decodedToken =
-        JwtDecoder.decode(await auth.currentUser!.getIdToken());
+        JwtDecoder.decode(await auth.currentUser!.getIdToken() as String);
     expect(decodedToken['role'], 'admin');
     expect(decodedToken['bodyHeight'], 169);
     await auth.signOut();
     await auth.signInWithEmailAndPassword(email: '', password: '');
     final decodedToken2 =
-        JwtDecoder.decode(await auth.currentUser!.getIdToken());
+        JwtDecoder.decode(await auth.currentUser!.getIdToken() as String);
     expect(decodedToken2['role'], 'admin');
     expect(decodedToken2['bodyHeight'], 169);
   });
@@ -784,7 +787,7 @@ void main() {
       signedIn: true,
     );
     final decodedToken =
-        JwtDecoder.decode(await auth.currentUser!.getIdToken());
+        JwtDecoder.decode(await auth.currentUser!.getIdToken() as String);
     expect(decodedToken['role'], null);
     expect(decodedToken['bodyHeight'], null);
 
@@ -792,7 +795,7 @@ void main() {
         .copyWith(customClaim: {'role': 'admin', 'bodyHeight': 169});
 
     final decodedToken2 =
-        JwtDecoder.decode(await auth.currentUser!.getIdToken());
+        JwtDecoder.decode(await auth.currentUser!.getIdToken() as String);
     expect(decodedToken2['role'], 'admin');
     expect(decodedToken2['bodyHeight'], 169);
   });
