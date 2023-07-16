@@ -36,12 +36,12 @@ class MockFirebaseAuth implements FirebaseAuth {
   @override
   FirebaseApp app;
 
-  MockFirebaseAuth({
-    bool signedIn = false,
-    MockUser? mockUser,
-    Map<String, List<String>>? signInMethodsForEmail,
-    bool verifyEmailAutomatically = true
-  })  : _mockUser = mockUser,
+  MockFirebaseAuth(
+      {bool signedIn = false,
+      MockUser? mockUser,
+      Map<String, List<String>>? signInMethodsForEmail,
+      bool verifyEmailAutomatically = true})
+      : _mockUser = mockUser,
         _verifyEmailAutomatically = verifyEmailAutomatically,
         _signInMethodsForEmail = signInMethodsForEmail ?? {},
         app = MockFirebaseApp() {
@@ -131,15 +131,12 @@ class MockFirebaseAuth implements FirebaseAuth {
       isEmailVerified: _verifyEmailAutomatically,
       displayName: 'Mock User',
       providerData: [
-        UserInfo.fromPigeon(
-          PigeonUserInfo(
+        UserInfo.fromPigeon(PigeonUserInfo(
             email: email,
             uid: id,
             providerId: 'password',
             isAnonymous: false,
-            isEmailVerified: _verifyEmailAutomatically
-          )
-        ),
+            isEmailVerified: _verifyEmailAutomatically)),
       ],
     );
     return _fakeSignUp();

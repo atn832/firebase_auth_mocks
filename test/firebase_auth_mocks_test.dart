@@ -8,18 +8,16 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:mock_exceptions/mock_exceptions.dart';
 import 'package:test/test.dart';
 
-final userIdTokenResult = IdTokenResult(
-  PigeonIdTokenResult(
-    authTimestamp: DateTime.now().millisecondsSinceEpoch,
-    claims: {'role': 'admin'},
-    token: 'some_long_token',
-    expirationTimestamp:
-        DateTime.now().add(Duration(days: 1)).millisecondsSinceEpoch,
-    issuedAtTimestamp:
-        DateTime.now().subtract(Duration(days: 1)).millisecondsSinceEpoch,
-    signInProvider: 'phone',
-  )
-);
+final userIdTokenResult = IdTokenResult(PigeonIdTokenResult(
+  authTimestamp: DateTime.now().millisecondsSinceEpoch,
+  claims: {'role': 'admin'},
+  token: 'some_long_token',
+  expirationTimestamp:
+      DateTime.now().add(Duration(days: 1)).millisecondsSinceEpoch,
+  issuedAtTimestamp:
+      DateTime.now().subtract(Duration(days: 1)).millisecondsSinceEpoch,
+  signInProvider: 'phone',
+));
 
 void main() {
   late MockUser tUser;
@@ -78,7 +76,8 @@ void main() {
       expect(user.emailVerified, isTrue);
     });
 
-    test('with email and password without email verification by default', () async {
+    test('with email and password without email verification by default',
+        () async {
       final email = 'some@email.com';
       final password = 'some!password';
       final auth = MockFirebaseAuth(verifyEmailAutomatically: false);
@@ -97,7 +96,6 @@ void main() {
       expect(user.isAnonymous, isFalse);
       expect(user.emailVerified, isFalse);
     });
-
   });
 
   group('Returns a mocked user after sign in', () {

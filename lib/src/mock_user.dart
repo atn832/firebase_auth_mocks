@@ -94,16 +94,13 @@ class MockUser with EquatableMixin implements User {
 
   IdTokenResult getIdTokenResultSync() {
     return _idTokenResult ??
-      IdTokenResult(
-        PigeonIdTokenResult(
-          authTimestamp: 1655946582,
-          claims: _customClaim,
-          expirationTimestamp: 1656305736,
-          issuedAtTimestamp: 1656302136,
-          token: 'fake_token',
-          signInProvider: 'google.com'
-        )
-      );
+        IdTokenResult(PigeonIdTokenResult(
+            authTimestamp: 1655946582,
+            claims: _customClaim,
+            expirationTimestamp: 1656305736,
+            issuedAtTimestamp: 1656302136,
+            token: 'fake_token',
+            signInProvider: 'google.com'));
   }
 
   @override
@@ -233,14 +230,11 @@ class MockUser with EquatableMixin implements User {
     }
     maybeThrowException(this, Invocation.method(#linkWithProvider, [provider]));
     providerData.add(
-      UserInfo.fromPigeon(
-        PigeonUserInfo(
+      UserInfo.fromPigeon(PigeonUserInfo(
           providerId: provider.providerId,
           isAnonymous: false,
           isEmailVerified: _isEmailVerified,
-          uid: _uid
-        )
-      ),
+          uid: _uid)),
     );
     return Future.value(MockUserCredential(false, mockUser: this));
   }
