@@ -137,7 +137,7 @@ class MockFirebaseAuth implements FirebaseAuth {
             uid: id,
             providerId: 'password',
             isAnonymous: false,
-            isEmailVerified: true
+            isEmailVerified: _verifyEmailAutomatically
           )
         ),
       ],
