@@ -1,3 +1,7 @@
+## 0.12.0
+
+- Fixed compilation issues due to breaking changes in [firebase_auth_platform_interface](https://pub.dev/packages/firebase_auth_platform_interface/changelog#6160) ([PR-99](https://github.com/atn832/firebase_auth_mocks/pull/99)). Thank you [gnurik](https://github.com/gnurik)!
+
 ## 0.11.0
 
 - BREAKING CHANGE: Replaced the `MockUser.exception` pattern by `whenCalling(...).on(...).thenThrow(...)` ([PR-95](https://github.com/atn832/firebase_auth_mocks/pull/95)).
