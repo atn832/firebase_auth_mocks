@@ -237,8 +237,8 @@ class MockUser with EquatableMixin implements User {
         PigeonUserInfo(
           providerId: provider.providerId,
           isAnonymous: false,
-          isEmailVerified: true,
-          uid: ''
+          isEmailVerified: _isEmailVerified,
+          uid: _uid
         )
       ),
     );
