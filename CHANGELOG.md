@@ -1,3 +1,7 @@
+## 0.13.0
+
+Upgraded uuid to ^4.1.0 and firebase_auth_platform_interface to ^7.0.0. Thank you [Rexios80](https://github.com/atn832/firebase_auth_mocks/pull/103)!
+
 ## 0.12.0
 
 - Fixed compilation issues due to breaking changes in [firebase_auth_platform_interface](https://pub.dev/packages/firebase_auth_platform_interface/changelog#6160) ([PR-99](https://github.com/atn832/firebase_auth_mocks/pull/99)). Thank you [gnurik](https://github.com/gnurik)!
