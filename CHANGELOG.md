@@ -1,3 +1,7 @@
+## 0.14.0
+
+Upgraded firebase_auth dependency to ^5.0.0. [PR-108](https://github.com/atn832/firebase_auth_mocks/pull/108)
+
 ## 0.13.0
 
 Upgraded uuid to ^4.1.0 and firebase_auth_platform_interface to ^7.0.0. Thank you [Rexios80](https://github.com/atn832/firebase_auth_mocks/pull/103)!
