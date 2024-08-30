@@ -165,6 +165,8 @@ class MockFirebaseAuth implements FirebaseAuth {
 
   @override
   Future<void> signOut() async {
+    maybeThrowException(this, Invocation.method(#signOut, [null]));
+
     _currentUser = null;
     stateChangedStreamController.add(null);
     userChangedStreamController.add(null);
