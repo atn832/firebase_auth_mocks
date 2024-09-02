@@ -458,6 +458,17 @@ void main() {
       );
     });
 
+    test('signOut', () async {
+      final auth = MockFirebaseAuth();
+      whenCalling(Invocation.method(#signOut, null))
+          .on(auth)
+          .thenThrow(FirebaseAuthException(code: 'bla'));
+      expect(
+        () => auth.signOut(),
+        throwsA(isA<FirebaseAuthException>()),
+      );
+    });
+
     test('fetchSignInMethodsForEmail', () async {
       final auth = MockFirebaseAuth();
       whenCalling(Invocation.method(
