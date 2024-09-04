@@ -806,8 +806,10 @@ void main() {
   });
 
   test('The customClaim should exist after sign-out and sign-in', () async {
-    final user = MockUser(customClaim: {'role': 'admin', 'bodyHeight': 169});
-    final auth = MockFirebaseAuth(mockUser: user, signedIn: true);
+    final auth = MockFirebaseAuth(
+      mockUser: MockUser(customClaim: {'role': 'admin', 'bodyHeight': 169}),
+      signedIn: true,
+    );
     final decodedToken =
         JwtDecoder.decode((await auth.currentUser!.getIdToken())!);
     expect(decodedToken['role'], 'admin');
