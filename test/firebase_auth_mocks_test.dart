@@ -240,6 +240,17 @@ void main() {
   });
 
   group('Sign out', () {
+    test('Returns null after sign out', () async {
+      final auth = MockFirebaseAuth(signedIn: true, mockUser: tUser);
+      final user = auth.currentUser;
+
+      await auth.signOut();
+
+      expect(auth.currentUser, isNull);
+      expect(auth.authStateChanges(), emitsInOrder([user, null]));
+      expect(auth.userChanges(), emitsInOrder([user, null]));
+    });
+
     test('Can sign in again after sign out', () async {
       final auth = MockFirebaseAuth(signedIn: true, mockUser: tUser);
       final user = auth.currentUser;

@@ -167,6 +167,7 @@ class MockFirebaseAuth implements FirebaseAuth {
   Future<void> signOut() async {
     maybeThrowException(this, Invocation.method(#signOut, [null]));
 
+    _currentUser = null;
     _notifyCredential(null);
   }
 
