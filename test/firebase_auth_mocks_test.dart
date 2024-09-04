@@ -813,8 +813,6 @@ void main() {
     expect(decodedToken['role'], 'admin');
     expect(decodedToken['bodyHeight'], 169);
     await auth.signOut();
-
-    auth.mockUser = user;
     await auth.signInWithEmailAndPassword(email: '', password: '');
     final decodedToken2 =
         JwtDecoder.decode((await auth.currentUser!.getIdToken())!);
