@@ -61,11 +61,11 @@ class MockFirebaseAuth implements FirebaseAuth {
       }
     } else {
       // Notify of null on startup.
-      signOut();
+      _notifyCredential(null);
     }
   }
 
-  set mockUser(MockUser user) {
+  set mockUser(MockUser? user) {
     _mockUser = user;
     // Update _currentUser if already sign in
     if (_currentUser != null) {
@@ -168,9 +168,7 @@ class MockFirebaseAuth implements FirebaseAuth {
     maybeThrowException(this, Invocation.method(#signOut, [null]));
 
     _currentUser = null;
-    stateChangedStreamController.add(null);
-    userChangedStreamController.add(null);
-    authForFakeFirestoreStreamController.add(null);
+    _notifyCredential(null);
   }
 
   @override
@@ -184,20 +182,29 @@ class MockFirebaseAuth implements FirebaseAuth {
   Future<UserCredential> _fakeSignIn({bool isAnonymous = false}) async {
     final userCredential = MockUserCredential(isAnonymous, mockUser: _mockUser);
     _currentUser = userCredential.user;
-    stateChangedStreamController.add(_currentUser);
-    userChangedStreamController.add(_currentUser);
-    final u = userCredential.mockUser;
-    authForFakeFirestoreStreamController.add({
-      'uid': u.uid,
-      'token': {
-        'name': u.displayName,
-        'email': u.email,
-        'email_verified': u.emailVerified,
-        'firebase.sign_in_provider': u.getIdTokenResultSync().signInProvider,
-        ...u.getIdTokenResultSync().claims ?? {}
-      }
-    });
+    _notifyCredential(userCredential);
     return Future.value(userCredential);
+  }
+
+  void _notifyCredential(MockUserCredential? credential) {
+    final user = credential?.user;
+    stateChangedStreamController.add(user);
+    userChangedStreamController.add(user);
+
+    final mockUser = credential?.mockUser;
+    authForFakeFirestoreStreamController.add(mockUser == null
+        ? null
+        : {
+            'uid': mockUser.uid,
+            'token': {
+              'name': mockUser.displayName,
+              'email': mockUser.email,
+              'email_verified': mockUser.emailVerified,
+              'firebase.sign_in_provider':
+                  mockUser.getIdTokenResultSync().signInProvider,
+              ...mockUser.getIdTokenResultSync().claims ?? {}
+            }
+          });
   }
 
   Future<UserCredential> _fakeSignUp({bool isAnonymous = false}) {

@@ -239,15 +239,46 @@ void main() {
     expect(idTokenResult.claims, {'weight': 70});
   });
 
-  test('Returns null after sign out', () async {
-    final auth = MockFirebaseAuth(signedIn: true, mockUser: tUser);
-    final user = auth.currentUser;
+  group('Sign out', () {
+    test('Returns null after sign out', () async {
+      final auth = MockFirebaseAuth(signedIn: true, mockUser: tUser);
+      final user = auth.currentUser;
 
-    await auth.signOut();
+      await auth.signOut();
 
-    expect(auth.currentUser, isNull);
-    expect(auth.authStateChanges(), emitsInOrder([user, null]));
-    expect(auth.userChanges(), emitsInOrder([user, null]));
+      expect(auth.currentUser, isNull);
+      expect(auth.authStateChanges(), emitsInOrder([user, null]));
+      expect(auth.userChanges(), emitsInOrder([user, null]));
+    });
+
+    test('Can sign in again after sign out', () async {
+      final auth = MockFirebaseAuth(signedIn: true, mockUser: tUser);
+      final user = auth.currentUser;
+
+      await auth.signOut();
+
+      auth.mockUser = tUser;
+      await auth.signInWithProvider(AppleAuthProvider());
+
+      expect(auth.authStateChanges(),
+          emitsInOrder([user, null, auth.currentUser]));
+      expect(auth.userChanges(), emitsInOrder([user, null, auth.currentUser]));
+    });
+
+    test('Can sign in anonymously after sign out', () async {
+      final auth = MockFirebaseAuth(signedIn: true, mockUser: tUser);
+      final user = auth.currentUser;
+
+      await auth.signOut();
+
+      auth.mockUser = null;
+      await auth.signInAnonymously();
+
+      expect(auth.currentUser!.isAnonymous, isTrue);
+      expect(auth.authStateChanges(),
+          emitsInOrder([user, null, auth.currentUser]));
+      expect(auth.userChanges(), emitsInOrder([user, null, auth.currentUser]));
+    });
   });
 
   test('sendPasswordResetEmail works', () async {
@@ -774,7 +805,7 @@ void main() {
     expect(decodedToken['bodyHeight'], 169);
   });
 
-  test('The customClain should exist after sign-out and sign-in', () async {
+  test('The customClaim should exist after sign-out and sign-in', () async {
     final auth = MockFirebaseAuth(
       mockUser: MockUser(customClaim: {'role': 'admin', 'bodyHeight': 169}),
       signedIn: true,
