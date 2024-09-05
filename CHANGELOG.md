@@ -1,3 +1,10 @@
+## 0.14.1
+
+- Allow setting `mockUser` to null. [PR-112](https://github.com/atn832/firebase_auth_mocks/pull/112).
+- Support throwing mock exceptions from `signOut`. [PR-111](https://github.com/atn832/firebase_auth_mocks/pull/111).
+
+Thank you [michaelowolf](https://github.com/michaelowolf)!
+
 ## 0.14.0
 
 Upgraded firebase_auth dependency to ^5.0.0. [PR-108](https://github.com/atn832/firebase_auth_mocks/pull/108)
