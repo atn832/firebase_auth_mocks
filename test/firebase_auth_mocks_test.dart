@@ -257,7 +257,6 @@ void main() {
 
       await auth.signOut();
 
-      auth.mockUser = tUser;
       await auth.signInWithProvider(AppleAuthProvider());
 
       expect(auth.authStateChanges(),
