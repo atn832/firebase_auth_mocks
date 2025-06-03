@@ -1,6 +1,7 @@
 ## 0.14.2
 
 - Adds a maybeThrow into `verifyPhoneNumber` and `User.verifyBeforeUpdateEmail`. [PR-113](https://github.com/atn832/firebase_auth_mocks/pull/113), [PR-116](https://github.com/atn832/firebase_auth_mocks/pull/116). Thank you [Tpow99](https://github.com/Tpow99)!
+- Upgraded dart_jsonwebtoken from ^2.4.1 to ^3.2.0. [PR-115](https://github.com/atn832/firebase_auth_mocks/pull/115). Thank you [reedpro](https://github.com/reedpro)!
 
 ## 0.14.1
 
