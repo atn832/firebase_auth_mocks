@@ -548,6 +548,24 @@ void main() {
       );
     });
 
+    test('verifyPhoneNumber', () async {
+      final auth = MockFirebaseAuth();
+      whenCalling(Invocation.method(#verifyPhoneNumber, null))
+          .on(auth)
+          .thenThrow(FirebaseAuthException(code: 'invalid-action-code'));
+
+      expect(
+        () => auth.verifyPhoneNumber(
+          phoneNumber: '01-23-456',
+          verificationCompleted: (PhoneAuthCredential phoneAuthCredential) {},
+          verificationFailed: (FirebaseAuthException error) {},
+          codeSent: (String verificationId, int? forceResendingToken) {},
+          codeAutoRetrievalTimeout: (String verificationId) {},
+        ),
+        throwsA(isA<FirebaseAuthException>()),
+      );
+    });
+
     test('User.reload', () async {
       final auth = MockFirebaseAuth(signedIn: true);
       final user = auth.currentUser;
@@ -557,6 +575,19 @@ void main() {
           .thenThrow(FirebaseAuthException(code: 'error'));
       expect(
         () => user.reload(),
+        throwsA(isA<FirebaseAuthException>()),
+      );
+    });
+
+    test('User.verifyBeforeUpdateEmail', () async {
+      final auth = MockFirebaseAuth(signedIn: true);
+      final user = auth.currentUser;
+      expect(user, isNotNull);
+      whenCalling(Invocation.method(#verifyBeforeUpdateEmail, null))
+          .on(user!)
+          .thenThrow(FirebaseAuthException(code: 'error'));
+      expect(
+        () => user.verifyBeforeUpdateEmail('newemail@gmail.com'),
         throwsA(isA<FirebaseAuthException>()),
       );
     });
