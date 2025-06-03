@@ -1,3 +1,7 @@
+## 0.14.2
+
+- Adds a maybeThrow into `verifyPhoneNumber` and `User.verifyBeforeUpdateEmail`. [PR-113](https://github.com/atn832/firebase_auth_mocks/pull/113), [PR-116](https://github.com/atn832/firebase_auth_mocks/pull/116). Thank you [Tpow99](https://github.com/Tpow99)!
+
 ## 0.14.1
 
 - Allow setting `mockUser` to null. [PR-112](https://github.com/atn832/firebase_auth_mocks/pull/112).
