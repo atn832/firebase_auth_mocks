@@ -60,7 +60,7 @@ main() {
   - `delete`
   - `sendEmailVerification`
   - `getIdToken` and `getIdTokenResult`
-  - the ability to throw exceptions on `reload`, `reauthenticateWithCredential`, `updatePassword`, `delete`, `sendEmailVerification`, `linkWithCredential`, `linkWithProvider`, `unlink`.
+  - the ability to throw exceptions on `reauthenticateWithCredential`, `updatePassword`, `delete`, `sendEmailVerification`, `verifyPhoneNumber`, `linkWithCredential`, `linkWithProvider`, `unlink`, `User.reload`, `User.verifyBeforeUpdateEmail`.
 
 ## Throwing exceptions
 
