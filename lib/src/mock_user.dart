@@ -252,6 +252,13 @@ class MockUser with EquatableMixin implements User {
     return Future.value(this);
   }
 
+  
+  @override
+  Future<void> verifyBeforeUpdateEmail(String newEmail, [ActionCodeSettings? actionCodeSettings]) {
+    maybeThrowException(this, Invocation.method(#verifyBeforeUpdateEmail, [newEmail, actionCodeSettings]));
+    return Future.value();
+  }
+
   MockUser copyWith({
     bool? isAnonymous,
     bool? isEmailVerified,

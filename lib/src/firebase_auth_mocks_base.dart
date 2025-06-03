@@ -236,6 +236,20 @@ class MockFirebaseAuth implements FirebaseAuth {
     // https://github.com/firebase/flutterfire/pull/9189
     Object? multiFactorSession,
   }) async {
+    
+    maybeThrowException(this, Invocation.method(#verifyPhoneNumber, null, {
+      #phoneNumber: phoneNumber,
+      #multiFactorInfo: multiFactorInfo,
+      #verificationCompleted: verificationCompleted,
+      #verificationFailed: verificationFailed,
+      #codeSent: codeSent,
+      #codeAutoRetrievalTimeout: codeAutoRetrievalTimeout,
+      #autoRetrievedSmsCodeForTesting: autoRetrievedSmsCodeForTesting,
+      #timeout: timeout,
+      #forceResendingToken: forceResendingToken,
+      #multiFactorSession: multiFactorSession,
+    }));
+    
     codeSent('verification-id', 0);
   }
 
