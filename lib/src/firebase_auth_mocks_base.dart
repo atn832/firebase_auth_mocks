@@ -18,7 +18,6 @@ class MockFirebaseAuth implements FirebaseAuth {
   final userChangedStreamController = StreamController<User?>();
   late Stream<User?> userChangedStream;
   MockUser? _mockUser;
-  final Map<String, List<String>> _signInMethodsForEmail;
   User? _currentUser;
   final bool _verifyEmailAutomatically;
 
@@ -43,7 +42,6 @@ class MockFirebaseAuth implements FirebaseAuth {
       bool verifyEmailAutomatically = true})
       : _mockUser = mockUser,
         _verifyEmailAutomatically = verifyEmailAutomatically,
-        _signInMethodsForEmail = signInMethodsForEmail ?? {},
         app = MockFirebaseApp() {
     stateChangedStream =
         stateChangedStreamController.stream.asBroadcastStream();
