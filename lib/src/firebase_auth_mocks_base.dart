@@ -171,14 +171,6 @@ class MockFirebaseAuth implements FirebaseAuth {
     _notifyCredential(null);
   }
 
-  @override
-  Future<List<String>> fetchSignInMethodsForEmail(String email) {
-    maybeThrowException(
-        this, Invocation.method(#fetchSignInMethodsForEmail, [email]));
-
-    return Future.value(_signInMethodsForEmail[email] ?? []);
-  }
-
   Future<UserCredential> _fakeSignIn({bool isAnonymous = false}) async {
     final userCredential = MockUserCredential(isAnonymous, mockUser: _mockUser);
     _currentUser = userCredential.user;

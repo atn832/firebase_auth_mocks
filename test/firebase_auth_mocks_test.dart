@@ -470,20 +470,6 @@ void main() {
       );
     });
 
-    test('fetchSignInMethodsForEmail', () async {
-      final auth = MockFirebaseAuth();
-      whenCalling(Invocation.method(
-              #fetchSignInMethodsForEmail, ['someone@somewhere.com']))
-          .on(auth)
-          .thenThrow(FirebaseAuthException(code: 'bla'));
-      expect(() => auth.fetchSignInMethodsForEmail('someone@somewhere.com'),
-          throwsA(isA<FirebaseAuthException>()));
-      expect(
-          () =>
-              auth.fetchSignInMethodsForEmail('someoneelse@somewhereelse.com'),
-          returnsNormally);
-    });
-
     test('sendPasswordResetEmail', () async {
       final auth = MockFirebaseAuth();
       whenCalling(Invocation.method(#sendPasswordResetEmail, null))
@@ -815,16 +801,6 @@ void main() {
     expect(decodedToken['auth_time'],
         customAuthTime.millisecondsSinceEpoch ~/ 1000);
     expect(decodedToken['exp'], customExp.millisecondsSinceEpoch ~/ 1000);
-  });
-
-  test('Set up fetchSignInMethodsForEmail results', () async {
-    final auth = MockFirebaseAuth(
-      signInMethodsForEmail: {
-        'test@example.com': ['password']
-      },
-    );
-    expect(await auth.fetchSignInMethodsForEmail('test@example.com'),
-        equals(['password']));
   });
 
   test('Add customClaim into id token', () async {
