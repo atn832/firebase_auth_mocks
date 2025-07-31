@@ -1,6 +1,7 @@
 ## 0.15.0
 
-Upgraded firebase_auth dependency to ^6.0.0. [PR-120](https://github.com/atn832/firebase_auth_mocks/pull/120). Thank you [jt274](https://github.com/jt274)!
+- Upgraded firebase_auth dependency to ^6.0.0. [PR-120](https://github.com/atn832/firebase_auth_mocks/pull/120). Thank you [jt274](https://github.com/jt274)!
+- Removed `fetchSignInMethodsForEmail`, which was removed in firebase_auth 6.0.0. [PR-123](https://github.com/atn832/firebase_auth_mocks/pull/123).
 
 ## 0.14.2
 
