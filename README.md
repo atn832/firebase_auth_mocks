@@ -48,9 +48,8 @@ main() {
   - `verifyPhoneNumber` resolves `codeSent`.
   - `signOut`
   - `sendPasswordResetEmail`
-  - `fetchSignInMethodsForEmail`
   - `currentUser`
-  - the ability to throw exceptions using `whenCalling(...).on(...).thenThrow(...)`. See usage details below. Currently these methods are supported: `signInWithCredential`, `signInWithPopup`, `signInWithProvider`, `signInWithEmailAndPassword`, `createUserWithEmailAndPassword`, `signInWithCustomToken`, `signInAnonymously`, `signOut`, `fetchSignInMethodsForEmail`, `sendPasswordResetEmail`, `sendSignInLinkToEmail`, `confirmPasswordReset`, `verifyPasswordResetCode`. If you need another method supported, feel free to file a ticket, or better propose a PR.
+  - the ability to throw exceptions using `whenCalling(...).on(...).thenThrow(...)`. See usage details below. Currently these methods are supported: `signInWithCredential`, `signInWithPopup`, `signInWithProvider`, `signInWithEmailAndPassword`, `createUserWithEmailAndPassword`, `signInWithCustomToken`, `signInAnonymously`, `signOut`, `sendPasswordResetEmail`, `sendSignInLinkToEmail`, `confirmPasswordReset`, `verifyPasswordResetCode`. If you need another method supported, feel free to file a ticket, or better propose a PR.
   - pass auth information (uid, custom claims...) to Fake Cloud Firestore for security rules via `authForFakeFirestore`. See the docs at [fake_cloud_firestore](https://pub.dev/packages/fake_cloud_firestore#security-rules) for usage.
 - `UserCredential` contains the provided `User` with the information of your choice.
 - `User` supports:
@@ -82,13 +81,12 @@ expect(
 
 ```dart
 final auth = MockFirebaseAuth();
-whenCalling(Invocation.method(
-        #fetchSignInMethodsForEmail, ['someone@somewhere.com']))
+whenCalling(Invocation.method(#verifyPhoneNumber, '12-345-6789'))
     .on(auth)
-    .thenThrow(FirebaseAuthException(code: 'bla'));
-expect(() => auth.fetchSignInMethodsForEmail('someone@somewhere.com'),
+    .thenThrow(FirebaseAuthException(code: 'invalid-action-code'));
+expect(() => auth.verifyPhoneNumber('12-345-6789'),
     throwsA(isA<FirebaseAuthException>()));
-expect(() => auth.fetchSignInMethodsForEmail('someoneelse@somewhereelse.com'),
+expect(() => auth.verifyPhoneNumber('00-222-4444'),
     returnsNormally);
 ```
 
@@ -99,13 +97,23 @@ Supports all of the matchers from the [Dart matchers library](https://api.flutte
 ```dart
 final auth = MockFirebaseAuth();
 whenCalling(Invocation.method(
-        #fetchSignInMethodsForEmail, [endsWith('@somewhere.com')]))
+        #confirmPasswordReset, null, {#code: contains('code')}))
     .on(auth)
-    .thenThrow(FirebaseAuthException(code: 'bla'));
-expect(() => auth.fetchSignInMethodsForEmail('someone@somewhere.com'),
-    throwsA(isA<FirebaseAuthException>()));
-expect(() => auth.fetchSignInMethodsForEmail('someoneelse@somewhereelse.com'),
-    returnsNormally);
+    .thenThrow(FirebaseAuthException(code: 'invalid-action-code'));
+expect(
+  () => auth.confirmPasswordReset(
+    code: 'code',
+    newPassword: 'password',
+  ),
+  throwsA(isA<FirebaseAuthException>()),
+);
+expect(
+  () => auth.confirmPasswordReset(
+    code: '1234',
+    newPassword: 'password',
+  ),
+  returnsNormally,
+);
 ```
 
 ### Depending on named parameters
