@@ -1,3 +1,7 @@
+## 0.15.0
+
+Upgraded firebase_auth dependency to ^6.0.0. [PR-120](https://github.com/atn832/firebase_auth_mocks/pull/120). Thank you [jt274](https://github.com/jt274)!
+
 ## 0.14.2
 
 - Adds a maybeThrow into `verifyPhoneNumber` and `User.verifyBeforeUpdateEmail`. [PR-113](https://github.com/atn832/firebase_auth_mocks/pull/113), [PR-116](https://github.com/atn832/firebase_auth_mocks/pull/116). Thank you [Tpow99](https://github.com/Tpow99)!
