@@ -46,12 +46,14 @@ void main() {
     test('null if signed out', () async {
       final auth = MockFirebaseAuth();
       expect(auth.authStateChanges(), emits(null));
-      // expect(auth.userChanges(), emitsInOrder([isA<User>()]));
+      expect(auth.userChanges(), emits(null));
+      expect(auth.idTokenChanges(), emits(null));
     });
     test('a user if signed in', () async {
       final auth = MockFirebaseAuth(signedIn: true);
       expect(auth.authStateChanges(), emitsInOrder([isA<User>()]));
       expect(auth.userChanges(), emitsInOrder([isA<User>()]));
+      expect(auth.idTokenChanges(), emitsInOrder([isA<User>()]));
     });
   });
 
@@ -72,6 +74,7 @@ void main() {
 
       expect(auth.authStateChanges(), emitsInOrder([null, isA<User>()]));
       expect(auth.userChanges(), emitsInOrder([null, isA<User>()]));
+      expect(auth.idTokenChanges(), emitsInOrder([null, isA<User>()]));
       expect(user.isAnonymous, isFalse);
       expect(user.emailVerified, isTrue);
     });
@@ -93,6 +96,7 @@ void main() {
 
       expect(auth.authStateChanges(), emitsInOrder([null, isA<User>()]));
       expect(auth.userChanges(), emitsInOrder([null, isA<User>()]));
+      expect(auth.idTokenChanges(), emitsInOrder([null, isA<User>()]));
       expect(user.isAnonymous, isFalse);
       expect(user.emailVerified, isFalse);
     });
@@ -106,6 +110,7 @@ void main() {
       expect(user, tUser);
       expect(auth.authStateChanges(), emitsInOrder([null, isA<User>()]));
       expect(auth.userChanges(), emitsInOrder([null, isA<User>()]));
+      expect(auth.idTokenChanges(), emitsInOrder([null, isA<User>()]));
       expect(user.isAnonymous, false);
     });
 
@@ -116,6 +121,7 @@ void main() {
       expect(user, tUser);
       expect(auth.authStateChanges(), emitsInOrder([null, isA<User>()]));
       expect(auth.userChanges(), emitsInOrder([null, isA<User>()]));
+      expect(auth.idTokenChanges(), emitsInOrder([null, isA<User>()]));
       expect(user.isAnonymous, false);
     });
 
@@ -128,6 +134,7 @@ void main() {
       expect(user, tUser);
       expect(auth.authStateChanges(), emitsInOrder([null, isA<User>()]));
       expect(auth.userChanges(), emitsInOrder([null, isA<User>()]));
+      expect(auth.idTokenChanges(), emitsInOrder([null, isA<User>()]));
       expect(user.isAnonymous, isFalse);
     });
 
@@ -139,6 +146,7 @@ void main() {
       expect(user, tUser);
       expect(auth.authStateChanges(), emitsInOrder([null, isA<User>()]));
       expect(auth.userChanges(), emitsInOrder([null, isA<User>()]));
+      expect(auth.idTokenChanges(), emitsInOrder([null, isA<User>()]));
     });
 
     test('with token', () async {
@@ -148,6 +156,7 @@ void main() {
       expect(user, tUser);
       expect(auth.authStateChanges(), emitsInOrder([null, isA<User>()]));
       expect(auth.userChanges(), emitsInOrder([null, isA<User>()]));
+      expect(auth.idTokenChanges(), emitsInOrder([null, isA<User>()]));
     });
 
     test('with phone number', () async {
@@ -159,6 +168,7 @@ void main() {
       expect(user, tUser);
       expect(auth.authStateChanges(), emitsInOrder([null, isA<User>()]));
       expect(auth.userChanges(), emitsInOrder([null, isA<User>()]));
+      expect(auth.idTokenChanges(), emitsInOrder([null, isA<User>()]));
     });
 
     test('anonymously', () async {
@@ -168,6 +178,7 @@ void main() {
       expect(user.uid, isNotEmpty);
       expect(auth.authStateChanges(), emitsInOrder([null, isA<User>()]));
       expect(auth.userChanges(), emitsInOrder([null, isA<User>()]));
+      expect(auth.idTokenChanges(), emitsInOrder([null, isA<User>()]));
       expect(user.isAnonymous, isTrue);
     });
 
@@ -249,6 +260,7 @@ void main() {
       expect(auth.currentUser, isNull);
       expect(auth.authStateChanges(), emitsInOrder([user, null]));
       expect(auth.userChanges(), emitsInOrder([user, null]));
+      expect(auth.idTokenChanges(), emitsInOrder([user, null]));
     });
 
     test('Can sign in again after sign out', () async {
@@ -262,6 +274,7 @@ void main() {
       expect(auth.authStateChanges(),
           emitsInOrder([user, null, auth.currentUser]));
       expect(auth.userChanges(), emitsInOrder([user, null, auth.currentUser]));
+      expect(auth.idTokenChanges(), emitsInOrder([user, null, auth.currentUser]));
     });
 
     test('Can sign in anonymously after sign out', () async {
@@ -277,6 +290,7 @@ void main() {
       expect(auth.authStateChanges(),
           emitsInOrder([user, null, auth.currentUser]));
       expect(auth.userChanges(), emitsInOrder([user, null, auth.currentUser]));
+      expect(auth.idTokenChanges(), emitsInOrder([user, null, auth.currentUser]));
     });
   });
 
