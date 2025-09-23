@@ -51,6 +51,7 @@ main() {
   - `currentUser`
   - the ability to throw exceptions using `whenCalling(...).on(...).thenThrow(...)`. See usage details below. Currently these methods are supported: `signInWithCredential`, `signInWithPopup`, `signInWithProvider`, `signInWithEmailAndPassword`, `createUserWithEmailAndPassword`, `signInWithCustomToken`, `signInAnonymously`, `signOut`, `sendPasswordResetEmail`, `sendSignInLinkToEmail`, `confirmPasswordReset`, `verifyPasswordResetCode`. If you need another method supported, feel free to file a ticket, or better propose a PR.
   - pass auth information (uid, custom claims...) to Fake Cloud Firestore for security rules via `authForFakeFirestore`. See the docs at [fake_cloud_firestore](https://pub.dev/packages/fake_cloud_firestore#security-rules) for usage.
+  - `authStateChanges`, `userChanges`, `idTokenChanges` stream listeners
 - `UserCredential` contains the provided `User` with the information of your choice.
 - `User` supports:
   - `updateDisplayName`
