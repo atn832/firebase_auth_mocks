@@ -17,6 +17,8 @@ class MockFirebaseAuth implements FirebaseAuth {
   late Stream<User?> stateChangedStream;
   final userChangedStreamController = StreamController<User?>();
   late Stream<User?> userChangedStream;
+  final idTokenChangedStreamController = StreamController<User?>();
+  late Stream<User?> idTokenChangedStream;
   MockUser? _mockUser;
   User? _currentUser;
   final bool _verifyEmailAutomatically;
@@ -46,6 +48,8 @@ class MockFirebaseAuth implements FirebaseAuth {
     stateChangedStream =
         stateChangedStreamController.stream.asBroadcastStream();
     userChangedStream = userChangedStreamController.stream.asBroadcastStream();
+    idTokenChangedStream =
+        idTokenChangedStreamController.stream.asBroadcastStream();
     // Based on https://firebase.google.com/docs/rules/rules-and-auth#identify_users
     // and https://firebase.google.com/docs/reference/rules/rules.firestore.Request#auth.
     authForFakeFirestore =
@@ -180,6 +184,7 @@ class MockFirebaseAuth implements FirebaseAuth {
     final user = credential?.user;
     stateChangedStreamController.add(user);
     userChangedStreamController.add(user);
+    idTokenChangedStreamController.add(user);
 
     final mockUser = credential?.mockUser;
     authForFakeFirestoreStreamController.add(mockUser == null
@@ -209,6 +214,9 @@ class MockFirebaseAuth implements FirebaseAuth {
 
   @override
   Stream<User?> userChanges() => userChangedStream;
+
+  @override
+  Stream<User?> idTokenChanges() => idTokenChangedStream;
 
   @override
   Future<void> verifyPhoneNumber({
