@@ -1,3 +1,7 @@
+## 0.15.1
+
+Implemented `idTokenChanges`. [PR-125](https://github.com/atn832/firebase_auth_mocks/pull/126). Thank you [vinifig](https://github.com/vinifig)!
+
 ## 0.15.0
 
 - Upgraded firebase_auth dependency to ^6.0.0. [PR-120](https://github.com/atn832/firebase_auth_mocks/pull/120). Thank you [jt274](https://github.com/jt274)!
