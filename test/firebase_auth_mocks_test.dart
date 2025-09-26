@@ -274,7 +274,8 @@ void main() {
       expect(auth.authStateChanges(),
           emitsInOrder([user, null, auth.currentUser]));
       expect(auth.userChanges(), emitsInOrder([user, null, auth.currentUser]));
-      expect(auth.idTokenChanges(), emitsInOrder([user, null, auth.currentUser]));
+      expect(
+          auth.idTokenChanges(), emitsInOrder([user, null, auth.currentUser]));
     });
 
     test('Can sign in anonymously after sign out', () async {
@@ -290,7 +291,8 @@ void main() {
       expect(auth.authStateChanges(),
           emitsInOrder([user, null, auth.currentUser]));
       expect(auth.userChanges(), emitsInOrder([user, null, auth.currentUser]));
-      expect(auth.idTokenChanges(), emitsInOrder([user, null, auth.currentUser]));
+      expect(
+          auth.idTokenChanges(), emitsInOrder([user, null, auth.currentUser]));
     });
   });
 
