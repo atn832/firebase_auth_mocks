@@ -98,7 +98,7 @@ class MockUser with EquatableMixin implements User {
 
   IdTokenResult getIdTokenResultSync() {
     return _idTokenResult ??
-        IdTokenResult(InternalIdTokenResult (
+        IdTokenResult(InternalIdTokenResult(
             authTimestamp: 1655946582,
             claims: _customClaim,
             expirationTimestamp: 1656305736,
