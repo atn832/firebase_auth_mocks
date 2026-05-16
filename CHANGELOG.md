@@ -1,6 +1,6 @@
 ## 0.15.2
 
-- Upgraded firebase_auth_platform_interface dependency to ^9.0.0. [PR-127](https://github.com/atn832/firebase_auth_mocks/pull/127). Thank you [Wim-Hexagons](https://github.com/Wim-Hexagons)!
+Upgraded firebase_auth_platform_interface dependency to ^9.0.0. [PR-127](https://github.com/atn832/firebase_auth_mocks/pull/127). Thank you [Wim-Hexagons](https://github.com/Wim-Hexagons)!
 
 ## 0.15.1
 
