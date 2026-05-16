@@ -133,7 +133,7 @@ class MockFirebaseAuth implements FirebaseAuth {
       isEmailVerified: _verifyEmailAutomatically,
       displayName: 'Mock User',
       providerData: [
-        UserInfo.fromPigeon(PigeonUserInfo(
+        UserInfo.fromPigeon(InternalUserInfo(
             email: email,
             uid: id,
             providerId: 'password',

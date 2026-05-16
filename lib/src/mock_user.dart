@@ -98,7 +98,7 @@ class MockUser with EquatableMixin implements User {
 
   IdTokenResult getIdTokenResultSync() {
     return _idTokenResult ??
-        IdTokenResult(PigeonIdTokenResult(
+        IdTokenResult(InternalIdTokenResult (
             authTimestamp: 1655946582,
             claims: _customClaim,
             expirationTimestamp: 1656305736,
@@ -234,7 +234,7 @@ class MockUser with EquatableMixin implements User {
     }
     maybeThrowException(this, Invocation.method(#linkWithProvider, [provider]));
     providerData.add(
-      UserInfo.fromPigeon(PigeonUserInfo(
+      UserInfo.fromPigeon(InternalUserInfo(
           providerId: provider.providerId,
           isAnonymous: false,
           isEmailVerified: _isEmailVerified,

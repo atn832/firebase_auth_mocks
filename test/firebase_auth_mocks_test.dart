@@ -8,7 +8,7 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:mock_exceptions/mock_exceptions.dart';
 import 'package:test/test.dart';
 
-final userIdTokenResult = IdTokenResult(PigeonIdTokenResult(
+final userIdTokenResult = IdTokenResult(InternalIdTokenResult(
   authTimestamp: DateTime.now().millisecondsSinceEpoch,
   claims: {'role': 'admin'},
   token: 'some_long_token',
