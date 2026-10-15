@@ -10,7 +10,7 @@ import 'package:firebase_auth_platform_interface/firebase_auth_platform_interfac
 import 'package:mock_exceptions/mock_exceptions.dart';
 import 'package:uuid/uuid.dart';
 
-class MockUser extends Equatable implements User {
+class MockUser with Equatable implements User {
   final bool _isAnonymous;
   final bool _isEmailVerified;
   final String _uid;
