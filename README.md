@@ -147,6 +147,7 @@ whenCalling(Invocation.method(
 
 | firebase_auth | firebase_auth_mocks |
 |---------------|---------------------|
+| 7.0.0         | 0.16.0              |
 | 6.0.0         | 0.15.0              |
 | 5.0.0         | 0.14.0              |
 | 4.0.0         | 0.9.0               |

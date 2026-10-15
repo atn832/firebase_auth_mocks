@@ -1,6 +1,6 @@
-// EquatableMixin requires the class to be immutable, but User can actually
+// Equatable requires the class to be immutable, but User can actually
 // have its displayName modified by calling `updateDisplayName`. Consider
-// replacing EquatableMixin with something else or keep ignoring.
+// replacing Equatable with something else or keep ignoring.
 // ignore_for_file: must_be_immutable
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:equatable/equatable.dart';
@@ -10,7 +10,7 @@ import 'package:firebase_auth_platform_interface/firebase_auth_platform_interfac
 import 'package:mock_exceptions/mock_exceptions.dart';
 import 'package:uuid/uuid.dart';
 
-class MockUser with EquatableMixin implements User {
+class MockUser extends Equatable implements User {
   final bool _isAnonymous;
   final bool _isEmailVerified;
   final String _uid;
