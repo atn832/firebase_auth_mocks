@@ -1,3 +1,7 @@
+## 0.16.0
+
+Upgraded firebase_auth dependency to ^7.0.0 and firebase_core to ^5.0.0 ([PR-129](https://github.com/atn832/firebase_auth_mocks/pull/129)). Thank you [jt274](https://github.com/jt274)!
+
 ## 0.15.2
 
 Upgraded firebase_auth_platform_interface dependency to ^9.0.0. [PR-127](https://github.com/atn832/firebase_auth_mocks/pull/127). Thank you [Wim-Hexagons](https://github.com/Wim-Hexagons)!
